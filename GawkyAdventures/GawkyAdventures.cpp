@@ -429,30 +429,12 @@ bool Game::Init(HINSTANCE hInstance)
 
 
 	//// load  the level models
-
-	Ground = new BasicModel(md3dDevice, mTexMgr, "Models\\Ground.obj", L"Textures\\");
-	Platform = new BasicModel(md3dDevice, mTexMgr, "Models\\Platform2.obj", L"Textures\\");
-	vineCube = new BasicModel(md3dDevice, mTexMgr, "Models\\vinebox.obj", L"Textures\\");
-
-	sandbox = new BasicModel(md3dDevice, mTexMgr, "Models\\sandbox.obj", L"Textures\\");
-	sTree = new BasicModel(md3dDevice, mTexMgr, "Models\\sTree.obj", L"Textures\\");
-	fence = new BasicModel(md3dDevice, mTexMgr, "Models\\Fence.obj", L"Textures\\");
-	fence2 = new BasicModel(md3dDevice, mTexMgr, "Models\\Fence2.obj", L"Textures\\");
-	cattail = new BasicModel(md3dDevice, mTexMgr, "Models\\cattail.obj", L"Textures\\");
-
-	treeTop = new BasicModel(md3dDevice, mTexMgr, "Models\\treetop.obj", L"Textures\\");
-	treeTrunk = new BasicModel(md3dDevice, mTexMgr, "Models\\treetrunk.obj", L"Textures\\");
-
-	houseSide = new BasicModel(md3dDevice, mTexMgr, "Models\\houseside.obj", L"Textures\\");
-	houseBack = new BasicModel(md3dDevice, mTexMgr, "Models\\houseback.obj", L"Textures\\");
-	houseRoof = new BasicModel(md3dDevice, mTexMgr, "Models\\houseroof.obj", L"Textures\\");
-
 	
 	
 	theEnemies = new Enemies();
 	Objects = new TheObjects();
 	Level1 = new LevelBuilder();
-
+	
 	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", -80.0f, 7.0f, 78.0f);
 	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 60.0f, 3.0f, 70.0f);
 	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 0.0f, 3.0f, 25.0f);
@@ -509,7 +491,7 @@ bool Game::Init(HINSTANCE hInstance)
 	/// build the sandbox
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\sandbox.obj", L"Textures\\", -60.9, 1.4, -68.0, 0, 7);
 
-
+	
 
 
 
@@ -1467,7 +1449,7 @@ XMMATRIX worldMatrix = XMLoadFloat4x4(&mPlayerWorld);
 		bool Above = false;
 		bool inFront = false;
 
-
+		
 		//Player is to the left 
 		if (mPlayerBox.Center.x <= LevelCollisions[currentObject].Center.x)
 		{
