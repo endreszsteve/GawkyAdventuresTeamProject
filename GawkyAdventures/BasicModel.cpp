@@ -39,3 +39,6 @@ BasicModel::BasicModel(ID3D11Device* device, TextureMgr& texMgr,
 BasicModel::~BasicModel()
 {
 }
+
+
+//the changes needed
