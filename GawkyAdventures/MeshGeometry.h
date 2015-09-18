@@ -62,6 +62,8 @@ private:
 	std::vector<Subset> mSubsetTable;
 };
 
+
+
 template <typename VertexType>
 void MeshGeometry::SetVertices(ID3D11Device* device,
 	const VertexType* vertices, UINT count)

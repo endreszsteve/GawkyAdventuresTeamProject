@@ -14,8 +14,7 @@ BasicModel::BasicModel(ID3D11Device* device, TextureMgr& texMgr,
 	//m3dLoader.LoadM3d(modelFilename, Vertices, Indices, Subsets, mats);
 	//test code
 	OBJLoader objLoader;
-	objLoader.LoadOBJ(device, modelFilename, BasicVertices,
-		Indices, Subsets, mats, true, true);
+	objLoader.LoadOBJ(device, modelFilename, BasicVertices,	Indices, Subsets, mats, true, true);
 	ModelMesh.SetVertices(device, &BasicVertices[0], BasicVertices.size());
 	ModelMesh.SetIndices(device, &Indices[0], Indices.size());
 	ModelMesh.SetSubsetTable(Subsets);
@@ -39,3 +38,6 @@ BasicModel::BasicModel(ID3D11Device* device, TextureMgr& texMgr,
 BasicModel::~BasicModel()
 {
 }
+
+
+//the changes needed
