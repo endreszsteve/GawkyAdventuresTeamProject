@@ -113,6 +113,7 @@
     <ClCompile Include="MeshGeometry.cpp" />
     <ClCompile Include="Modality.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderStates.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="TextureMgr.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="MeshGeometry.h" />
     <ClInclude Include="Modality.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="RenderStates.h" />
     <ClInclude Include="Sky.h" />
     <ClInclude Include="TextureMgr.h" />

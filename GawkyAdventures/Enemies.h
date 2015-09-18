@@ -39,6 +39,7 @@ public:
 	std::vector<BasicModelInstance> getEnemy();
 
 	std::vector <XNA::AxisAlignedBox> getEnemyCollisions();
+	
 	void RemovemObjectInstance(int number);
 
 
