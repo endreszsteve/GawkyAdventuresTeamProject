@@ -40,7 +40,7 @@ _DECLSPEC_ALIGN_16_ struct AxisAlignedBox
     XMFLOAT3 Extents;           // Distance from the center to each side.
 
 
-	//0 = level, 1 = enemy = 2 = tripping/stumbling object, 3 = item to gather
+	//0 = level, 1 = enemy = 2 = tripping/stumbling object, 3 = item to gather , 99 = player
 	int collisionType;
 };
 

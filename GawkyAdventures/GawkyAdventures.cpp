@@ -17,6 +17,7 @@
 #include "Enemies.h"
 #include "TheObjects.h"
 #include "LevelBuilder.h"
+#include "Player.h"
 
 
 
@@ -40,28 +41,6 @@ public:
 
 
 
-
-
-	///////////player movement
-
-	void Walk( float dt, XMVECTOR direction);
-
-
-
-	
-
-
-	
-	////////////////////////////////////////Player functions
-	XMFLOAT3  GetPlayerPos();
-
-	void UpdatePlayer(XMFLOAT4X4& m);
-
-
-
-
-	
-
 	///////////////////////////////////////////////////////
 
 
@@ -72,7 +51,7 @@ public:
 private:
 	
 	void BuildSkullGeometryBuffers();
-	void BuildPlayerGeometryBuffers();
+	
 
 
 
@@ -81,8 +60,7 @@ private:
 
 
 	////////////////////////////////////////Player
-	ID3D11Buffer* mPlayerVB;
-	ID3D11Buffer* mPlayerIB;
+
 
 
 	XMFLOAT3 mPlayerPosition;
@@ -97,7 +75,7 @@ private:
 	XMFLOAT4 mOPlayerRotationQuad;
 	XMFLOAT4 mOPlayerRotation;
 
-	float PlayerRotation;
+
 
 
 	XMMATRIX mRotation;
@@ -202,15 +180,7 @@ private:
 
 	XMFLOAT3 DeltaTime;
 	
-	float DeltaTimeF;
-
-
-
-
-	
-	
-	
-	
+	float DeltaTimeF;	
 	
 	/////// OBJ Model files
 	TextureMgr mTexMgr;
@@ -218,40 +188,17 @@ private:
 
 	std::vector<BasicModelInstance> mModelInstances;
 	std::vector <XNA::AxisAlignedBox> LevelCollisions;
-
-
-	BasicModel* Ground;
-	BasicModel* Platform;
-	BasicModel* vineCube;
-	BasicModel* sandbox;
-	BasicModel* sTree;
-
-	BasicModel* lTree;
-	BasicModel* fence;
-	BasicModel* fence2;
-	BasicModel* cattail;
-
-	BasicModel* treeTrunk;
-	BasicModel* treeTop;
-	BasicModel* houseBack;
-	BasicModel* houseSide;
-	BasicModel* houseRoof;
-	
-
-
-	/// ground collisions
-	
-	XNA::AxisAlignedBox mLModelBox, Platform1Box, Platform2Box, Platform3Box, Platform4Box, Platform5Box, vineCubeBox, sandboxBox
-		, sTree1Box, sTree2Box, sTree3Box, lTreeBox, fence1Box, fence2Box, fence3Box, fence4Box, cattailBox1, cattailBox2, cattailBox3, cattailBox4, cattailBox5, treeTrunkBox, treeTopBox
-		,houseBackBox, houseSide1Box, houseSide2Box, houseRoofBox;
-
-
-
 	
 	Enemies* theEnemies;
 	TheObjects* Objects;
 
 	LevelBuilder* Level1;
+
+	Player* PlayerOne;
+
+
+	int totEnemy;
+	int totCollect;
 
 
 
@@ -286,11 +233,11 @@ Game::Game(HINSTANCE hInstance)
 	: D3DApp(hInstance), mSky(0),
 	 mSkullVB(0), mSkullIB(0),
 	
-	mSkullIndexCount(0), mLightCount(3), mPlayerVB(0), mPlayerIB(), mPlayerMapSRV(0),
+	mSkullIndexCount(0), mLightCount(3), mPlayerMapSRV(0),
 	 mPlayerPosition(0.0f, 2.0f, 0.0f), mPlayerRotationQuad(0.0f, 0.0f, 0.0f, 0.0f),
-	mPlayerScale(1.0f, 1.0f, 1.0f), mPlayerRotation(0.0f, 0.0f, 0.0f, 1.0f), DeltaTimeF(0.0f), isJump(0), onGround(false), Ground(0), Platform(0)
+	mPlayerScale(1.0f, 1.0f, 1.0f), mPlayerRotation(0.0f, 0.0f, 0.0f, 1.0f), DeltaTimeF(0.0f), isJump(0), onGround(false)
 	, isFalling(false), hitHead(false), hitFeet(false), currGround(2.0f), fellOffMap(false), mOPlayerPosition(0.0f, 2.0f, 0.0f), mOPlayerRotationQuad(0.0f, 0.0f, 0.0f, 0.0f),
-	mOPlayerScale(1.0f, 1.0f, 1.0f), mOPlayerRotation(0.0f, 0.0f, 0.0f, 1.0f), isAlive(true), isImmune(false), isTripping(false) 
+	mOPlayerScale(1.0f, 1.0f, 1.0f), mOPlayerRotation(0.0f, 0.0f, 0.0f, 1.0f), isAlive(true), isImmune(false), isTripping(false), totEnemy(0), totCollect(0)
 	
 {
 	mMainWndCaption = L"Adventures of Gawky";
@@ -302,6 +249,9 @@ Game::Game(HINSTANCE hInstance)
 	charPosition = XMVectorSet(0.0f, 3.0f, 0.0f, 0.0f);
 	PlayerForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	PlayerRight = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+
+
+
 	
 	////send player information to the camera
 	mCam.getPlayerPos(mPlayerPosition);
@@ -321,7 +271,7 @@ Game::Game(HINSTANCE hInstance)
 	
 
 
-	PlayerRotation = 0.00000001;
+
 	mLastMousePos.x = 0;
 	mLastMousePos.y = 0;
 
@@ -373,31 +323,13 @@ Game::Game(HINSTANCE hInstance)
 Game::~Game()
 {
 	SafeDelete(mSky);
-
-	SafeDelete(Platform);
-
-	SafeDelete(Ground);
-	SafeDelete(sandbox);
-	SafeDelete(sTree);
-	SafeDelete(fence);
-	SafeDelete(fence2);
-	SafeDelete(lTree);
-	SafeDelete(vineCube);
-	SafeDelete(cattail);
-	SafeDelete(treeTrunk);
-	SafeDelete(treeTop);
-	SafeDelete(houseBack);
-	SafeDelete(houseSide);
-	SafeDelete(houseRoof);
+	SafeDelete(Objects);
+	SafeDelete(Level1);
+	SafeDelete(theEnemies);
 
 
-	ReleaseCOM(mPlayerVB);
-	ReleaseCOM(mPlayerIB);
+	
 	ReleaseCOM(mPlayerMapSRV);
-
-
-
-
 
 	ReleaseCOM(mSkullVB);
 	ReleaseCOM(mSkullIB);
@@ -426,25 +358,31 @@ bool Game::Init(HINSTANCE hInstance)
 
 
 
-
-
+	/// create the player
+	PlayerOne = new Player(md3dDevice, mTexMgr, "Models\\gawky.obj", L"Textures\\", 0.0f, 4.0f, 0.0f);
+	
 	//// load  the level models
-	
-	
 	theEnemies = new Enemies();
 	Objects = new TheObjects();
 	Level1 = new LevelBuilder();
+
 	
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", -80.0f, 7.0f, 78.0f);
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 60.0f, 3.0f, 70.0f);
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 0.0f, 3.0f, 25.0f);
+	
+	
+
 
 	Objects->createObject(md3dDevice, mTexMgr, "Models\\branch.obj", L"Textures\\", 60.0f, 0.25f, 55.0f, 2);
+	Objects->createObject(md3dDevice, mTexMgr, "Models\\branch.obj", L"Textures\\", 0.0f, 0.25f, 20.0f, 2);
 	
 	Objects->createObject(md3dDevice, mTexMgr, "Models\\Orange.obj", L"Textures\\", 80.0f, 30.0f, 20.0f, 3);
 	Objects->createObject(md3dDevice, mTexMgr, "Models\\Orange.obj", L"Textures\\", 20.0f, 4.0f, 20.0f, 3);
 	Objects->createObject(md3dDevice, mTexMgr, "Models\\Orange.obj", L"Textures\\", -80.0f, 10.0f, -60.0f, 3);
-	Objects->createObject(md3dDevice, mTexMgr, "Models\\branch.obj", L"Textures\\", 0.0f, 0.25f, 20.0f, 2);
+	
+
+
+	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", -80.0f, 7.0f, 78.0f);
+	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 60.0f, 3.0f, 70.0f);
+	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 0.0f, 3.0f, 25.0f);
 
 	
 
@@ -512,19 +450,23 @@ bool Game::Init(HINSTANCE hInstance)
 
 
 	}
+
 	temp = Objects->getObjectCollisions();
 	for (UINT i = 0; i < temp.size(); i++)
 	{
 
 		LevelCollisions.push_back(temp[i]);
+		totCollect++;
 
+	}
 
-	}	
+	
 	temp = theEnemies->getEnemyCollisions();
 	for (UINT i = 0; i < temp.size(); i++)
 	{
 
 		LevelCollisions.push_back(temp[i]);
+		totEnemy++;
 
 
 	}
@@ -538,7 +480,7 @@ bool Game::Init(HINSTANCE hInstance)
 
 
 	BuildSkullGeometryBuffers();
-	BuildPlayerGeometryBuffers();
+
 
 
 	return true;
@@ -611,16 +553,6 @@ void Game::DrawScene()
 	XMMATRIX worldViewProj;
 
 
-
-	// Transform NDC space [-1,+1]^2 to texture space [0,1]^2
-	XMMATRIX toTexSpace(
-		0.5f, 0.0f, 0.0f, 0.0f,
-		0.0f, -0.5f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.0f, 1.0f);
-
-
-
 	//
 	// Draw the grid, cylinders, and box without any cubemap reflection.
 	// 
@@ -644,49 +576,9 @@ void Game::DrawScene()
 
 
 
-
-		//draw player
-		UINT stride = sizeof(Vertex::Basic32);
-		UINT offset = 0;
-
-		
-
-
-
-
-
-		ID3DX11EffectTechnique* activeTech = Effects::BasicFX->Light3TexTech;
-
-		D3DX11_TECHNIQUE_DESC techDesc;
-		activeTech->GetDesc(&techDesc);
-		for (UINT p = 0; p < techDesc.Passes; ++p)
-		{
-			md3dImmediateContext->IASetVertexBuffers(0, 1, &mPlayerVB, &stride, &offset);
-			md3dImmediateContext->IASetIndexBuffer(mPlayerIB, DXGI_FORMAT_R32_UINT, 0);
-
-			// Draw the Player
-			XMMATRIX world = XMLoadFloat4x4(&mPlayerWorld);
-			XMMATRIX worldInvTranspose = MathHelper::InverseTranspose(world);
-			XMMATRIX worldViewProj = world*view*proj;
-
-			Effects::BasicFX->SetWorld(world);
-			Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
-			Effects::BasicFX->SetWorldViewProj(worldViewProj);
-			Effects::BasicFX->SetTexTransform(XMLoadFloat4x4(&mPlayerTexTransform));
-			Effects::BasicFX->SetMaterial(mPlayerMat);
-			Effects::BasicFX->SetDiffuseMap(mPlayerMapSRV);
-
-			activeTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-			md3dImmediateContext->DrawIndexed(mPlayerIndexCount, mPlayerIndexOffset, mPlayerVertexOffset);
-		}
-
+		PlayerOne->drawPlayer(md3dImmediateContext, mCam, activeTexTech);
 
 	
-
-		
-
-
-
 	}
 
 	//draw Duck Model
@@ -711,9 +603,8 @@ void Game::DrawScene()
 	}
 
 
+	////////////////////////////////////////
 	mSky->Draw(md3dImmediateContext, mCam);
-
-
 
 
 	// restore default states, as the SkyFX changes them in the effect file.
@@ -843,663 +734,6 @@ void Game::BuildSkullGeometryBuffers()
 }
 
 
-void Game::BuildPlayerGeometryBuffers()
-
-{
-
-
-
-	GeometryGenerator::MeshData thePlayer;
-
-	GeometryGenerator geoGen;
-	geoGen.CreateBox(4.0f, 4.0f, 4.0f, thePlayer);
-	
-
-
-	///////////////bounding 
-	XMFLOAT3 vMinf3(+MathHelper::Infinity, +MathHelper::Infinity, +MathHelper::Infinity);
-	XMFLOAT3 vMaxf3(-MathHelper::Infinity, -MathHelper::Infinity, -MathHelper::Infinity);
-
-	XMVECTOR vMin = XMLoadFloat3(&vMinf3);
-	XMVECTOR vMax = XMLoadFloat3(&vMaxf3);
-
-
-
-
-	// Cache the vertex offsets to each object in the concatenated vertex buffer.
-	mPlayerVertexOffset = 0;
-
-	// Cache the index count of each object.
-	mPlayerIndexCount = thePlayer.Indices.size();
-
-	// Cache the starting index for each object in the concatenated index buffer.
-	mPlayerIndexOffset = 0;
-
-	UINT totalVertexCount = thePlayer.Vertices.size();
-
-	UINT totalIndexCount = mPlayerIndexCount;
-
-	//
-	// Extract the vertex elements we are interested in and pack the
-	// vertices of all the meshes into one vertex buffer.
-	//
-
-	std::vector<Vertex::Basic32> vertices(totalVertexCount);
-
-	UINT k = 0;
-	for (size_t i = 0; i < thePlayer.Vertices.size(); ++i, ++k)
-	{
-		
-		vertices[i].Pos = thePlayer.Vertices[i].Position;
-		vertices[i].Normal = thePlayer.Vertices[i].Normal;
-		vertices[i].Tex = thePlayer.Vertices[i].TexC;
-		XMVECTOR P = XMLoadFloat3(&vertices[i].Pos);
-
-
-		
-
-		vMin = XMVectorMin(vMin, P);
-		vMax = XMVectorMax(vMax, P);
-	}
-
-
-	XMStoreFloat3(&mPlayerBox.Center, 0.5f*(vMin + vMax));
-	XMStoreFloat3(&mPlayerBox.Extents, 0.5f*(vMax - vMin));
-
-	D3D11_BUFFER_DESC vbd;
-	vbd.Usage = D3D11_USAGE_IMMUTABLE;
-	vbd.ByteWidth = sizeof(Vertex::Basic32) * totalVertexCount;
-	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vbd.CPUAccessFlags = 0;
-	vbd.MiscFlags = 0;
-	D3D11_SUBRESOURCE_DATA vinitData;
-	vinitData.pSysMem = &vertices[0];
-	HR(md3dDevice->CreateBuffer(&vbd, &vinitData, &mPlayerVB));
-
-	//
-	// Pack the indices of all the meshes into one index buffer.
-	//
-
-	std::vector<UINT> indices;
-	indices.insert(indices.end(), thePlayer.Indices.begin(), thePlayer.Indices.end());
-
-	D3D11_BUFFER_DESC ibd;
-	ibd.Usage = D3D11_USAGE_IMMUTABLE;
-	ibd.ByteWidth = sizeof(UINT) * totalIndexCount;
-	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	ibd.CPUAccessFlags = 0;
-	ibd.MiscFlags = 0;
-	D3D11_SUBRESOURCE_DATA iinitData;
-	iinitData.pSysMem = &indices[0];
-	HR(md3dDevice->CreateBuffer(&ibd, &iinitData, &mPlayerIB));
-
-
-
-
-}
-
-
-///////////////////player movement
-
-
-void Game::Walk(float dt, XMVECTOR direction)
-{
-	
-	int collobject = 0;
-	int collEnemy = 0;
-	
-
-
-	
-XMMATRIX worldMatrix = XMLoadFloat4x4(&mPlayerWorld);	
-	XMVECTOR r = XMLoadFloat3(&mPlayerPosition);
-	FLOAT tempY = XMVectorGetY(direction);
-
-
-
-	/// if the character is tripping, push him in the direction he was going until he goes 10 spaces
-	if (isTripping == true && isImmune == false)
-	{
-		startJumpPos = r;
-		isImmune = true;
-		tripDirection = direction;
-		tripDistance = direction;
-
-	}
-	else if (isTripping == true && isImmune == true)
-	{
-
-		direction = tripDirection;
-		tripDistance = XMVectorAdd(tripDistance, tripDirection);
-
-		//XMVector4Normalize(tripDistance);
-		FLOAT tempZ = XMVectorGetZ(tripDistance);
-		FLOAT tempX = XMVectorGetZ(tripDistance);
-
-		if (tempZ < 0)
-		{
-
-			tempZ = tempZ * -1;
-		}
-
-		if (tempX < 0)
-		{
-
-			tempX = tempX * -1;
-		}
-
-		FLOAT totalDistance = tempZ + tempY;
-
-		
-
-		if (totalDistance > 15.0f || totalDistance < -15.0f)
-		{
-
-			isImmune = false;
-			isTripping = false;
-		}
-
-		
-
-
-
-
-
-
-
-
-	}
-
-
-
-
-	///if the player is on the ground, they are allowed to jump,  if not they cannot, no flying allowed
-	if (onGround == true && tempY > 0.5f)
-	{
-		//Don't want to normalize the jump
-		onGround = false;			
-		startJumpPos = r;
-		isJump = true;
-		hitFeet = false;
-
-	}
-
-
-
-	if (onGround == false && isJump == true)
-	{
-
-		FLOAT startPos = XMVectorGetY(startJumpPos);
-		FLOAT currPos = XMVectorGetY(r);
-
-		tempY = 0.1f;
-		
-		if (currPos > startPos + 10.0f)
-		{
-
-			isJump = false;
-			isFalling = true;
-
-
-		}
-		else if (hitHead == true)
-		{
-			isFalling = true;
-			isJump = false;
-			
-
-		}
-
-
-
-	}
-	
-	
-	// Normalize our destinated direction vector
-	direction = XMVector3Normalize(direction);
-
-	direction = XMVectorSetY(direction, 0.0f);
-	
-
-	///// the direction the player is going to move
-	moveDirection = direction;
-	/////character spinning make it more smooth
-	if (XMVectorGetX(XMVector3Dot(direction, oldCharDirection)) == -1)
-	{
-		oldCharDirection += XMVectorSet(0.01f, 0.0f, 0.0f, 0.0f);
-	}
-	
-	///////get characters position in world space
-	charPosition = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);	
-	charPosition = XMVector3TransformCoord(charPosition,worldMatrix);
-	
-	
-	
-	///// rotate the character
-	float destDirLength = 10.0f * dt;
-	
-
-	
-		currCharDirection = (oldCharDirection)+(direction * destDirLength);
-		currCharDirection = XMVector3Normalize(currCharDirection);
-
-
-	// get the angle 
-	float charDirAngle = XMVectorGetX(XMVector3AngleBetweenNormals(XMVector3Normalize(currCharDirection), XMVector3Normalize(PlayerForward)));
-	
-	
-	if (XMVectorGetY(XMVector3Cross(currCharDirection, PlayerForward)) > 0.0f)
-	{
-		charDirAngle = -charDirAngle;
-	}
-	
-	
-	
-	float speed = 30.0f * dt;
-	XMVECTOR tY = XMVectorSet(0.0f, tempY, 0.0f, 0.0f);
-
-	direction = XMVectorSetY(direction,tempY);
-	direction = direction * speed;
-	charPosition = charPosition + direction;
-
-	charPosition += tY;
-
-	
-
-	XMMATRIX rotationMatrix;
-
-	XMMATRIX previousWorld = worldMatrix;
-
-	
-
-	XMMATRIX Translation = XMMatrixTranslation(XMVectorGetX(charPosition), XMVectorGetY(charPosition), XMVectorGetZ(charPosition));
-	rotationMatrix = XMMatrixRotationY(charDirAngle - 3.14159265f);		// Subtract PI from angle so the character doesn't run backwards
-
-	
-	
-	worldMatrix =  rotationMatrix * Translation;
-
-
-
-	/////////////////////////////////////////////////////////////  v collision system
-
-	for (UINT i = 1; i < LevelCollisions.size(); ++i)
-	{
-
-
-	
-
-
-		XMStoreFloat3(&mPlayerBox.Center, charPosition);
-		
-
-		// collisions with things in the world
-		XMVECTOR diff;
-
-
-
-		mSkullBox;
-
-		mPlayerBox;//1
-
-		LevelCollisions[i].Center;
-		LevelCollisions[i].Extents;
-
-		int it = 0;
-
-
-		FLOAT tRight = 0;
-		FLOAT tUp = 0;
-		FLOAT tForward = 0;
-		bool toRight = false;
-		bool Above = false;
-		bool inFront = false;
-
-
-		///values just to check values
-
-		float LX = LevelCollisions[i].Center.x;
-		float LY = LevelCollisions[i].Center.y;
-		float LZ = LevelCollisions[i].Center.z;
-
-		float LXE = LevelCollisions[i].Extents.x;
-		float LYE = LevelCollisions[i].Extents.y;
-		float LZE = LevelCollisions[i].Extents.z;
-
-
-
-		/////////////fooling around with some collision idea's
-
-		//Player is to the left 
-		if (mPlayerBox.Center.x <= LevelCollisions[i].Center.x)
-		{
-			tRight = (LevelCollisions[i].Center.x - LevelCollisions[i].Extents.x) - (mPlayerBox.Center.x + mPlayerBox.Extents.x);
-
-
-		}
-		//player is to the right of the object
-		if (mPlayerBox.Center.x >= LevelCollisions[i].Center.x)
-		{
-
-			tRight = (mPlayerBox.Center.x - mPlayerBox.Extents.x) - (LevelCollisions[i].Center.x + LevelCollisions[i].Extents.x);
-			toRight = true;
-		}
-
-
-
-
-
-		///player is behind object
-		if (mPlayerBox.Center.z <= LevelCollisions[i].Center.z)
-		{
-			tForward = (LevelCollisions[i].Center.z - LevelCollisions[i].Extents.z) - (mPlayerBox.Center.z + mPlayerBox.Extents.z);
-		}
-		//player is infront of object
-		if (mPlayerBox.Center.z >= LevelCollisions[i].Center.z)
-		{
-			tForward = (mPlayerBox.Center.z - mPlayerBox.Extents.z) - (LevelCollisions[i].Center.z + LevelCollisions[i].Extents.z);
-			inFront = true;
-		}
-
-
-		///player is below the object
-		if (mPlayerBox.Center.y <= LevelCollisions[i].Center.y)
-		{
-			tUp = ((LevelCollisions[i].Center.y - LevelCollisions[i].Extents.y) - (mPlayerBox.Center.y + mPlayerBox.Extents.y)); //+ LevelCollisions[i].Extents.y);
-		}
-		//player is above the object
-		if (mPlayerBox.Center.y >= LevelCollisions[i].Center.y)
-		{
-			tUp = ((mPlayerBox.Center.y - mPlayerBox.Extents.y) - (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y)); //- LevelCollisions[i].Extents.y);
-			Above = true;
-
-		}
-
-
-
-		FLOAT oldPos = XMVectorGetY(oldCharDirection);
-		FLOAT curPos = XMVectorGetY(currCharDirection);
-		
-		
-		
-		
-		
-		
-		if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && LevelCollisions[i].collisionType == 2)
-		{
-
-			
-			tripDirection = direction;
-			isTripping = true;
-		
-			break;
-		}
-		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && LevelCollisions[i].collisionType == 3)
-		{
-
-			LevelCollisions.erase(LevelCollisions.begin() + i);
-			Objects->RemovemObjectInstance(collobject);
-		
-			break;
-
-		}
-		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && LevelCollisions[i].collisionType == 1 && isImmune == true)
-		{
-
-			LevelCollisions.erase(LevelCollisions.begin() + i);
-			theEnemies->RemovemObjectInstance(collEnemy);
-
-
-			break;
-		}
-		
-
-		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && isJump == true && LevelCollisions[i].collisionType == 0)
-		{
-			int t = 3;
-
-			// these tell me where the player is verse the object it collided with
-			inFront;
-			Above;
-			toRight;
-
-			
-			XMVECTOR S;
-			XMVECTOR P;
-			XMVECTOR Q;
-
-			hitHead = true;
-
-
-			XMMatrixDecompose(&S, &Q, &P, previousWorld);
-			
-			XMStoreFloat3(&mPlayerScale, S);
-			XMStoreFloat3(&mPlayerPosition, P);
-			XMStoreFloat4(&mPlayerRotationQuad, Q);
-
-			break;
-
-
-
-		}
-
-		///if player lands on an object for the first time
-		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && hitFeet == false && LevelCollisions[i].collisionType == 0)
-		{
-			int t = 3;
-
-			hitFeet = true;
-			//P = XMVectorSubtract(P, moveDirection);
-			inFront;
-			Above;
-			toRight;
-
-			
-			XMVECTOR S;
-			XMVECTOR P;
-			XMVECTOR Q;
-
-			currentObject = i;
-
-
-
-			XMMatrixDecompose(&S, &Q, &P, previousWorld);
-
-			FLOAT tempDirection = XMVectorGetY(direction);
-			XMVECTOR tempDir = XMVectorSet(0.0f, tempDirection - 0.01f, 0.0f, 0.0f);
-
-			P -= tempDir;
-			currGround = XMVectorGetY(P);
-			currGround += 0.01f;
-			XMStoreFloat3(&mPlayerScale, S);
-			XMStoreFloat3(&mPlayerPosition, P);
-			XMStoreFloat4(&mPlayerRotationQuad, Q);
-
-			break;
-
-		}
-		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && LevelCollisions[i].collisionType == 0)
-		{
-			int t = 3;
-
-			//hitFeet = true;
-			inFront;
-			Above;
-			toRight;
-
-
-			XMVECTOR S;
-			XMVECTOR P;
-			XMVECTOR Q;
-
-
-
-			XMMatrixDecompose(&S, &Q, &P, previousWorld);
-
-			FLOAT tempDirection = XMVectorGetY(direction);
-			XMVECTOR tempDir = XMVectorSet(0.0f, tempDirection - 0.01f, 0.0f, 0.0f);
-
-			P -= tempDir;
-		
-			XMStoreFloat3(&mPlayerScale, S);
-			XMStoreFloat3(&mPlayerPosition, P);
-			XMStoreFloat4(&mPlayerRotationQuad, Q);
-
-			break;
-
-
-
-		}
-
-		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f  && LevelCollisions[i].collisionType == 0)
-		{
-			int t = 3;
-			
-			
-			inFront;
-			Above;
-			toRight;
-
-			oldCharDirection = currCharDirection;
-			XMVECTOR S;
-			XMVECTOR P;
-			XMVECTOR Q;
-
-
-
-			XMMatrixDecompose(&S, &Q, &P, previousWorld);
-			
-		
-
-			XMStoreFloat3(&mPlayerScale, S);
-			XMStoreFloat3(&mPlayerPosition, P);
-			XMStoreFloat4(&mPlayerRotationQuad, Q);
-			
-			break;
-
-
-
-		}
-		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f  && LevelCollisions[i].collisionType == 1 && isImmune == false)
-		{
-
-
-		isAlive = false;
-
-		break;
-
-
-		}
-		else if (isAlive == true)
-		{
-			// Set the characters old direction
-
-
-			
-
-			XMVECTOR S;
-			XMVECTOR P;
-			XMVECTOR Q;
-
-
-
-			XMMatrixDecompose(&S, &Q, &P, worldMatrix);
-		
-			XMStoreFloat3(&mPlayerScale, S);
-			XMStoreFloat3(&mPlayerPosition, P);
-			XMStoreFloat4(&mPlayerRotationQuad, Q);
-
-		}
-
-
-
-		oldCharDirection = currCharDirection;
-
-		if (LevelCollisions[i].collisionType == 2 || LevelCollisions[i].collisionType == 3)
-		{
-
-
-			collobject++;
-		}
-
-		if (LevelCollisions[i].collisionType == 1 || LevelCollisions[i].collisionType == 1)
-		{
-
-
-			collEnemy++;
-		}
-
-	}
-	////////////////////////////////////////////////////////////// ^ collisions
-
-//	for (UINT i = 0; i < 2; ++i)
-//	{
-
-
-	//	if (i == 1)
-	//	{
-	///		currentObject = 0;
-
-	//	}
-
-		FLOAT tRight = 0;
-		FLOAT tUp = 0;
-		FLOAT tForward = 0;
-		bool toRight = false;
-		bool Above = false;
-		bool inFront = false;
-
-		
-		//Player is to the left 
-		if (mPlayerBox.Center.x <= LevelCollisions[currentObject].Center.x)
-		{
-			tRight = (LevelCollisions[currentObject].Center.x - LevelCollisions[currentObject].Extents.x) - (mPlayerBox.Center.x + mPlayerBox.Extents.x);
-		}
-		//player is to the right of the object
-		if (mPlayerBox.Center.x >= LevelCollisions[currentObject].Center.x)
-		{
-
-			tRight = (mPlayerBox.Center.x - mPlayerBox.Extents.x) - (LevelCollisions[currentObject].Center.x + LevelCollisions[currentObject].Extents.x);
-			toRight = true;
-		}
-
-		///player is behind object
-		if (mPlayerBox.Center.z <= LevelCollisions[currentObject].Center.z)
-		{
-			tForward = (LevelCollisions[currentObject].Center.z - LevelCollisions[currentObject].Extents.z) - (mPlayerBox.Center.z + mPlayerBox.Extents.z);
-		}
-		//player is infront of object
-		if (mPlayerBox.Center.z >= LevelCollisions[currentObject].Center.z)
-		{
-			tForward = (mPlayerBox.Center.z - mPlayerBox.Extents.z) - (LevelCollisions[currentObject].Center.z + LevelCollisions[currentObject].Extents.z);
-			inFront = true;
-		}
-
-		if (tRight > 0.0f || tForward > 0.0f)
-		{
-			isFalling = true;
-			hitFeet = false;
-			onGround = false;
-			if (currentObject == 0)
-			{
-				fellOffMap = true;
-			}
-
-		}
-
-
-//	}
-
-
-	
-
-
-
-}
-
-
-
-
 
 
 
@@ -1513,17 +747,39 @@ void Game::UpdateScene(float dt)
 	
 	addDeltaTime(dt);
 	moveDirection = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+	//PlayerOne->setMoveDirection(moveDirection);
 
-	theEnemies->update(dt);
-
-	
+	theEnemies->update(dt);	
 
 	//////updates the enemy collisions as they move
-
 	std::vector <XNA::AxisAlignedBox> temp;
 	temp = theEnemies->getEnemyCollisions();
+
+
+	std::vector <XNA::AxisAlignedBox> tempObject;
+	tempObject = Objects->getObjectCollisions();
 	
 	
+	int tempSize = temp.size();
+
+	if (tempSize < totEnemy)
+	{
+		totEnemy = tempSize;
+		int tempcolSize = LevelCollisions.size() - 1;
+		LevelCollisions.erase(LevelCollisions.begin() + tempcolSize);
+	}
+
+	tempSize = tempObject.size();
+
+	if (tempSize < totCollect)
+	{
+		totCollect = tempSize;
+		int tempcolSize = LevelCollisions.size() - 1;
+		LevelCollisions.erase(LevelCollisions.begin() + tempcolSize);
+	}
+
+
+
 	int j = 0;
 	
 	for (UINT i = LevelCollisions.size() - temp.size(); i < LevelCollisions.size(); i++, j++)
@@ -1531,15 +787,13 @@ void Game::UpdateScene(float dt)
 
 		LevelCollisions[i].Center = temp[j].Center ;
 
-
 	}
+	
 
 	/////////////////////////////
 
-	
 
 	XMVECTOR desiredCharDir = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-
 
 	XMVECTOR playerPos = XMLoadFloat3(&mPlayerPosition);
 
@@ -1626,7 +880,9 @@ void Game::UpdateScene(float dt)
 	}
 
 
-	if (onGround == true)
+	
+	
+	if (PlayerOne->getOnGround() == true)
 	{
 
 
@@ -1650,17 +906,17 @@ void Game::UpdateScene(float dt)
 
 	XMVECTOR tGravity = XMLoadFloat3(&tGrav);
 
-	if (onGround == true)
+	if (PlayerOne->getOnGround() == true)
 	{
 
 	}
-	else if (onGround == false)
+	else if (PlayerOne->getOnGround() == false)
 	{
 
 		desiredCharDir += addGravity;
 	}
 
-	moveDirection = desiredCharDir;
+
 
 
 
@@ -1688,119 +944,24 @@ void Game::UpdateScene(float dt)
 
 
 	////send player information to the camera
-	mCam.getPlayerPos(mPlayerPosition);
-	mCam.playerInfo(PlayerForward, PlayerRight, PlayerUp);
+
+	mCam.getPlayerPos(PlayerOne->getPlayerPosition());
+	
 
 	mCam.moveCam();
 
 
+	PlayerOne->setLevelCollisions(LevelCollisions);
 
-
-	/*
-	if (moveChar == true)
-	{
-
-		moveDirection = desiredCharDir;
-		Walk(dt, desiredCharDir);
-
-	}
-	*/
-	Walk(dt, desiredCharDir);
-
-	UpdatePlayer(mPlayerWorld);
-
+	PlayerOne->move(dt, desiredCharDir, theEnemies, Objects );
 	
+
+
+	PlayerOne->update();
 	
 
 
 }
-
-
-
-
-
-
-void Game::UpdatePlayer(XMFLOAT4X4& m)
-{
-
-	XMVECTOR S = XMLoadFloat3(&mPlayerScale);
-	XMVECTOR P = XMLoadFloat3(&mPlayerPosition);
-	XMVECTOR Q = XMLoadFloat4(&mPlayerRotationQuad);
-	XMVECTOR rot = XMLoadFloat4(&mPlayerRotation);
-
-
-
-	XMVECTOR OS = XMLoadFloat3(&mOPlayerScale);
-	XMVECTOR OP = XMLoadFloat3(&mOPlayerPosition);
-	XMVECTOR OQ = XMLoadFloat4(&mOPlayerRotationQuad);
-	XMVECTOR Orot = XMLoadFloat4(&mOPlayerRotation);
-
-	mPlayerBox.Center = mPlayerPosition;
-
-
-	if (hitFeet == true)
-	{
-		isJump = false;
-		isFalling = false;
-		onGround = true;
-
-	}
-
-	if (isFalling == true || isJump == true)
-	{
-		currGround = 2.0f;
-
-	}
-	if (fellOffMap == true)
-	{
-
-		currGround = -500.0f;
-
-	}
-
-
-
-
-
-	if (mPlayerPosition.y < currGround)
-	{
-
-	P = XMVectorSetY(P, currGround);
-		hitHead = false;
-		onGround = true;
-
-	}
-
-
-	if (isAlive == true)
-	{
-
-		XMStoreFloat3(&mPlayerBox.Center, P);
-		XMStoreFloat3(&mPlayerPosition, P);
-
-
-		XMStoreFloat4x4(&mPlayerWorld, XMMatrixAffineTransformation(S, rot, Q, P));
-	}
-	else if (isAlive == false)
-	{
-
-		mPlayerBox.Center = mOPlayerPosition;
-
-		XMStoreFloat3(&mPlayerBox.Center, P);
-		XMStoreFloat3(&mOPlayerPosition, P);
-
-		mPlayerRotation = mOPlayerRotation;
-		mPlayerPosition = mOPlayerPosition;
-		mPlayerRotationQuad = mOPlayerRotationQuad;
-
-		XMStoreFloat4x4(&mPlayerWorld, XMMatrixAffineTransformation(OS, Orot, OQ, OP));
-
-		isAlive = true;
-	}
-
-	
-}
-
 
 
 

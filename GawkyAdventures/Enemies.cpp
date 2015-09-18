@@ -14,9 +14,7 @@
 
 Enemies::Enemies()
 {
-
-
-
+	
 
 
 
@@ -35,9 +33,6 @@ Enemies::~Enemies()
 
 
 	}
-
-
-
 	
 }
 
@@ -75,7 +70,7 @@ void Enemies::draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTechniq
 
 
 
-		//I do not have shadoews
+		//I do not have shadows
 		//Effects::BasicFX->SetShadowTransform(world*shadowTransform);
 		Effects::BasicFX->SetTexTransform(XMMatrixScaling(1.0f, 1.0f, 1.0f));
 
@@ -311,6 +306,6 @@ void Enemies::RemovemObjectInstance(int number)
 
 	mEnemyInstances.erase(mEnemyInstances.begin() + number);
 
-	LevelCollisions.erase(LevelCollisions.begin() + number);
+	LevelCollisions.erase(LevelCollisions.begin() + number);	
 	delete(enemyclass[number]);
 }
