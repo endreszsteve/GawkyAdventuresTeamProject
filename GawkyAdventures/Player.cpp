@@ -157,7 +157,7 @@ void Player::update()
 
 	if (isFalling == true || isJump == true)
 	{
-		currGround = 3.0f;
+		currGround = -100.0f;
 
 	}
 	if (fellOffMap == true)
@@ -433,8 +433,9 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 	/////////////////////////////////////////////////////////////  v collision system
 
-	for (UINT i = 1; i < LevelCollisions.size(); ++i)
+	for (UINT i = 0; i < LevelCollisions.size(); ++i)
 	{
+
 
 
 
@@ -541,19 +542,15 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 			tripDirection = direction;
 			isTripping = true;
-
+			break;
 			
 		}
 		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && LevelCollisions[i].collisionType == 3)
 		{
 
 			
-			LevelCollisions.erase(LevelCollisions.begin() + i);
-			if (LevelCollisions[i].collisionType == 3)
-			{
-				things->RemovemObjectInstance(collobject);
-			}
-			LevelCollisions[i].collisionType = 99;
+	
+			things->RemovemObjectInstance(collobject);
 
 			break;
 
@@ -562,7 +559,7 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		{
 
 			
-			LevelCollisions.erase(LevelCollisions.begin() + i);
+
 			guys->RemovemObjectInstance(collEnemy);
 
 
@@ -686,11 +683,6 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		{
 			// Set the characters old direction
 
-
-
-
-
-
 			XMMatrixDecompose(&S, &Q, &P, worldMatrix);
 
 			
@@ -703,6 +695,7 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 		oldCharDirection = currCharDirection;
 
+	
 		if (LevelCollisions[i].collisionType == 2 || LevelCollisions[i].collisionType == 3)
 		{
 
@@ -716,7 +709,7 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 			collEnemy++;
 		}
-
+		
 	}
 	////////////////////////////////////////////////////////////// ^ collisions
 
