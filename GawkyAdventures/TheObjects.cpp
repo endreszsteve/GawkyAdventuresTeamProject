@@ -322,4 +322,6 @@ void TheObjects::RemovemObjectInstance(int number)
 
 	LevelCollisions.erase(LevelCollisions.begin() + number);
 	delete(Objectclass[number]);
+
+	Objectclass.erase(Objectclass.begin() + number);
 }

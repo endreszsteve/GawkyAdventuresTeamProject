@@ -359,7 +359,7 @@ bool Game::Init(HINSTANCE hInstance)
 
 
 	/// create the player
-	PlayerOne = new Player(md3dDevice, mTexMgr, "Models\\gawky.obj", L"Textures\\", 0.0f, 4.0f, 0.0f);
+	PlayerOne = new Player(md3dDevice, mTexMgr, "Models\\gawky.obj", L"Textures\\", 0.0f, 10.0f, 0.0f);
 	
 	//// load  the level models
 	theEnemies = new Enemies();
@@ -386,7 +386,7 @@ bool Game::Init(HINSTANCE hInstance)
 
 	
 
-	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Ground.obj", L"Textures\\", 0, 0, 0, 0, 7);
+	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Ground.obj", L"Textures\\", 0, -1.8, 0, 0, 7);
 
 	///left side 3 platforms
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Platform2.obj", L"Textures\\", -76, 2.1, 26.6, 0, 7);
@@ -747,47 +747,88 @@ void Game::UpdateScene(float dt)
 	
 	addDeltaTime(dt);
 	moveDirection = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-	//PlayerOne->setMoveDirection(moveDirection);
+	PlayerOne->setMoveDirection(moveDirection);
+	theEnemies->update(dt);
 
-	theEnemies->update(dt);	
+	int levelColsize = LevelCollisions.size();
+	int tempOtherObject;
 
 	//////updates the enemy collisions as they move
 	std::vector <XNA::AxisAlignedBox> temp;
+	//original value = 3
 	temp = theEnemies->getEnemyCollisions();
 
-
 	std::vector <XNA::AxisAlignedBox> tempObject;
+	//original value = 5
 	tempObject = Objects->getObjectCollisions();
-	
-	
+
+	std::vector <XNA::AxisAlignedBox> tempLevel;
+	//original value = 26
+	tempLevel = Level1->getLevelPartsCollisions();
+
+	tempOtherObject = tempObject.size() + temp.size() + tempLevel.size();
+
+
 	int tempSize = temp.size();
 
-	if (tempSize < totEnemy)
+
+	int sizeDifference = 0;
+
+	sizeDifference = LevelCollisions.size() - tempOtherObject;
+
+
+	if (sizeDifference > 0)
 	{
-		totEnemy = tempSize;
-		int tempcolSize = LevelCollisions.size() - 1;
-		LevelCollisions.erase(LevelCollisions.begin() + tempcolSize);
-	}
 
-	tempSize = tempObject.size();
+		int something = 0;
+		LevelCollisions.pop_back();
 
-	if (tempSize < totCollect)
+
+
+		int j = 0;
+		for (UINT i = tempLevel.size(); i < (tempLevel.size() + tempObject.size()); i++, j++)
+		{
+
+			LevelCollisions[i] = tempObject[j];
+
+		}
+
+		if (temp.size() >= 0)
+		{
+
+			j = 0;
+			for (UINT i = (tempLevel.size() + tempObject.size()); i < (tempLevel.size() + tempObject.size() + temp.size()); i++, j++)
+			{
+
+				LevelCollisions[i] = temp[j];
+				LevelCollisions[i].Center = temp[j].Center;
+				
+
+			}
+		}
+
+	}else 
 	{
-		totCollect = tempSize;
-		int tempcolSize = LevelCollisions.size() - 1;
-		LevelCollisions.erase(LevelCollisions.begin() + tempcolSize);
-	}
+		int	j = 0;
+		for (UINT i = tempObject.size() + tempLevel.size(); i < tempOtherObject; i++, j++)
+		{
+			LevelCollisions[i] = temp[j];
 
-
-
-	int j = 0;
+		}
 	
-	for (UINT i = LevelCollisions.size() - temp.size(); i < LevelCollisions.size(); i++, j++)
-	{
-
-		LevelCollisions[i].Center = temp[j].Center ;
-
+	
 	}
+
+
+	/////////////////////////////
+
+	
+
+
+
+	PlayerOne->setLevelCollisions(LevelCollisions);
+	
+
 	
 
 	/////////////////////////////
@@ -951,7 +992,7 @@ void Game::UpdateScene(float dt)
 	mCam.moveCam();
 
 
-	PlayerOne->setLevelCollisions(LevelCollisions);
+	
 
 	PlayerOne->move(dt, desiredCharDir, theEnemies, Objects );
 	
