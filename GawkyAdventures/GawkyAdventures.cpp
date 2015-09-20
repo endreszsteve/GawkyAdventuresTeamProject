@@ -359,7 +359,7 @@ bool Game::Init(HINSTANCE hInstance)
 
 
 	/// create the player
-	PlayerOne = new Player(md3dDevice, mTexMgr, "Models\\gawky.obj", L"Textures\\", 0.0f, 4.0f, 0.0f);
+	PlayerOne = new Player(md3dDevice, mTexMgr, "Models\\gawky.obj", L"Textures\\", 0.0f, 10.0f, 0.0f);
 	
 	//// load  the level models
 	theEnemies = new Enemies();
@@ -386,7 +386,7 @@ bool Game::Init(HINSTANCE hInstance)
 
 	
 
-	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Ground.obj", L"Textures\\", 0, -2.5, 0, 0, 7);
+	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Ground.obj", L"Textures\\", 0, -1.8, 0, 0, 7);
 
 	///left side 3 platforms
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Platform2.obj", L"Textures\\", -76, 2.1, 26.6, 0, 7);
