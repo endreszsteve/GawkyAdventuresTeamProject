@@ -268,6 +268,9 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 	XMVECTOR P;
 	XMVECTOR Q;
 
+	XMVECTOR PS;
+	XMVECTOR PP;
+	XMVECTOR PQ;
 
 	XMMATRIX worldMatrix = XMLoadFloat4x4(&mPlayer.World);
 	XMVECTOR r = XMLoadFloat3(&mPlayerPosition);
@@ -419,6 +422,10 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 	XMMATRIX previousWorld = worldMatrix;
 
+
+
+
+
 	
 
 
@@ -428,7 +435,13 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 
 	worldMatrix =  rotationMatrix * Translation;
+	
+	XMMatrixDecompose(&PS, &PQ, &PP, previousWorld);
+	XMMatrixDecompose(&S, &Q, &P, worldMatrix);
 
+
+	FLOAT prevY = XMVectorGetY(PP);
+	FLOAT currY = XMVectorGetY(P);
 
 
 	/////////////////////////////////////////////////////////////  v collision system
@@ -535,7 +548,7 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 
 
-
+		//// if the player hits an object that trips him
 		if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && LevelCollisions[i].collisionType == 2)
 		{
 
@@ -581,10 +594,10 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 			hitHead = true;
 
 
-			XMMatrixDecompose(&S, &Q, &P, previousWorld);
+			
 
 			//XMStoreFloat3(&mPlayerScale, S);
-			XMStoreFloat3(&mPlayerPosition, P);
+			XMStoreFloat3(&mPlayerPosition, PP);
 			//XMStoreFloat4(&mPlayerRotationQuad, Q);
 
 			break;
@@ -594,33 +607,23 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		}
 
 		///if player lands on an object for the first time
-		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && hitFeet == false && LevelCollisions[i].collisionType == 0 && (mPlayerBox.Center.y - mPlayerBox.Extents.y) < (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y))
+		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && hitFeet == false && LevelCollisions[i].collisionType == 0 && (mPlayerBox.Center.y - mPlayerBox.Extents.y) < (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y) && prevY > currY && prevY > (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y))
 		{
 			int t = 3;
 
-			hitFeet = true;
-	
-		
+			hitFeet = true;	
 
-			currentObject = i;
-
-
-
-			XMMatrixDecompose(&S, &Q, &P, previousWorld);
+			currentObject = i;		
 
 			FLOAT tempDirection = XMVectorGetY(direction);
 			XMVECTOR tempDir = XMVectorSet(0.0f, tempDirection - 0.01f, 0.0f, 0.0f);
 
 			P -= tempDir;
-			currGround = XMVectorGetY(P);
+			currGround = XMVectorGetY(PP);
 			currGround += 0.01f;
 			onGround = true;
-
-			//LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y + 0.01f
+			XMStoreFloat3(&mPlayerPosition, PP);
 			
-			//XMStoreFloat3(&mPlayerScale, S);
-			XMStoreFloat3(&mPlayerPosition, P);
-			//XMStoreFloat4(&mPlayerRotationQuad, Q);
 
 			break;
 
@@ -634,9 +637,22 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 			Above;
 			toRight;
 
+			P;
+			PP;
+		
+			FLOAT originalPosX = XMVectorGetX(PP);
+			FLOAT originalPosZ = XMVectorGetZ(PP);
+			FLOAT newY = XMVectorGetY(P);
 
-			XMMatrixDecompose(&S, &Q, &P, previousWorld);
+			XMVectorSetZ(P, originalPosZ);
+			XMVectorSetZ(P, originalPosX);
+
+			P = XMVectorSet(originalPosX, newY, originalPosZ, 0.0);
+
+
 			XMStoreFloat3(&mPlayerPosition, P);
+
+
 			
 
 			break;
@@ -654,16 +670,22 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 			Above;
 			toRight;
 
+			P;
+			PP;
+
 			oldCharDirection = currCharDirection;
 	
+			FLOAT originalPosX = XMVectorGetX(PP);
+			FLOAT originalPosZ = XMVectorGetZ(PP);
+			FLOAT newY = XMVectorGetY(P);
+
+			XMVectorSetZ(P, originalPosZ);
+			XMVectorSetZ(P, originalPosX);
+
+			P = XMVectorSet(originalPosX, newY, originalPosZ, 0.0);
 
 
-
-			XMMatrixDecompose(&S, &Q, &P, previousWorld);
-
-			//XMStoreFloat3(&mPlayerScale, S);
 			XMStoreFloat3(&mPlayerPosition, P);
-			//XMStoreFloat4(&mPlayerRotationQuad, Q);
 
 			break;
 
@@ -683,9 +705,7 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		{
 			// Set the characters old direction
 
-			XMMatrixDecompose(&S, &Q, &P, worldMatrix);
 
-			
 			XMStoreFloat3(&mPlayerPosition, P);
 			XMStoreFloat4(&mPlayerRotationQuad, Q);
 
