@@ -1,3 +1,4 @@
+
 // If the library is compiled as a DLL, this ensures symbols are exported
 #define NUCLEX_GAME_SOURCE 1
 

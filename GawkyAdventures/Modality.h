@@ -7,12 +7,12 @@ namespace Gawky { namespace Game { namespace States {
 
   namespace Modality 
   {
-    enum Enum 
-	{
+    enum Enum {
       Exclusive,
       Popup
+
     };
-  } 
+  }
 }}} 
 
-#endif //MODALITY_H
+#endif 
