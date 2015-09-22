@@ -25,12 +25,7 @@ Player::Player(ID3D11Device* device, TextureMgr& texMgr,
 	XMVECTOR S = XMLoadFloat3(&mPlayerScale);
 	XMVECTOR P = XMLoadFloat3(&mPlayerPosition);
 	XMVECTOR Q = XMLoadFloat4(&mPlayerRotationQuad);
-	XMVECTOR rot = XMLoadFloat4(&mPlayerRotation);
-	
-	
-	
-	
-	
+	XMVECTOR rot = XMLoadFloat4(&mPlayerRotation);	
 	
 	
 	////set the player model
@@ -607,12 +602,12 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		}
 
 		///if player lands on an object for the first time
-		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && hitFeet == false && LevelCollisions[i].collisionType == 0 && (mPlayerBox.Center.y - mPlayerBox.Extents.y) < (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y) && prevY > currY && prevY > (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y))
+		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && hitFeet == false && LevelCollisions[i].collisionType == 0 && 
+			(mPlayerBox.Center.y - mPlayerBox.Extents.y) < (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y) && 
+			prevY > currY && prevY > (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y))
 		{
 			int t = 3;
-
 			hitFeet = true;	
-
 			currentObject = i;		
 
 			FLOAT tempDirection = XMVectorGetY(direction);
@@ -623,19 +618,15 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 			currGround += 0.01f;
 			onGround = true;
 			XMStoreFloat3(&mPlayerPosition, PP);
-			
 
 			break;
 
 		}
+		/*
 		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && LevelCollisions[i].collisionType == 0 && (mPlayerBox.Center.y - mPlayerBox.Extents.y) < (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y))
 		{
-			int t = 3;
-
 		
-			inFront;
-			Above;
-			toRight;
+
 
 			P;
 			PP;
@@ -652,26 +643,15 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 			XMStoreFloat3(&mPlayerPosition, P);
 
-
-			
-
 			break;
 
 
 
 		}
-
+		*/
 		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f  && LevelCollisions[i].collisionType == 0)
 		{
-			int t = 3;
 
-
-			inFront;
-			Above;
-			toRight;
-
-			P;
-			PP;
 
 			oldCharDirection = currCharDirection;
 	

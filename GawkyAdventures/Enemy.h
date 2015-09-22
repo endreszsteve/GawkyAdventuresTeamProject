@@ -35,6 +35,8 @@ public:
 	void setBasicMInstance(BasicModelInstance model);
 	void setAABB(XNA::AxisAlignedBox* tempEnemyBox);
 	void setWorld(XMFLOAT4X4 tempEnemyWorld);
+	void SetPositionOne(FLOAT x, FLOAT y, FLOAT z);
+	void SetPositionTwo(FLOAT x, FLOAT y, FLOAT z);
 	
 	///getters
 	XMMATRIX getModelScale();
@@ -64,6 +66,9 @@ private:
 	XMFLOAT3 mEnemyScale;
 	XMFLOAT4 mEnemyRotationQuad;
 	XMFLOAT4 mEnemyRotation;
+
+	XMFLOAT3 mEnemyPositionOne;
+	XMFLOAT3 mEnemyPositionTwo;
 
 	BasicModel* anEnemy;
 

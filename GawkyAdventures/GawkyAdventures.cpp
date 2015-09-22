@@ -380,9 +380,9 @@ bool Game::Init(HINSTANCE hInstance)
 	
 
 
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", -80.0f, 7.0f, 78.0f);
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 60.0f, 3.0f, 70.0f);
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 0.0f, 3.0f, 25.0f);
+	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", -80.0f, 7.0f, 78.0f, -70.f, 7.0f, 78.0f);
+	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 60.0f, 3.0f, 80.0f, 60.0f, 3.0f,60.0f);
+	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 0.0f, 3.0f, 35.0f, 0.0f, 3.0f, 15.0f);
 
 	
 

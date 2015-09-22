@@ -29,7 +29,7 @@ public:
 
 	void createEnemy(ID3D11Device* device, TextureMgr& texMgr,
 		const std::string& modelFilename,
-		const std::wstring& texturePath, FLOAT x, FLOAT y, FLOAT z);
+		const std::wstring& texturePath, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2);
 
 
 	void CreateBoundingBox();

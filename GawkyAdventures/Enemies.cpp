@@ -113,7 +113,7 @@ void Enemies::addEnemy(BasicModelInstance theEnemy)
 
 void Enemies::createEnemy(ID3D11Device* device, TextureMgr& texMgr,
 	const std::string& modelFilename,
-	const std::wstring& texturePath, FLOAT x, FLOAT y, FLOAT z)
+	const std::wstring& texturePath, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2)
 {
 	Enemy* newEnemy;
 
@@ -121,7 +121,7 @@ void Enemies::createEnemy(ID3D11Device* device, TextureMgr& texMgr,
 
 	XMMATRIX modelScale = XMMatrixScaling(3.0f, 3.0f, -3.0f);
 	XMMATRIX modelRot = XMMatrixRotationY(0);
-	XMMATRIX modelOffset = XMMatrixTranslation(x,y,z);
+	XMMATRIX modelOffset = XMMatrixTranslation(x1,y1,z1);
 
 
 	newEnemy->setModelScale(modelScale);
