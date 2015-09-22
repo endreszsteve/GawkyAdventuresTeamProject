@@ -37,7 +37,11 @@ public:
 	void setWorld(XMFLOAT4X4 tempEnemyWorld);
 	void SetPositionOne(FLOAT x, FLOAT y, FLOAT z);
 	void SetPositionTwo(FLOAT x, FLOAT y, FLOAT z);
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> master
 	///getters
 	XMMATRIX getModelScale();
 	XMMATRIX getModelRot();
@@ -50,7 +54,7 @@ public:
 
 
 private:
-	
+
 
 	XMMATRIX modelScale;
 	XMMATRIX modelRot;
@@ -76,7 +80,7 @@ private:
 
 	XNA::AxisAlignedBox* EnemyBox;
 
-	
+
 	XMVECTOR currCharDirection;
 	XMVECTOR oldCharDirection;
 	XMVECTOR charPosition;
@@ -88,13 +92,15 @@ private:
 
 	XMVECTOR direction;
 
-	
-	
+	int travelToPoint;
 
-	
-	
 
-	
+
+
+
+
+
+
 
 
 };

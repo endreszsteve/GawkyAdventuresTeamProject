@@ -14,7 +14,7 @@
 
 Enemies::Enemies()
 {
-	
+
 
 
 
@@ -24,16 +24,16 @@ Enemies::Enemies()
 
 Enemies::~Enemies()
 {
-	
+
 
 	for (UINT i = 0; i < enemyclass.size(); ++i)
 	{
-	
+
 		delete enemyclass[i];
 
 
 	}
-	
+
 }
 
 
@@ -121,12 +121,19 @@ void Enemies::createEnemy(ID3D11Device* device, TextureMgr& texMgr,
 
 	XMMATRIX modelScale = XMMatrixScaling(3.0f, 3.0f, -3.0f);
 	XMMATRIX modelRot = XMMatrixRotationY(0);
+<<<<<<< HEAD
 	XMMATRIX modelOffset = XMMatrixTranslation(x1,y1,z1);
+=======
+	XMMATRIX modelOffset = XMMatrixTranslation(x1, y1, z1);
+>>>>>>> master
 
 
 	newEnemy->setModelScale(modelScale);
 	newEnemy->setModelRot(modelRot);
 	newEnemy->setModelOffset(modelOffset);
+
+	newEnemy->SetPositionOne(x1, y1, z1);
+	newEnemy->SetPositionTwo(x2, y2, z2);
 
 
 	anEnemy = new BasicModel(device, texMgr, modelFilename, texturePath);
@@ -142,18 +149,18 @@ void Enemies::createEnemy(ID3D11Device* device, TextureMgr& texMgr,
 
 	XMStoreFloat4x4(&theEnemy.World, modelScale*modelRot*modelOffset);
 
-	
+
 	newEnemy->setBasicMInstance(theEnemy);
 
 	oneEnemy = newEnemy->getBasicMInstance();
 
-	
+
 
 	addEnemy(theEnemy);
 
 	enemyclass.push_back(newEnemy);
 
-	
+
 	LevelCollisions.push_back(EnemyBox);
 
 	newEnemy->setWorld(theEnemy.World);
@@ -228,7 +235,7 @@ void Enemies::CreateBoundingBox()
 			0.5f*(maxPt.y - minPt.y),
 			0.5f*(maxPt.z - minPt.z));
 
-		LevelCollisions[i].collisionType = 1 ;
+		LevelCollisions[i].collisionType = 1;
 
 		LevelCollisions[i].Extents.x = LevelCollisions[i].Extents.x * 3;
 		LevelCollisions[i].Extents.y = LevelCollisions[i].Extents.y * 3;
@@ -236,7 +243,7 @@ void Enemies::CreateBoundingBox()
 
 		EnemyBox.collisionType = 1;
 
-		
+
 		enemyclass[i]->setAABB(&LevelCollisions[i]);
 
 	}
@@ -255,9 +262,9 @@ std::vector<BasicModelInstance> Enemies::getEnemy()
 std::vector <XNA::AxisAlignedBox> Enemies::getEnemyCollisions()
 {
 
-	
 
-	
+
+
 
 
 
@@ -269,18 +276,18 @@ std::vector <XNA::AxisAlignedBox> Enemies::getEnemyCollisions()
 
 void Enemies::update(float dt)
 {
-	
 
-	
+
+
 	DeltaTime = dt;
 
 	for (int i = 0; i < mEnemyInstances.size(); i++)
 	{
 
 		enemyclass[i]->update(DeltaTime);
-		
+
 		mEnemyInstances[i].World = enemyclass[i]->GetWorld();
-		
+
 		XMMATRIX temp = XMLoadFloat4x4(&mEnemyInstances[i].World);
 		XMVECTOR Scale;
 		XMVECTOR Rotation;
@@ -290,14 +297,14 @@ void Enemies::update(float dt)
 
 		XMMatrixDecompose(&Scale, &Rotation, &Position, temp);
 		XMStoreFloat3(&tempPosition, Position);
-	
+
 
 
 		LevelCollisions[i].Center = tempPosition;
 
 
 	}
-	
+
 }
 
 
@@ -306,7 +313,7 @@ void Enemies::RemovemObjectInstance(int number)
 
 	mEnemyInstances.erase(mEnemyInstances.begin() + number);
 
-	LevelCollisions.erase(LevelCollisions.begin() + number);	
+	LevelCollisions.erase(LevelCollisions.begin() + number);
 	delete(enemyclass[number]);
 	enemyclass.erase(enemyclass.begin() + number);
 }

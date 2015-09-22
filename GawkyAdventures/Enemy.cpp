@@ -11,7 +11,11 @@
 
 
 Enemy::Enemy() : mEnemyPosition(0.0f, 0.0f, 0.0f), mEnemyScale(3.0f, 3.0f, 3.0f), mEnemyRotation(0.0f, 0.0f, 0.0f, 1.0f),
+<<<<<<< HEAD
 				mEnemyRotationQuad(0.0f, 0.0f, 0.0f, 0.0f), mEnemyPositionOne(0.0f, 0.0f, 0.0f), mEnemyPositionTwo(0.0f, 0.0f, 0.0f)
+=======
+mEnemyRotationQuad(0.0f, 0.0f, 0.0f, 0.0f), mEnemyPositionOne(0.0f, 0.0f, 0.0f), mEnemyPositionTwo(0.0f, 0.0f, 0.0f), travelToPoint(1)
+>>>>>>> master
 {
 
 
@@ -32,7 +36,7 @@ Enemy::Enemy() : mEnemyPosition(0.0f, 0.0f, 0.0f), mEnemyScale(3.0f, 3.0f, 3.0f)
 
 
 	direction = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-	
+
 
 }
 
@@ -45,8 +49,8 @@ Enemy::~Enemy()
 void Enemy::setModelScale(XMMATRIX& Scale)
 
 {
-		
-	modelScale = Scale;	
+
+	modelScale = Scale;
 
 }
 
@@ -114,22 +118,22 @@ void Enemy::setWorld(XMFLOAT4X4 tempEnemyWorld)
 	XMVECTOR P = XMLoadFloat3(&mEnemyPosition);
 	XMVECTOR Q = XMLoadFloat4(&mEnemyRotationQuad);
 	XMVECTOR rot = XMLoadFloat4(&mEnemyRotation);
-	
+
 
 
 
 
 	XMStoreFloat4x4(&mEnemyStartingWorld, XMMatrixAffineTransformation(S, rot, Q, P));
 
-	
 
 
 
 
 
 
-	
-	
+
+
+
 
 }
 
@@ -177,7 +181,7 @@ XNA::AxisAlignedBox* Enemy::getEnemyAABB()
 
 XMFLOAT4X4 Enemy::GetWorld()
 {
-	
+
 
 	return mEnemyWorld;
 }
@@ -193,7 +197,11 @@ XMFLOAT3 Enemy::getEnemyPosition()
 void Enemy::SetPositionOne(FLOAT x, FLOAT y, FLOAT z)
 {
 
+<<<<<<< HEAD
 	XMVECTOR temp = XMVectorSet (x, y, z, 0.0f);
+=======
+	XMVECTOR temp = XMVectorSet(x, y, z, 0.0f);
+>>>>>>> master
 	XMStoreFloat3(&mEnemyPositionOne, temp);
 
 }
@@ -205,6 +213,10 @@ void Enemy::SetPositionTwo(FLOAT x, FLOAT y, FLOAT z)
 	XMVECTOR temp = XMVectorSet(x, y, z, 0.0f);
 	XMStoreFloat3(&mEnemyPositionTwo, temp);
 
+<<<<<<< HEAD
+=======
+	mEnemyPositionTwo;
+>>>>>>> master
 }
 
 
@@ -216,9 +228,9 @@ void Enemy::SetPositionTwo(FLOAT x, FLOAT y, FLOAT z)
 
 void Enemy::update(FLOAT dt)
 {
-	
+
 	move(dt);
-	
+
 	XMVECTOR S = XMLoadFloat3(&mEnemyScale);
 	XMVECTOR P = XMLoadFloat3(&mEnemyPosition);
 	XMVECTOR Q = XMLoadFloat4(&mEnemyRotationQuad);
@@ -226,7 +238,7 @@ void Enemy::update(FLOAT dt)
 	XNA::AxisAlignedBox tempEnemyBox;
 
 	tempEnemyBox.Center = mEnemyPosition;
-	
+
 	EnemyBox = &tempEnemyBox;
 
 
@@ -243,37 +255,194 @@ void Enemy::move(FLOAT dt)
 	XMVECTOR S;
 	XMVECTOR P;
 	XMVECTOR Q;
-	
-	XMMatrixDecompose(&S, &Q, &P, startingworldMatrix);	
-	
-	
+
+	XMMatrixDecompose(&S, &Q, &P, startingworldMatrix);
+
+
 	XMVECTOR enemyPosition = XMLoadFloat3(&mEnemyPosition);
 
-	FLOAT tempY = XMVectorGetY(direction);
+
 
 	FLOAT newPos = XMVectorGetZ(enemyPosition);
 	FLOAT oldPos = XMVectorGetZ(P);
 
-	if (newPos >= oldPos + 10)
-	{
-		direction = XMVectorSet(0.0f, 0.0f, -1.f, 0.0f);
+	direction = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 
+
+
+	FLOAT diffX;
+	FLOAT diffY;
+	FLOAT diffZ;
+
+	diffX = 0;
+	diffY = 0;
+	diffZ = 0;
+	
+
+
+
+
+	if (travelToPoint == 1)
+	{
+		diffX = mEnemyPosition.x - mEnemyPositionTwo.x;
+		diffY = mEnemyPosition.y - mEnemyPositionTwo.y;
+		diffZ = mEnemyPosition.z - mEnemyPositionTwo.z;
+
+		int nothing = 0;
+		if (diffX < 0.0f)
+		{
+
+			diffX *= -1;
+		}
+		if (diffY < 0.0f)
+		{
+
+			diffY *= -1;
+		}
+		if (diffZ < 0.0f)
+		{
+
+			diffZ *= -1;
+		}
+
+
+		if (diffX < 1.0f && diffY < 1.f && diffZ < 1.0f)
+		{
+
+			travelToPoint = 2;
+		}
+
+
+
+		if (mEnemyPosition.x > mEnemyPositionTwo.x)
+		{
+
+			direction += XMVectorSet(-1.0f, 0.0f, 0.0f, 0.0f);
+
+
+		}
+		else if (mEnemyPosition.x < mEnemyPositionTwo.x)
+		{
+
+			direction += XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+
+		}
+
+
+
+		if (mEnemyPosition.z > mEnemyPositionTwo.z)
+		{
+
+			direction += XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f);
+
+
+		}
+		else if (mEnemyPosition.z < mEnemyPositionTwo.z)
+		{
+
+			direction += XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+		}
+
+
+		if (mEnemyPosition.y > mEnemyPositionTwo.y)
+		{
+
+			direction += XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
+
+
+		}
+		else if (mEnemyPosition.y < mEnemyPositionTwo.y)
+		{
+
+			direction += XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+		}
+
+		
 
 	}
-	else if (newPos <= oldPos - 10)
+	else if (travelToPoint == 2)
 	{
 
-		direction = XMVectorSet(0.0f, 0.0f, 1.f, 0.0f);
 
+		diffX = mEnemyPosition.x - mEnemyPositionOne.x;
+		diffY = mEnemyPosition.y - mEnemyPositionOne.y;
+		diffZ = mEnemyPosition.z - mEnemyPositionOne.z;
+
+		if (diffX < 0.0f)
+		{
+
+			diffX *= -1;
+		}
+		if (diffY < 0.0f)
+		{
+
+			diffY *= -1;
+		}
+		if (diffZ < 0.0f)
+		{
+
+			diffZ *= -1;
+		}
+
+
+
+		if (mEnemyPosition.x > mEnemyPositionOne.x)
+		{
+
+			direction += XMVectorSet(-1.0f, 0.0f, 0.0f, 0.0f);
+
+
+		}
+		if (mEnemyPosition.x < mEnemyPositionOne.x)
+		{
+
+			direction += XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+
+		}
+
+
+
+		if (mEnemyPosition.z > mEnemyPositionOne.z)
+		{
+
+			direction += XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f);
+
+
+		}
+		if (mEnemyPosition.z < mEnemyPositionOne.z)
+		{
+
+			direction += XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+		}
+
+
+		if (mEnemyPosition.y > mEnemyPositionOne.y)
+		{
+
+			direction += XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
+
+
+		}
+		if (mEnemyPosition.y < mEnemyPositionOne.y)
+		{
+
+			direction += XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+		}
+		if (diffX < 0.2f && diffY < 0.2f && diffZ < 0.2f)
+		{
+
+			travelToPoint = 1;
+		}
 	}
-	
-	
+
 	
 
-	//enemyPosition += tempAdd;
 
-	//XMStoreFloat3(&mEnemyPosition, enemyPosition);
-	
+
 	XMMATRIX worldMatrix = XMLoadFloat4x4(&mEnemyWorld);
 	XMVECTOR r = XMLoadFloat3(&mEnemyPosition);
 
@@ -282,7 +451,7 @@ void Enemy::move(FLOAT dt)
 	// Normalize our destinated direction vector
 	direction = XMVector3Normalize(direction);
 
-	direction = XMVectorSetY(direction, 0.0f);
+
 
 
 	///// the direction the player is going to move
@@ -321,15 +490,15 @@ void Enemy::move(FLOAT dt)
 
 
 	float speed = 15.0f * dt;
-	XMVECTOR tY = XMVectorSet(0.0f, tempY, 0.0f, 0.0f);
+	
 
-	direction = XMVectorSetY(direction, tempY);
+	
 	direction = direction * speed;
 	charPosition = charPosition + direction;
 
+
 	
-	charPosition += tY;
-	
+
 
 	XMMATRIX rotationMatrix;
 
@@ -347,11 +516,11 @@ void Enemy::move(FLOAT dt)
 
 	XMMatrixDecompose(&S, &Q, &P, worldMatrix);
 
-	//XMStoreFloat3(&mEnemyScale, S);
+	
 	XMStoreFloat3(&mEnemyPosition, P);
 	XMStoreFloat4(&mEnemyRotationQuad, Q);
 
-	
+
 
 	XMStoreFloat4x4(&mEnemyWorld, worldMatrix);
 

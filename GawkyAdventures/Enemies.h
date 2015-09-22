@@ -39,11 +39,11 @@ public:
 	std::vector<BasicModelInstance> getEnemy();
 
 	std::vector <XNA::AxisAlignedBox> getEnemyCollisions();
-	
+
 	void RemovemObjectInstance(int number);
 
 
-	
+
 
 
 
@@ -57,18 +57,18 @@ private:
 
 	std::vector<BasicModelInstance> mEnemyInstances;
 	std::vector<Enemy*> enemyclass;
-	
+
 	std::vector <XNA::AxisAlignedBox> LevelCollisions;
 
 
 	BasicModel* anEnemy;
-	
+
 	BasicModelInstance theEnemy;
 	XNA::AxisAlignedBox EnemyBox;
 
 
 	GameTimer timer;
-	 
+
 	FLOAT DeltaTime;
 
 	Enemy* newEnemy;
