@@ -121,11 +121,7 @@ void Enemies::createEnemy(ID3D11Device* device, TextureMgr& texMgr,
 
 	XMMATRIX modelScale = XMMatrixScaling(3.0f, 3.0f, -3.0f);
 	XMMATRIX modelRot = XMMatrixRotationY(0);
-<<<<<<< HEAD
-	XMMATRIX modelOffset = XMMatrixTranslation(x1,y1,z1);
-=======
 	XMMATRIX modelOffset = XMMatrixTranslation(x1, y1, z1);
->>>>>>> master
 
 
 	newEnemy->setModelScale(modelScale);

@@ -37,11 +37,7 @@ public:
 	void setWorld(XMFLOAT4X4 tempEnemyWorld);
 	void SetPositionOne(FLOAT x, FLOAT y, FLOAT z);
 	void SetPositionTwo(FLOAT x, FLOAT y, FLOAT z);
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> master
 	///getters
 	XMMATRIX getModelScale();
 	XMMATRIX getModelRot();

@@ -11,11 +11,7 @@
 
 
 Enemy::Enemy() : mEnemyPosition(0.0f, 0.0f, 0.0f), mEnemyScale(3.0f, 3.0f, 3.0f), mEnemyRotation(0.0f, 0.0f, 0.0f, 1.0f),
-<<<<<<< HEAD
-				mEnemyRotationQuad(0.0f, 0.0f, 0.0f, 0.0f), mEnemyPositionOne(0.0f, 0.0f, 0.0f), mEnemyPositionTwo(0.0f, 0.0f, 0.0f)
-=======
 mEnemyRotationQuad(0.0f, 0.0f, 0.0f, 0.0f), mEnemyPositionOne(0.0f, 0.0f, 0.0f), mEnemyPositionTwo(0.0f, 0.0f, 0.0f), travelToPoint(1)
->>>>>>> master
 {
 
 
@@ -197,11 +193,7 @@ XMFLOAT3 Enemy::getEnemyPosition()
 void Enemy::SetPositionOne(FLOAT x, FLOAT y, FLOAT z)
 {
 
-<<<<<<< HEAD
-	XMVECTOR temp = XMVectorSet (x, y, z, 0.0f);
-=======
 	XMVECTOR temp = XMVectorSet(x, y, z, 0.0f);
->>>>>>> master
 	XMStoreFloat3(&mEnemyPositionOne, temp);
 
 }
@@ -213,10 +205,7 @@ void Enemy::SetPositionTwo(FLOAT x, FLOAT y, FLOAT z)
 	XMVECTOR temp = XMVectorSet(x, y, z, 0.0f);
 	XMStoreFloat3(&mEnemyPositionTwo, temp);
 
-<<<<<<< HEAD
-=======
 	mEnemyPositionTwo;
->>>>>>> master
 }
 
 
