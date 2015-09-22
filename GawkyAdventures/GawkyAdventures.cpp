@@ -256,7 +256,6 @@ Game::Game(HINSTANCE hInstance)
 	////send player information to the camera
 	mCam.getPlayerPos(mPlayerPosition);
 	mCam.playerInfo(PlayerForward, PlayerRight, PlayerUp);
-
 	
 	///initialize player
 	XMVECTOR S = XMLoadFloat3(&mPlayerScale);
@@ -398,8 +397,9 @@ bool Game::Init(HINSTANCE hInstance)
 	///rightside 3 platforms
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Platform2.obj", L"Textures\\", 76, 2.1, 75.6, 0, 7);
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Platform2.obj", L"Textures\\", 76, 9.1, 50.82, 0, 7);
+	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Platform2.obj", L"Textures\\", 76, 15.1, 25.0, 0, 7);
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\vinebox.obj", L"Textures\\", 76, 14.0, 15.82, 0, 7);
-	
+
 	///the tree's
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\sTree.obj", L"Textures\\", -56, 15.4, 86.8, 0, 7);
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\sTree.obj", L"Textures\\", -56, 15.4, 72.8, 0, 7);
@@ -989,7 +989,7 @@ void Game::UpdateScene(float dt)
 	////send player information to the camera
 
 	mCam.getPlayerPos(PlayerOne->getPlayerPosition());
-	
+	mCam.getDeltaTime(dt);
 
 	mCam.moveCam();
 
