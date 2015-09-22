@@ -35,7 +35,9 @@ public:
 	void setBasicMInstance(BasicModelInstance model);
 	void setAABB(XNA::AxisAlignedBox* tempEnemyBox);
 	void setWorld(XMFLOAT4X4 tempEnemyWorld);
-	
+	void SetPositionOne(FLOAT x, FLOAT y, FLOAT z);
+	void SetPositionTwo(FLOAT x, FLOAT y, FLOAT z);
+
 	///getters
 	XMMATRIX getModelScale();
 	XMMATRIX getModelRot();
@@ -48,7 +50,7 @@ public:
 
 
 private:
-	
+
 
 	XMMATRIX modelScale;
 	XMMATRIX modelRot;
@@ -65,13 +67,16 @@ private:
 	XMFLOAT4 mEnemyRotationQuad;
 	XMFLOAT4 mEnemyRotation;
 
+	XMFLOAT3 mEnemyPositionOne;
+	XMFLOAT3 mEnemyPositionTwo;
+
 	BasicModel* anEnemy;
 
 	BasicModelInstance theEnemy;
 
 	XNA::AxisAlignedBox* EnemyBox;
 
-	
+
 	XMVECTOR currCharDirection;
 	XMVECTOR oldCharDirection;
 	XMVECTOR charPosition;
@@ -83,13 +88,15 @@ private:
 
 	XMVECTOR direction;
 
-	
-	
+	int travelToPoint;
 
-	
-	
 
-	
+
+
+
+
+
+
 
 
 };

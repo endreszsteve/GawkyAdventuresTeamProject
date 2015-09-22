@@ -380,9 +380,9 @@ bool Game::Init(HINSTANCE hInstance)
 	
 
 
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", -80.0f, 7.0f, 78.0f);
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 60.0f, 3.0f, 70.0f);
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 0.0f, 3.0f, 25.0f);
+	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", -85.0f, 9.0f, 78.0f, -65.f, 9.0f, 78.0f);
+	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 55.0f, 3.0f, 80.0f, 55.0f, 3.0f, 60.0f);
+	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 0.0f, 3.0f, 37.0f, 0.0f, 3.0f, 25.0f);
 
 	
 
@@ -396,9 +396,9 @@ bool Game::Init(HINSTANCE hInstance)
 
 
 	///rightside 3 platforms
-	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Platform2.obj", L"Textures\\", 76, 2.1, 75.6, 0, 7);
-	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Platform2.obj", L"Textures\\", 76, 9.1, 50.82, 0, 7);
-	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\vinebox.obj", L"Textures\\", 76, 14.0, 15.82, 0, 7);
+	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Platform2.obj", L"Textures\\", 73, 2.1, 75.6, 0, 7);
+	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Platform2.obj", L"Textures\\", 73, 9.1, 50.82, 0, 7);
+	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\vinebox.obj", L"Textures\\", 73, 14.0, 15.82, 0, 7);
 	
 	///the tree's
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\sTree.obj", L"Textures\\", -56, 15.4, 86.8, 0, 7);
@@ -410,10 +410,10 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\treetop.obj", L"Textures\\", 0, 61.6, 47.6, 0, 7);
 
 	// the Fence
-	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Fence.obj", L"Textures\\", 91, 7, 0, 0, 7);
-	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Fence.obj", L"Textures\\", -91, 7, 0, 0, 7);
-	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Fence2.obj", L"Textures\\", 0, 7, 91, 0, 7);
-	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Fence2.obj", L"Textures\\", 0, 7, -91, 0, 7);
+	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Fence.obj", L"Textures\\", 87, 5, 0, 0, 7);
+	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Fence.obj", L"Textures\\", -95, 5, 0, 0, 7);
+	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Fence2.obj", L"Textures\\", -5, 5, 91, 0, 7);
+	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\Fence2.obj", L"Textures\\", -5, 5, -91, 0, 7);
 	//cattails
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\cattail.obj", L"Textures\\", 84, 5.6, -47.6, 0, 7);
 	Level1->createLevelParts(md3dDevice, mTexMgr, "Models\\cattail.obj", L"Textures\\", 77, 5.6, -47.6, 0, 7);

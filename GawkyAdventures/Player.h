@@ -92,6 +92,7 @@ private:
 
 
 
+
 	// Bounding box of the Player
 	XNA::AxisAlignedBox mPlayerBox;
 
