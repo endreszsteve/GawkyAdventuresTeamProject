@@ -3,18 +3,23 @@
 //***************************************************************************************
 
 #include "Camera.h"
+#include "MathHelper.h"
+#include <ctime>
 
 Camera::Camera()
-	: mPosition(0.0f, 0.0f, 0.0f), 
-	  mRight(1.0f, 0.0f, 0.0f),
-	  mUp(0.0f, 1.0f, 0.0f),
-	  mLook(0.0f, 0.0f, 1.0f),
-	  camPitch(0.0f),
-	  camYaw(0.0f),
-	  playerPosition(0.0f,0.0f,0.0f),
-	  camTarget(0.0f, 3.0f, 0.0f)
+	: mPosition(0.0f, 0.0f, 0.0f),
+	mRight(1.0f, 0.0f, 0.0f),
+	mUp(0.0f, 1.0f, 0.0f),
+	mLook(0.0f, 0.0f, 1.0f),
+	camPitch(0.0f),
+	camYaw(0.0f),
+	playerPosition(0.0f, 0.0f, 0.0f),
+	camTarget(0.0f, 3.0f, 0.0f)
 {
 	SetLens(0.25f*MathHelper::Pi, 1.0f, 1.0f, 1000.0f);
+	cameraHeight = 30.0f;
+	cameraHeightDefault = 30.0f;
+	tempTargetHeight = 10.0f;
 }
 
 Camera::~Camera()
@@ -125,9 +130,9 @@ void Camera::SetLens(float fovY, float aspect, float zn, float zf)
 	mNearZ = zn;
 	mFarZ = zf;
 
-	mNearWindowHeight = 2.0f * mNearZ * tanf( 0.5f*mFovY );
-	
-mFarWindowHeight  = 2.0f * mFarZ * tanf( 0.5f*mFovY );
+	mNearWindowHeight = 2.0f * mNearZ * tanf(0.5f*mFovY);
+
+	mFarWindowHeight = 2.0f * mFarZ * tanf(0.5f*mFovY);
 
 	XMMATRIX P = XMMatrixPerspectiveFovLH(mFovY, mAspect, mNearZ, mFarZ);
 	XMStoreFloat4x4(&mProj, P);
@@ -216,9 +221,9 @@ void Camera::Pitch(float angle)
 
 	/*
 	if (camPitch > 0.0f)
-		camPitch = 0.0f;
+	camPitch = 0.0f;
 	if (camPitch < -0.45f)
-		camPitch = -0.45f;
+	camPitch = -0.45f;
 
 	*/
 
@@ -232,12 +237,12 @@ void Camera::Pitch(float angle)
 
 void Camera::RotateY(float angle)
 {
-	
-	
+
+
 	camYaw += angle;
 
 
-	
+
 }
 
 
@@ -250,7 +255,7 @@ void Camera::ResetLook()
 	XMStoreFloat3(&mUp, up);
 	XMVECTOR look = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	XMStoreFloat3(&mLook, look);
-	
+
 }
 
 
@@ -277,6 +282,11 @@ void Camera::playerInfo(XMVECTOR PForward, XMVECTOR PRight, XMVECTOR PUp)
 
 }
 
+void Camera::getDeltaTime(float dt)
+{
+	deltaTime = dt;
+}
+
 
 void Camera::moveCam()
 {
@@ -284,7 +294,7 @@ void Camera::moveCam()
 	XMVECTOR tempUp = XMLoadFloat3(&mUp);
 	XMVECTOR tempPosition = XMLoadFloat3(&mPosition);
 	XMVECTOR tempForward = XMLoadFloat3(&mLook);
-	
+
 
 
 
@@ -298,24 +308,44 @@ void Camera::moveCam()
 
 	XMVECTOR tempTarget = XMLoadFloat3(&camTarget);
 
-	tempTarget = XMVectorSetY(tempTarget,10);
 
+	float cameraPositionTwo = 60.0f;
 
-	
 	//rotate camera around the character
 	camRotationMatrix = XMMatrixRotationRollPitchYaw(-camPitch, camYaw, 0);
 	tempPosition = XMVector3TransformNormal(PlayerForward, camRotationMatrix);
 	tempPosition = XMVector3Normalize(tempPosition);
 
-
+	//camerea distance
 	tempPosition = (tempPosition * -50) + tempTarget;
-		
-	tempPosition = XMVectorSetY(tempPosition, 30.0f);
+
+
+	/*
+	make a vector equal to the difference between the x y and z positions of camera and player positions
+	*/
+
+
+	//camera height
+	if (camTarget.y >= 28.0f && cameraHeight <= 60.0f && tempTargetHeight <= 40.0f)
+	{
+		cameraHeight = cameraHeight + (20.0f * deltaTime);
+		tempTargetHeight = tempTargetHeight + (20.0f * deltaTime);
+
+	}
+	else if (camTarget.y <= 28.0f && cameraHeight >= 30.0f && tempTargetHeight >= 10.0f)
+	{
+		cameraHeight = cameraHeight - (20.0f * deltaTime);
+		tempTargetHeight = tempTargetHeight - (20.0f * deltaTime);
+	}
+	tempTarget = XMVectorSetY(tempTarget, tempTargetHeight);
+	tempPosition = XMVectorSetY(tempPosition, cameraHeight);
+
+
 
 	tempForward = XMVector3Normalize(tempTarget - tempPosition);	// Get forward vector based on target
 	tempForward = XMVectorSetY(tempForward, 0.0f);	// set forwards y component to 0 so it lays only on
 
-	tempForward= XMVector3Normalize(tempForward);
+	tempForward = XMVector3Normalize(tempForward);
 
 	tempRight = XMVectorSet(XMVectorGetZ(-tempForward), 0.0f, XMVectorGetX(tempForward), 0.0f);
 
@@ -335,6 +365,8 @@ void Camera::moveCam()
 
 	XMStoreFloat4x4(&mView, tempView);
 
+
+
 	///////////mising some code maybe
 }
 
@@ -346,7 +378,7 @@ void Camera::UpdateViewMatrix()
 
 
 
-	
+
 
 	XMVECTOR R = XMLoadFloat3(&mRight);
 	XMVECTOR U = XMLoadFloat3(&mUp);
@@ -358,7 +390,7 @@ void Camera::UpdateViewMatrix()
 	U = XMVector3Normalize(XMVector3Cross(L, R));
 
 	// U, L already ortho-normal, so no need to normalize cross product.
-	R = XMVector3Cross(U, L); 
+	R = XMVector3Cross(U, L);
 
 
 	// Fill in the view matrix entries.
@@ -372,28 +404,29 @@ void Camera::UpdateViewMatrix()
 
 
 	/*
-	mView(0,0) = mRight.x; 
-	mView(1,0) = mRight.y; 
-	mView(2,0) = mRight.z; 
-	mView(3,0) = x;   
+	mView(0,0) = mRight.x;
+	mView(1,0) = mRight.y;
+	mView(2,0) = mRight.z;
+	mView(3,0) = x;
 
 	mView(0,1) = mUp.x;
 	mView(1,1) = mUp.y;
 	mView(2,1) = mUp.z;
-	mView(3,1) = y;  
+	mView(3,1) = y;
 
-	mView(0,2) = mLook.x; 
-	mView(1,2) = mLook.y; 
-	mView(2,2) = mLook.z; 
-	mView(3,2) = z;   
+	mView(0,2) = mLook.x;
+	mView(1,2) = mLook.y;
+	mView(2,2) = mLook.z;
+	mView(3,2) = z;
 
 	mView(0,3) = 0.0f;
 	mView(1,3) = 0.0f;
 	mView(2,3) = 0.0f;
 	mView(3,3) = 1.0f;
 	*/
-	
-	
+
+
 }
+
 
 

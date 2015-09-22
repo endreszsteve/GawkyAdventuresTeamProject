@@ -308,4 +308,5 @@ void Enemies::RemovemObjectInstance(int number)
 
 	LevelCollisions.erase(LevelCollisions.begin() + number);	
 	delete(enemyclass[number]);
+	enemyclass.erase(enemyclass.begin() + number);
 }
