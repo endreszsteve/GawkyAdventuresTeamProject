@@ -524,12 +524,12 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		///player is below the object
 		if (mPlayerBox.Center.y <= LevelCollisions[i].Center.y)
 		{
-			tUp = ((LevelCollisions[i].Center.y - LevelCollisions[i].Extents.y) - (mPlayerBox.Center.y + mPlayerBox.Extents.y)); //+ LevelCollisions[i].Extents.y);
+			tUp = ((LevelCollisions[i].Center.y - LevelCollisions[i].Extents.y) - (mPlayerBox.Center.y + mPlayerBox.Extents.y));
 		}
 		//player is above the object
 		if (mPlayerBox.Center.y >= LevelCollisions[i].Center.y)
 		{
-			tUp = ((mPlayerBox.Center.y - mPlayerBox.Extents.y) - (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y)); //- LevelCollisions[i].Extents.y);
+			tUp = ((mPlayerBox.Center.y - mPlayerBox.Extents.y) - (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y));
 			Above = true;
 
 		}
@@ -538,6 +538,8 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 		FLOAT oldPos = XMVectorGetY(oldCharDirection);
 		FLOAT curPos = XMVectorGetY(currCharDirection);
+
+		FLOAT heightLevel = LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y;
 
 
 
@@ -591,9 +593,9 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 			
 
-			//XMStoreFloat3(&mPlayerScale, S);
+		
 			XMStoreFloat3(&mPlayerPosition, PP);
-			//XMStoreFloat4(&mPlayerRotationQuad, Q);
+		
 
 			break;
 
@@ -604,25 +606,28 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		///if player lands on an object for the first time
 		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && hitFeet == false && LevelCollisions[i].collisionType == 0 && 
 			(mPlayerBox.Center.y - mPlayerBox.Extents.y) < (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y) && 
-			prevY > currY && prevY > (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y))
+			prevY > currY && prevY > heightLevel)
 		{
 			int t = 3;
 			hitFeet = true;	
-			currentObject = i;		
+			currentObject = i;	
+
+			heightLevel;
+			
 
 			FLOAT tempDirection = XMVectorGetY(direction);
-			XMVECTOR tempDir = XMVectorSet(0.0f, tempDirection - 0.01f, 0.0f, 0.0f);
+			XMVECTOR tempDir = XMVectorSet(0.0f, tempDirection /*- 0.01f*/, 0.0f, 0.0f);
 
 			P -= tempDir;
 			currGround = XMVectorGetY(PP);
-			currGround += 0.01f;
+			//currGround += 0.01f;
 			onGround = true;
 			XMStoreFloat3(&mPlayerPosition, PP);
 
 			break;
 
 		}
-		/*
+		
 		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && LevelCollisions[i].collisionType == 0 && (mPlayerBox.Center.y - mPlayerBox.Extents.y) < (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y))
 		{
 		
@@ -648,7 +653,7 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 
 		}
-		*/
+		
 		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f  && LevelCollisions[i].collisionType == 0)
 		{
 
