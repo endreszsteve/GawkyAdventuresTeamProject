@@ -4,6 +4,7 @@
 #include "Effects.h"
 #include "Camera.h"
 #include "Enemy.h"
+#include "ModelEnum.cpp"
 
 
 
@@ -12,11 +13,11 @@
 
 
 
-Enemies::Enemies()
+Enemies::Enemies(ID3D11Device* device, TextureMgr& texMgr)
 {
 
-
-
+	msimpleEnemy = new BasicModel(device, texMgr, "Models\\simpleenemy.obj", L"Textures\\");
+	
 
 
 }
@@ -111,9 +112,7 @@ void Enemies::addEnemy(BasicModelInstance theEnemy)
 
 
 
-void Enemies::createEnemy(ID3D11Device* device, TextureMgr& texMgr,
-	const std::string& modelFilename,
-	const std::wstring& texturePath, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2)
+void Enemies::createEnemy(int model, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2)
 {
 	Enemy* newEnemy;
 
@@ -132,7 +131,14 @@ void Enemies::createEnemy(ID3D11Device* device, TextureMgr& texMgr,
 	newEnemy->SetPositionTwo(x2, y2, z2);
 
 
-	anEnemy = new BasicModel(device, texMgr, modelFilename, texturePath);
+
+	if (model == simpleEnemy)
+	{
+		anEnemy = msimpleEnemy;
+	}
+
+
+	
 
 	newEnemy->setModel(anEnemy);
 
