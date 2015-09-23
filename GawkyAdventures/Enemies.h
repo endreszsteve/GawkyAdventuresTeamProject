@@ -17,7 +17,7 @@ class GameTimer;
 class Enemies
 {
 public:
-	Enemies();
+	Enemies(ID3D11Device* device, TextureMgr& texMgr);
 
 	~Enemies();
 
@@ -27,9 +27,7 @@ public:
 
 	void draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTechnique* activeTexTech);
 
-	void createEnemy(ID3D11Device* device, TextureMgr& texMgr,
-		const std::string& modelFilename,
-		const std::wstring& texturePath, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2);
+	void createEnemy(int model,FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2);
 
 
 	void CreateBoundingBox();
@@ -72,6 +70,8 @@ private:
 	FLOAT DeltaTime;
 
 	Enemy* newEnemy;
+
+	BasicModel* msimpleEnemy;
 
 
 };

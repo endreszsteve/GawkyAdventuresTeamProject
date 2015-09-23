@@ -362,8 +362,8 @@ bool Game::Init(HINSTANCE hInstance)
 	PlayerOne = new Player(md3dDevice, mTexMgr, "Models\\gawky.obj", L"Textures\\", 0.0f, 10.0f, 0.0f);
 	
 	//// load  the level models
-	theEnemies = new Enemies();
-	Objects = new TheObjects();
+	theEnemies = new Enemies(md3dDevice, mTexMgr);
+	Objects = new TheObjects(md3dDevice, mTexMgr);
 	Level1 = new LevelBuilder(md3dDevice, mTexMgr);
 
 	
@@ -371,18 +371,18 @@ bool Game::Init(HINSTANCE hInstance)
 	
 
 
-	Objects->createObject(md3dDevice, mTexMgr, "Models\\branch.obj", L"Textures\\", 60.0f, 0.25f, 55.0f, 2);
-	Objects->createObject(md3dDevice, mTexMgr, "Models\\branch.obj", L"Textures\\", 0.0f, 0.25f, 20.0f, 2);
+	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble);
+	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble);
 	
-	Objects->createObject(md3dDevice, mTexMgr, "Models\\Orange.obj", L"Textures\\", 80.0f, 30.0f, 20.0f, 3);
-	Objects->createObject(md3dDevice, mTexMgr, "Models\\Orange.obj", L"Textures\\", 20.0f, 4.0f, 20.0f, 3);
-	Objects->createObject(md3dDevice, mTexMgr, "Models\\Orange.obj", L"Textures\\", -80.0f, 10.0f, -60.0f, 3);
+	Objects->createObject(orange, 80.0f, 30.0f, 20.0f, ctCollect);
+	Objects->createObject(orange, 20.0f, 4.0f, 20.0f, ctCollect);
+	Objects->createObject(orange, -80.0f, 10.0f, -60.0f, ctCollect);
 	
 
 
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", -85.0f, 9.0f, 78.0f, -65.f, 9.0f, 78.0f);
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 55.0f, 3.0f, 80.0f, 55.0f, 3.0f, 60.0f);
-	theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\simpleenemy.obj", L"Textures\\", 0.0f, 3.0f, 45.0f, 0.0f, 3.0f, 25.0f);
+	theEnemies->createEnemy(simpleEnemy, -85.0f, 9.0f, 78.0f, -65.f, 9.0f, 78.0f);
+	theEnemies->createEnemy(simpleEnemy, 55.0f, 3.0f, 80.0f, 55.0f, 3.0f, 60.0f);
+	theEnemies->createEnemy(simpleEnemy, 0.0f, 3.0f, 45.0f, 0.0f, 3.0f, 25.0f);
 
 	
 
@@ -400,13 +400,7 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(Platform, 73, 9.1, 50.82, 0, 7);
 	Level1->createLevelParts(Platform, 73, 14.0, 15.82, 0, 7);
 	
-
-	Level1->createLevelParts(Platform, 76, 2.1, 75.6, 0, 7);
-	Level1->createLevelParts(Platform, 76, 9.1, 50.82, 0, 7);
-	Level1->createLevelParts(Platform, 76, 15.1, 25.0, 0, 7);
-	Level1->createLevelParts(Vinebox, 76, 14.0, 15.82, 0, 7);
-
-
+	
 	///the tree's
 	Level1->createLevelParts(SmallTree, -56, 15.4, 86.8, 0, 7);
 	Level1->createLevelParts(SmallTree, -56, 15.4, 72.8, 0, 7);
