@@ -102,9 +102,11 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
+    <ClCompile Include="GameStateProvider.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="GawkyAdventures.cpp" />
     <ClCompile Include="GeometryGenerator.cpp" />
+    <ClCompile Include="introState.cpp" />
     <ClCompile Include="LevelBuilder.cpp" />
     <ClCompile Include="LevelParts.cpp" />
     <ClCompile Include="LightHelper.cpp" />
@@ -116,11 +118,10 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderStates.cpp" />
-    <ClCompile Include="SceneGraphGameState.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="TextureMgr.cpp" />
     <ClCompile Include="TheObjects.cpp" />
-    <ClCompile Include="Updateable.cpp" />
+    <ClCompile Include="Updatable.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Waves.cpp" />
     <ClCompile Include="xnacollision.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateManager.h" />
+    <ClInclude Include="GameStateProvider.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="GeometryGenerator.h" />
     <ClInclude Include="LevelBuilder.h" />
@@ -151,11 +153,10 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RenderStates.h" />
-    <ClInclude Include="SceneGraphGameState.h" />
     <ClInclude Include="Sky.h" />
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="TheObjects.h" />
-    <ClInclude Include="Updateable.h" />
+    <ClInclude Include="Updatable.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Waves.h" />
     <ClInclude Include="xnacollision.h" />
