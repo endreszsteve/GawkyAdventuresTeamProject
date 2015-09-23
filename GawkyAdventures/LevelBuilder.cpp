@@ -4,6 +4,7 @@
 #include "Effects.h"
 #include "Camera.h"
 #include "LevelParts.h"
+#include "ModelEnum.cpp"
 
 
 
@@ -12,9 +13,24 @@
 
 
 
-LevelBuilder::LevelBuilder()
+LevelBuilder::LevelBuilder(ID3D11Device* device, TextureMgr& texMgr)
 {
 
+
+
+	mGround = new BasicModel(device, texMgr, "Models\\Ground.obj", L"Textures\\");
+	mPlatform = new BasicModel(device, texMgr, "Models\\Platform2.obj", L"Textures\\");
+	mVinebox = new BasicModel(device, texMgr, "Models\\vinebox.obj", L"Textures\\");
+	mSmallTree = new BasicModel(device, texMgr, "Models\\sTree.obj", L"Textures\\");
+	mTreeTrunk = new BasicModel(device, texMgr, "Models\\treetrunk.obj", L"Textures\\");
+	mTreeTop = new BasicModel(device, texMgr, "Models\\treetop.obj", L"Textures\\");
+	mFence1 = new BasicModel(device, texMgr, "Models\\Fence.obj", L"Textures\\");
+	mFence2 = new BasicModel(device, texMgr, "Models\\Fence2.obj", L"Textures\\");
+	mCattail = new BasicModel(device, texMgr, "Models\\cattail.obj", L"Textures\\");
+	mHouseSide = new BasicModel(device, texMgr, "Models\\houseside.obj", L"Textures\\");
+	mHouseBack = new BasicModel(device, texMgr, "Models\\houseback.obj", L"Textures\\");
+	mHouseRoof = new BasicModel(device, texMgr, "Models\\houseroof.obj", L"Textures\\");
+	mSandBox = new BasicModel(device, texMgr, "Models\\sandbox.obj", L"Textures\\");
 
 
 
@@ -111,9 +127,7 @@ void LevelBuilder::addLevelParts(BasicModelInstance theLevelParts)
 
 
 
-void LevelBuilder::createLevelParts(ID3D11Device* device, TextureMgr& texMgr,
-	const std::string& modelFilename,
-	const std::wstring& texturePath, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale)
+void LevelBuilder::createLevelParts(int model, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale)
 {
 	LevelParts* newLevelParts;
 
@@ -129,7 +143,77 @@ void LevelBuilder::createLevelParts(ID3D11Device* device, TextureMgr& texMgr,
 	newLevelParts->setModelOffset(modelOffset);
 
 
-	anLevelParts = new BasicModel(device, texMgr, modelFilename, texturePath);
+	if (model == Ground)
+	{
+		anLevelParts = mGround;
+
+	}
+	else if (model == Platform)
+	{
+
+		anLevelParts = mPlatform;
+	}
+	else if (model == Vinebox)
+	{
+
+		anLevelParts = mVinebox;
+	}
+	else if (model == SmallTree)
+	{
+
+		anLevelParts = mSmallTree;
+	}
+	else if (model == TreeTrunk)
+	{
+
+		anLevelParts = mTreeTrunk;
+	}
+	else if (model == TreeTop)
+	{
+		anLevelParts = mTreeTop;
+
+	}
+	else if (model == Fence1)
+	{
+		anLevelParts = mFence1;
+
+	}
+	else if (model == Fence2)
+	{
+		anLevelParts = mFence2;
+
+	}
+	else if (model == Cattail)
+	{
+		anLevelParts = mCattail;
+
+	}
+	else if (model == HouseSide)
+	{
+		anLevelParts = mHouseSide;
+	}
+	else if (model == HouseBack)
+	{
+		anLevelParts = mHouseBack;
+
+	}
+	else if (model == HouseRoof)
+	{
+
+		anLevelParts = mHouseRoof;
+	}
+	else if (model == SandBox)
+	{
+
+		anLevelParts = mSandBox;
+	}
+
+
+
+	
+
+
+	
 
 	newLevelParts->setModel(anLevelParts);
 

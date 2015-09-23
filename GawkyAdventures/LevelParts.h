@@ -54,6 +54,7 @@ public:
 private:
 
 
+	
 	XMMATRIX modelScale;
 	XMMATRIX modelRot;
 	XMMATRIX modelOffset;
