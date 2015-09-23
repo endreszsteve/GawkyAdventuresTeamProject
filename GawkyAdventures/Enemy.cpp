@@ -306,14 +306,14 @@ void Enemy::move(FLOAT dt)
 		if (mEnemyPosition.x > mEnemyPositionTwo.x)
 		{
 
-			direction += XMVectorSet(-1.0f, 0.0f, 0.0f, 0.0f);
+			direction += XMVectorSet(-1.0f, 0.0f, -0.0001f, 0.0f);
 
 
 		}
 		else if (mEnemyPosition.x < mEnemyPositionTwo.x)
 		{
 
-			direction += XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+			direction += XMVectorSet(1.0f, 0.0f, -0.001f, 0.0f);
 
 		}
 
@@ -380,14 +380,14 @@ void Enemy::move(FLOAT dt)
 		if (mEnemyPosition.x > mEnemyPositionOne.x)
 		{
 
-			direction += XMVectorSet(-1.0f, 0.0f, 0.0f, 0.0f);
+			direction += XMVectorSet(-1.0f, 0.0f, 0.001f, 0.0f);
 
 
 		}
 		if (mEnemyPosition.x < mEnemyPositionOne.x)
 		{
 
-			direction += XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+			direction += XMVectorSet(1.0f, 0.0f, 0.001f, 0.0f);
 
 		}
 
@@ -443,13 +443,14 @@ void Enemy::move(FLOAT dt)
 
 
 
-	///// the direction the player is going to move
-	moveDirection = direction;
+
 	/////character spinning make it more smooth
+	
 	if (XMVectorGetX(XMVector3Dot(direction, oldCharDirection)) == -1)
 	{
-		oldCharDirection += XMVectorSet(0.01f, 0.0f, 0.0f, 0.0f);
+		oldCharDirection += XMVectorSet(1.11f, 1.0f, 0.0f, 0.0f);
 	}
+	
 
 	///////get characters position in world space
 	charPosition = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
@@ -469,9 +470,9 @@ void Enemy::move(FLOAT dt)
 	// get the angle 
 	float charDirAngle = XMVectorGetX(XMVector3AngleBetweenNormals(XMVector3Normalize(currCharDirection), XMVector3Normalize(EnemyForward)));
 
-	charDirAngle = -charDirAngle;
+	
 
-	if (XMVectorGetY(XMVector3Cross(currCharDirection, EnemyRight)) > 0.0f)
+	if (XMVectorGetY(XMVector3Cross(currCharDirection, EnemyForward)) > 0.0f)
 	{
 		charDirAngle = -charDirAngle;
 	}
@@ -491,7 +492,7 @@ void Enemy::move(FLOAT dt)
 
 	XMMATRIX rotationMatrix;
 
-	XMMATRIX previousWorld = worldMatrix;
+	
 
 
 
@@ -515,7 +516,7 @@ void Enemy::move(FLOAT dt)
 
 
 
-
+	oldCharDirection = currCharDirection;
 
 
 
