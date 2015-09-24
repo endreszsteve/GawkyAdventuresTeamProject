@@ -4,6 +4,7 @@
 #include "Effects.h"
 #include "Camera.h"
 #include "Object.h"
+#include "ModelEnum.cpp"
 
 
 
@@ -12,12 +13,12 @@
 
 
 
-TheObjects::TheObjects()
+TheObjects::TheObjects(ID3D11Device* device, TextureMgr& texMgr)
 {
 
 
-
-
+	mOrange = new BasicModel(device, texMgr, "Models\\Orange.obj", L"Textures\\");
+	mBranch = new BasicModel(device, texMgr, "Models\\branch.obj", L"Textures\\");
 
 
 
@@ -116,9 +117,7 @@ void TheObjects::addObject(BasicModelInstance theObject)
 
 
 
-void TheObjects::createObject(ID3D11Device* device, TextureMgr& texMgr,
-	const std::string& modelFilename,
-	const std::wstring& texturePath, FLOAT x, FLOAT y, FLOAT z,  int collisionstype)
+void TheObjects::createObject(int model, FLOAT x, FLOAT y, FLOAT z,  int collisionstype)
 {
 	Object* newObject;
 
@@ -133,9 +132,15 @@ void TheObjects::createObject(ID3D11Device* device, TextureMgr& texMgr,
 	newObject->setModelRot(modelRot);
 	newObject->setModelOffset(modelOffset);
 
+	if (model == branch)
+	{
+		anObject = mBranch;
+	}
+	else if (model == orange)
+	{
+		anObject = mOrange;
 
-	anObject = new BasicModel(device, texMgr, modelFilename, texturePath);
-
+	}
 	newObject->setModel(anObject);
 
 
