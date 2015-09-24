@@ -110,7 +110,14 @@
     <ClCompile Include="xnacollision.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="GameStateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Modality.cpp">
+=======
     <ClCompile Include="Player.cpp">
+>>>>>>> master
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Modality.cpp">
@@ -214,7 +221,14 @@
     <ClInclude Include="Waves.h">
       <Filter>Common</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="GameStateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Modality.h">
+=======
     <ClInclude Include="Player.h">
+>>>>>>> master
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Modality.h">
