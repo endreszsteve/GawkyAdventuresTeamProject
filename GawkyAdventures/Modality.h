@@ -1,4 +1,3 @@
-
 #ifndef MODALITY_H
 #define MODALITY_H
 
