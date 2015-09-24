@@ -30,7 +30,7 @@ public:
 	XMFLOAT3 GetPosition()const;
 	void SetPosition(float x, float y, float z);
 	void SetPosition(const XMFLOAT3& v);
-	
+
 	// Get camera basis vectors.
 	XMVECTOR GetRightXM()const;
 	XMFLOAT3 GetRight()const;
@@ -51,7 +51,7 @@ public:
 	float GetNearWindowHeight()const;
 	float GetFarWindowWidth()const;
 	float GetFarWindowHeight()const;
-	
+
 	// Set frustum.
 	void SetLens(float fovY, float aspect, float zn, float zf);
 
@@ -72,7 +72,7 @@ public:
 	// Rotate the camera.
 	void Pitch(float angle);
 	void RotateY(float angle);
-	
+
 
 	// After modifying camera position/orientation, call to rebuild the view matrix.
 	void UpdateViewMatrix();
@@ -80,8 +80,8 @@ public:
 	void ResetLook();
 	void moveCam();
 
-	
 
+	void getDeltaTime(float dt);
 
 
 
@@ -96,7 +96,7 @@ private:
 
 
 
-
+	float deltaTime;
 
 
 
@@ -129,6 +129,11 @@ private:
 	// Cache View/Proj matrices.
 	XMFLOAT4X4 mView;
 	XMFLOAT4X4 mProj;
+
+	float cameraHeight;
+	float cameraHeightDefault;
+	float tempHeight;
+	float tempTargetHeight;
 };
 
 #endif // CAMERA_H
