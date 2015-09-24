@@ -110,14 +110,13 @@
     <ClCompile Include="xnacollision.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="GameStateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Modality.cpp">
-=======
+	  <Filter>Source Files</Filter>
+	</ClCompile>
     <ClCompile Include="Player.cpp">
->>>>>>> master
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="introState.cpp">
@@ -147,7 +146,7 @@
     <ClCompile Include="ModelEnum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
+	</ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicModel.h">
       <Filter>Header Files</Filter>
@@ -224,14 +223,12 @@
     <ClInclude Include="Waves.h">
       <Filter>Common</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="GameStateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Modality.h">
-=======
+	</ClInclude>
     <ClInclude Include="Player.h">
->>>>>>> master
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
