@@ -295,7 +295,7 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 		//XMVector4Normalize(tripDistance);
 		FLOAT tempZ = XMVectorGetZ(tripDistance);
-		FLOAT tempX = XMVectorGetZ(tripDistance);
+		FLOAT tempX = XMVectorGetX(tripDistance);
 
 		if (tempZ < 0)
 		{
@@ -309,11 +309,11 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 			tempX = tempX * -1;
 		}
 
-		FLOAT totalDistance = tempZ + tempY;
+		FLOAT totalTripDistance = tempZ + tempX;
 
 
 
-		if (totalDistance > 15.0f || totalDistance < -15.0f)
+		if (totalTripDistance > 30.0f || totalTripDistance < -30.0f)
 		{
 
 			isImmune = false;
@@ -510,9 +510,6 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		}
 
 
-
-
-
 		///player is behind object
 		if (mPlayerBox.Center.z <= LevelCollisions[i].Center.z)
 		{
@@ -545,8 +542,14 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		FLOAT curPos = XMVectorGetY(currCharDirection);
 
 
+		FLOAT insideX = LevelCollisions[i].Center.x;
+		FLOAT insideZ = LevelCollisions[i].Center.z;
 
+		FLOAT insideExtentX = LevelCollisions[i].Extents.x;
+		FLOAT insideExtentZ = LevelCollisions[i].Extents.z;
 
+		insideX -+ LevelCollisions[i].Extents.x;
+		insideZ -+ LevelCollisions[i].Extents.z;
 
 		//// if the player hits an object that trips him
 		if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && LevelCollisions[i].collisionType == 2)
@@ -607,11 +610,16 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		}
 
 		///if player lands on an object for the first time
-		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && hitFeet == false && LevelCollisions[i].collisionType == 0 && (mPlayerBox.Center.y - mPlayerBox.Extents.y) < (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y) && prevY > currY && prevY > (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y))
+		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && hitFeet == false && LevelCollisions[i].collisionType == 0
+			&& (mPlayerBox.Center.y - mPlayerBox.Extents.y) < (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y) && prevY > currY &&
+			prevY > (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y) )
 		{
 			int t = 3;
 
 			hitFeet = true;	
+
+			insideX;
+			insideZ;
 
 			currentObject = i;		
 
@@ -632,7 +640,8 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		{
 			int t = 3;
 
-		
+			isTripping = false;
+			
 			inFront;
 			Above;
 			toRight;
@@ -669,6 +678,7 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 			inFront;
 			Above;
 			toRight;
+			isTripping = false;
 
 			P;
 			PP;
@@ -775,6 +785,13 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		tForward = (mPlayerBox.Center.z - mPlayerBox.Extents.z) - (LevelCollisions[currentObject].Center.z + LevelCollisions[currentObject].Extents.z);
 		inFront = true;
 	}
+
+
+
+
+
+
+
 
 	if (tRight > 0.0f || tForward > 0.0f)
 	{
