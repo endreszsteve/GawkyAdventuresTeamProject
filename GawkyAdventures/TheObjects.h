@@ -27,7 +27,7 @@ public:
 
 	void draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTechnique* activeTexTech);
 
-	void createObject(int model, FLOAT x, FLOAT y, FLOAT z, int collisionstype);
+	void createObject(int model, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale);
 
 
 	void CreateBoundingBox();
@@ -73,7 +73,8 @@ private:
 	/// the models to be loaded in
 	BasicModel* mOrange;
 	BasicModel* mBranch;
-
+	BasicModel* mGateOne;
+	BasicModel* mGateTwo;
 	
 
 	

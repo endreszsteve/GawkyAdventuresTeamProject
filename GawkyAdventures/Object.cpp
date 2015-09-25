@@ -127,6 +127,13 @@ void Object::setWorld(XMFLOAT4X4 tempObjectWorld)
 
 }
 
+void Object::setScale(int scale)
+{
+
+	mScale = scale;
+
+}
+
 
 
 
@@ -191,6 +198,12 @@ int Object::getCollisionType()
 {
 
 	return collisionType;
+}
+
+int Object::getScale()
+{
+
+	return mScale;
 }
 
 
