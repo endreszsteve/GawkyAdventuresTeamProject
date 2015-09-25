@@ -68,6 +68,16 @@ private:
 	BasicModel* mHouseBack;
 	BasicModel* mHouseRoof;
 	BasicModel* mSandBox;
+	BasicModel* mFencePart1;
+	BasicModel* mFencePart2;
+	BasicModel* mlvl2Ground;
+	BasicModel* mTestBarn;
+	BasicModel* mBarnBack;
+	BasicModel* mBarnFrontSide;
+	BasicModel* mBarnFrontTop;
+	BasicModel* mBarnRoof;
+	BasicModel* mBarnSide;
+	BasicModel* mBarnFrontSide2;
 
 
 	BasicModelInstance theLevelParts;

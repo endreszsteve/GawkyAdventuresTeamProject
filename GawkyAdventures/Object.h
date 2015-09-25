@@ -36,6 +36,7 @@ public:
 	void setAABB(XNA::AxisAlignedBox* tempObjectBox);
 	void setWorld(XMFLOAT4X4 tempObjectWorld);
 	void setCollisionType(int theCollisionType);
+	void setScale(int scale);
 
 	///getters
 	XMMATRIX getModelScale();
@@ -47,6 +48,8 @@ public:
 	XMFLOAT4X4 GetWorld();
 	XMFLOAT3 getObjectPosition();
 	int getCollisionType();
+
+	int getScale();
 
 
 private:
@@ -85,6 +88,7 @@ private:
 
 	XMVECTOR direction;
 	int collisionType;
+	int mScale;
 
 
 

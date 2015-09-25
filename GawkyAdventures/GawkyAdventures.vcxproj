@@ -41,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
-    <LibraryPath>$(IncludePath);$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -59,8 +59,6 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>&amp;(ProjectDir)assimp-3.1.1\lib\assimp_debug-dll_win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderType>Effect</ShaderType>
@@ -97,31 +95,36 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="d3dApp.cpp" />
     <ClCompile Include="d3dUtil.cpp" />
+    <ClCompile Include="DefaultGameStateManager.cpp" />
+    <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Effects.cpp" />
     <ClCompile Include="Enemies.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
-    <ClCompile Include="GameStateProvider.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="GawkyAdventures.cpp" />
     <ClCompile Include="GeometryGenerator.cpp" />
-    <ClCompile Include="introState.cpp" />
+    <ClCompile Include="IntroState.cpp" />
     <ClCompile Include="LevelBuilder.cpp" />
     <ClCompile Include="LevelParts.cpp" />
     <ClCompile Include="LightHelper.cpp" />
     <ClCompile Include="LoadM3d.cpp" />
     <ClCompile Include="LoadOBJ.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="MeshGeometry.cpp" />
     <ClCompile Include="Modality.cpp" />
     <ClCompile Include="ModelEnum.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="RenderStates.cpp" />
+    <ClCompile Include="SceneGraphGameState.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="TextureMgr.cpp" />
     <ClCompile Include="TheObjects.cpp" />
-    <ClCompile Include="Updatable.cpp" />
+    <ClCompile Include="Updateable.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Waves.cpp" />
     <ClCompile Include="xnacollision.cpp" />
@@ -132,28 +135,34 @@
     <ClInclude Include="d3dApp.h" />
     <ClInclude Include="d3dUtil.h" />
     <ClInclude Include="d3dx11effect.h" />
+    <ClInclude Include="DefaultGameStateManager.h" />
+    <ClInclude Include="Drawable.h" />
     <ClInclude Include="Effects.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateManager.h" />
-    <ClInclude Include="GameStateProvider.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="GeometryGenerator.h" />
+    <ClInclude Include="IntroState.h" />
     <ClInclude Include="LevelBuilder.h" />
     <ClInclude Include="LevelParts.h" />
     <ClInclude Include="LightHelper.h" />
     <ClInclude Include="LoadM3d.h" />
     <ClInclude Include="LoadOBJ.h" />
+    <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="MeshGeometry.h" />
     <ClInclude Include="Modality.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayState.h" />
     <ClInclude Include="RenderStates.h" />
+    <ClInclude Include="SceneGraphGameState.h" />
     <ClInclude Include="Sky.h" />
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="TheObjects.h" />
-    <ClInclude Include="Updatable.h" />
+    <ClInclude Include="Updateable.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Waves.h" />
     <ClInclude Include="xnacollision.h" />

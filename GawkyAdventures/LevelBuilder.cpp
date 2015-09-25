@@ -31,6 +31,18 @@ LevelBuilder::LevelBuilder(ID3D11Device* device, TextureMgr& texMgr)
 	mHouseBack = new BasicModel(device, texMgr, "Models\\houseback.obj", L"Textures\\");
 	mHouseRoof = new BasicModel(device, texMgr, "Models\\houseroof.obj", L"Textures\\");
 	mSandBox = new BasicModel(device, texMgr, "Models\\sandbox.obj", L"Textures\\");
+	mFencePart1 = new BasicModel(device, texMgr, "Models\\fencepart1.obj", L"Textures\\");
+	mFencePart2 = new BasicModel(device, texMgr, "Models\\fencepart2.obj", L"Textures\\");
+	mlvl2Ground = new BasicModel(device, texMgr, "Models\\lvl2Ground.obj", L"Textures\\");
+	mTestBarn = new BasicModel(device, texMgr, "Models\\barn.obj", L"Textures\\");
+	
+	mBarnBack = new BasicModel(device, texMgr, "Models\\bBack.obj", L"Textures\\");
+	mBarnFrontSide = new BasicModel(device, texMgr, "Models\\bFrontSide.obj", L"Textures\\");
+	mBarnFrontTop = new BasicModel(device, texMgr, "Models\\bFrontTop.obj", L"Textures\\");
+	mBarnRoof = new BasicModel(device, texMgr, "Models\\bRoof.obj", L"Textures\\");
+	mBarnSide = new BasicModel(device, texMgr, "Models\\bSide.obj", L"Textures\\");
+	mBarnFrontSide2 = new BasicModel(device, texMgr, "Models\\bFrontSide2.obj", L"Textures\\");
+
 
 
 
@@ -206,6 +218,56 @@ void LevelBuilder::createLevelParts(int model, FLOAT x, FLOAT y, FLOAT z, int co
 	{
 
 		anLevelParts = mSandBox;
+	}
+	else if (model == FencePart1)
+	{
+		anLevelParts = mFencePart1;
+
+	}
+	else if (model == FencePart2)
+	{
+		anLevelParts = mFencePart2;
+
+	}
+	else if (model == lvl2Ground)
+	{
+		anLevelParts = mlvl2Ground;
+
+	}
+	else if (model == testbarn)
+	{
+		anLevelParts = mTestBarn;
+
+	}
+	else if (model == barnback)
+	{
+		anLevelParts = mBarnBack;
+
+	}
+	else if (model == barnfrontside)
+	{
+		anLevelParts = mBarnFrontSide;
+
+	}
+	else if (model == barnfronttop)
+	{
+		anLevelParts = mBarnFrontTop;
+
+	}
+	else if (model == barnroof)
+	{
+		anLevelParts = mBarnRoof;
+
+	}
+	else if (model == barnside)
+	{
+		anLevelParts = mBarnSide;
+
+	}
+	else if (model == barnside2)
+	{
+		anLevelParts = mBarnFrontSide2;
+
 	}
 
 
