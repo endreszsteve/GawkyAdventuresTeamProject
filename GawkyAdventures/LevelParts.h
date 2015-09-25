@@ -37,7 +37,6 @@ public:
 	void setWorld(XMFLOAT4X4 tempLevelPartsWorld);
 	void setCollisionType(int theCollisionType);
 	void setScale(int theScale);
-	void setRotationY(float Rotation);
 
 	///getters
 	XMMATRIX getModelScale();
@@ -50,13 +49,11 @@ public:
 	XMFLOAT3 getLevelPartsPosition();
 	int getCollisionType();
 	int getScale();
-	FLOAT getRotationY();
 
 
 private:
 
 
-	float rotationY;
 	
 	XMMATRIX modelScale;
 	XMMATRIX modelRot;

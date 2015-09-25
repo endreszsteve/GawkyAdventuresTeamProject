@@ -110,7 +110,8 @@ private:
 
 
 
-
+	// Bounding box of the Player
+	XNA::AxisAlignedBox mPlayerBox;
 
 
 
@@ -368,15 +369,14 @@ bool Game::Init(HINSTANCE hInstance)
 	
 	
 	
-	/*
-	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble, 1);
-	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble, 1);
-	
-	Objects->createObject(orange, 80.0f, 30.0f, 20.0f, ctCollect, 1);
-	Objects->createObject(orange, 20.0f, 4.0f, 20.0f, ctCollect, 1);
-	Objects->createObject(orange, -80.0f, 10.0f, -60.0f, ctCollect, 1);
 
-	Objects->createObject(gatetwo, -95.0f, 8.5f, 0.0f, ctStumble, 7);
+
+	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble);
+	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble);
+	
+	Objects->createObject(orange, 80.0f, 30.0f, 20.0f, ctCollect);
+	Objects->createObject(orange, 20.0f, 4.0f, 20.0f, ctCollect);
+	Objects->createObject(orange, -80.0f, 10.0f, -60.0f, ctCollect);
 	
 
 
@@ -412,12 +412,9 @@ bool Game::Init(HINSTANCE hInstance)
 
 	// the Fence
 	Level1->createLevelParts(Fence1, 87, 5, 0, 0, 7);
-	Level1->createLevelParts(FencePart2, -95, 6, 48, 0, 7);
-	Level1->createLevelParts(FencePart2, -95, 6, -48, 0, 7);
-
-
-	Level1->createLevelParts(Fence2, -5, 6, 91, 0, 7);
-	Level1->createLevelParts(Fence2, -5, 6, -91, 0, 7);
+	Level1->createLevelParts(Fence1, -95, 5, 0, 0, 7);
+	Level1->createLevelParts(Fence2, -5, 5, 91, 0, 7);
+	Level1->createLevelParts(Fence2, -5, 5, -91, 0, 7);
 	//cattails
 	Level1->createLevelParts(Cattail, 84, 5.6, -47.6, 0, 7);
 	Level1->createLevelParts(Cattail, 77, 5.6, -47.6, 0, 7);
@@ -432,64 +429,7 @@ bool Game::Init(HINSTANCE hInstance)
 
 	/// build the sandbox
 	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7);
-	*/
 
-
-	////2nd section of level
-	////offset everything by -250 and -15
-	
-	Level1->createLevelParts(lvl2Ground, 0, -5, 0.0, ctLevel, 14, 0);
-	
-	//the barn
-	int x2o = -80;
-	int y2o = 15;
-	int z2o = 90;
-	Level1->createLevelParts(barnback, 1.56 + x2o, 7.8 + y2o, 46.8 + z2o, ctLevel, 23, 0);
-	Level1->createLevelParts(barnside, 44.34 + x2o, 8.58 + y2o, 10.92 + z2o, ctLevel, 25, 0);
-	Level1->createLevelParts(barnside, -44.34 + x2o, 8.58 + y2o, 10.92 + z2o, ctLevel, 25, 0);
-	Level1->createLevelParts(barnfrontside, -36.74 + x2o,8.74 + y2o, -24.96 + z2o, ctLevel, 25, 0);
-	Level1->createLevelParts(barnfrontside2, 37.21 + x2o, 7.8 + y2o, -24.96 + z2o, ctLevel, 25, 0);
-	Level1->createLevelParts(barnfronttop, 0.47 + x2o, 27.38 + y2o, -24.96 + z2o, ctLevel, 25, 0);
-	Level1->createLevelParts(barnroof, 1.56 + x2o, 60.84 + y2o, 12.79 + z2o, ctLevel, 25, 0);
-	/// 1.57 = 90 degrees
-	//bails
-	
-
-	//bottom Row
-	Level1->createLevelParts(roundbail, 20, 9,  20, ctLevel, 14, 0);
-	Level1->createLevelParts(squarebail, -114, 0, 129, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -114, 11.6, 129, ctLevel, 7, 0);
-
-	Level1->createLevelParts(squarebail, -114, 0, 120.2, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -114, 0, 111.48, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -114, 0, 102.9, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -100, 0, 128.98, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -86.68, 0, 128.98, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -86.68, 5.5, 128.98, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -86.68, 11.6, 128.98, ctLevel, 7, 0);
-
-	Level1->createLevelParts(squarebail, -103, 0, 118, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -93.9, 0, 118, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -84.98, 0, 118, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -103, 0, 104.9, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -93.9, 0, 104.9, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -85, 0, 104.9, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -114, 5.5, 120.2, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -114, 11.6, 120.2, ctLevel, 7, 0);
-
-	Level1->createLevelParts(squarebail, -114, 5.5, 111.48, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -100.6, 5.5, 128.9, ctLevel, 7,0);
-	Level1->createLevelParts(squarebail, -100.6,11.6, 128.9, ctLevel, 7, 0);
-
-
-
-
-
-
-
-	
-
-	
 
 
 	

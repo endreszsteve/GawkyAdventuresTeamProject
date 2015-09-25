@@ -19,8 +19,6 @@ TheObjects::TheObjects(ID3D11Device* device, TextureMgr& texMgr)
 
 	mOrange = new BasicModel(device, texMgr, "Models\\Orange.obj", L"Textures\\");
 	mBranch = new BasicModel(device, texMgr, "Models\\branch.obj", L"Textures\\");
-	mGateOne = new BasicModel(device, texMgr, "Models\\gate1.obj", L"Textures\\");
-	mGateTwo = new BasicModel(device, texMgr, "Models\\gate2.obj", L"Textures\\");
 
 
 
@@ -119,13 +117,13 @@ void TheObjects::addObject(BasicModelInstance theObject)
 
 
 
-void TheObjects::createObject(int model, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale)
+void TheObjects::createObject(int model, FLOAT x, FLOAT y, FLOAT z,  int collisionstype)
 {
 	Object* newObject;
 
 	newObject = new Object();
 
-	XMMATRIX modelScale = XMMatrixScaling(scale, scale, -scale);
+	XMMATRIX modelScale = XMMatrixScaling(1.0f, 1.0f, -1.0f);
 	XMMATRIX modelRot = XMMatrixRotationY(0);
 	XMMATRIX modelOffset = XMMatrixTranslation(x, y, z);
 
@@ -143,18 +141,6 @@ void TheObjects::createObject(int model, FLOAT x, FLOAT y, FLOAT z, int collisio
 		anObject = mOrange;
 
 	}
-	else if (model == gateone)
-	{
-		anObject = mGateOne;
-
-
-	}
-	else if (model == gatetwo)
-	{
-		anObject = mGateTwo;
-
-
-	}
 	newObject->setModel(anObject);
 
 
@@ -170,8 +156,6 @@ void TheObjects::createObject(int model, FLOAT x, FLOAT y, FLOAT z, int collisio
 	newObject->setBasicMInstance(theObject);
 
 	oneObject = newObject->getBasicMInstance();
-
-	newObject->setScale(scale);
 
 
 
@@ -257,9 +241,9 @@ void TheObjects::CreateBoundingBox()
 
 		LevelCollisions[i].collisionType = Objectclass[i]->getCollisionType();
 
-		LevelCollisions[i].Extents.x = (LevelCollisions[i].Extents.x * Objectclass[i]->getScale());
-		LevelCollisions[i].Extents.y = (LevelCollisions[i].Extents.y * Objectclass[i]->getScale());
-		LevelCollisions[i].Extents.z = (LevelCollisions[i].Extents.z * Objectclass[i]->getScale());
+		LevelCollisions[i].Extents.x = LevelCollisions[i].Extents.x;
+		LevelCollisions[i].Extents.y = LevelCollisions[i].Extents.y;
+		LevelCollisions[i].Extents.z = LevelCollisions[i].Extents.z;
 
 		//// this doesn't work, useless atm
 		ObjectBox.collisionType = 2;

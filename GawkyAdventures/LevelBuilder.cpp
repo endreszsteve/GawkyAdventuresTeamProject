@@ -31,20 +31,6 @@ LevelBuilder::LevelBuilder(ID3D11Device* device, TextureMgr& texMgr)
 	mHouseBack = new BasicModel(device, texMgr, "Models\\houseback.obj", L"Textures\\");
 	mHouseRoof = new BasicModel(device, texMgr, "Models\\houseroof.obj", L"Textures\\");
 	mSandBox = new BasicModel(device, texMgr, "Models\\sandbox.obj", L"Textures\\");
-	mFencePart1 = new BasicModel(device, texMgr, "Models\\fencepart1.obj", L"Textures\\");
-	mFencePart2 = new BasicModel(device, texMgr, "Models\\fencepart2.obj", L"Textures\\");
-	mlvl2Ground = new BasicModel(device, texMgr, "Models\\lvl2Ground.obj", L"Textures\\");
-	mTestBarn = new BasicModel(device, texMgr, "Models\\barn.obj", L"Textures\\");
-	
-	mBarnBack = new BasicModel(device, texMgr, "Models\\bBack.obj", L"Textures\\");
-	mBarnFrontSide = new BasicModel(device, texMgr, "Models\\bFrontSide.obj", L"Textures\\");
-	mBarnFrontTop = new BasicModel(device, texMgr, "Models\\bFrontTop.obj", L"Textures\\");
-	mBarnRoof = new BasicModel(device, texMgr, "Models\\bRoof.obj", L"Textures\\");
-	mBarnSide = new BasicModel(device, texMgr, "Models\\bSide.obj", L"Textures\\");
-	mBarnFrontSide2 = new BasicModel(device, texMgr, "Models\\bFrontSide2.obj", L"Textures\\");
-	mRoundBail = new BasicModel(device, texMgr, "Models\\roundbail.obj", L"Textures\\");
-	mSquareBail = new BasicModel(device, texMgr, "Models\\squarebail.obj", L"Textures\\");
-
 
 
 
@@ -56,6 +42,8 @@ LevelBuilder::LevelBuilder(ID3D11Device* device, TextureMgr& texMgr)
 
 LevelBuilder::~LevelBuilder()
 {
+
+
 	for (UINT i = 0; i < LevelPartsclass.size(); ++i)
 	{
 
@@ -63,6 +51,10 @@ LevelBuilder::~LevelBuilder()
 
 
 	}
+
+
+
+
 }
 
 
@@ -126,20 +118,23 @@ void LevelBuilder::draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTe
 void LevelBuilder::addLevelParts(BasicModelInstance theLevelParts)
 {
 
+
+
 	mLevelPartsInstances.push_back(theLevelParts);
-	
+
+
 }
 
 
 
-void LevelBuilder::createLevelParts(int model, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale, FLOAT rotation)
+void LevelBuilder::createLevelParts(int model, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale)
 {
 	LevelParts* newLevelParts;
 
 	newLevelParts = new LevelParts();
 
 	XMMATRIX modelScale = XMMatrixScaling(scale, scale, -scale);
-	XMMATRIX modelRot = XMMatrixRotationY(rotation);
+	XMMATRIX modelRot = XMMatrixRotationY(0);
 	XMMATRIX modelOffset = XMMatrixTranslation(x, y, z);
 
 
@@ -212,67 +207,6 @@ void LevelBuilder::createLevelParts(int model, FLOAT x, FLOAT y, FLOAT z, int co
 
 		anLevelParts = mSandBox;
 	}
-	else if (model == FencePart1)
-	{
-		anLevelParts = mFencePart1;
-
-	}
-	else if (model == FencePart2)
-	{
-		anLevelParts = mFencePart2;
-
-	}
-	else if (model == lvl2Ground)
-	{
-		anLevelParts = mlvl2Ground;
-
-	}
-	else if (model == testbarn)
-	{
-		anLevelParts = mTestBarn;
-
-	}
-	else if (model == barnback)
-	{
-		anLevelParts = mBarnBack;
-
-	}
-	else if (model == barnfrontside)
-	{
-		anLevelParts = mBarnFrontSide;
-
-	}
-	else if (model == barnfronttop)
-	{
-		anLevelParts = mBarnFrontTop;
-
-	}
-	else if (model == barnroof)
-	{
-		anLevelParts = mBarnRoof;
-
-	}
-	else if (model == barnside)
-	{
-		anLevelParts = mBarnSide;
-
-	}
-	else if (model == barnfrontside2)
-	{
-		anLevelParts = mBarnFrontSide2;
-
-	}
-	else if (model == roundbail)
-	{
-		anLevelParts = mRoundBail;
-
-	}
-	else if (model == squarebail)
-	{
-		anLevelParts = mSquareBail;
-
-	}
-
 
 
 
@@ -282,8 +216,6 @@ void LevelBuilder::createLevelParts(int model, FLOAT x, FLOAT y, FLOAT z, int co
 	
 
 	newLevelParts->setModel(anLevelParts);
-
-	newLevelParts->setRotationY(rotation);
 
 
 	BasicModelInstance oneLevelParts;
@@ -351,7 +283,7 @@ void LevelBuilder::CreateBoundingBox()
 			XMFLOAT3 P = mLevelPartsInstances[i].Model->BasicVertices[j].Pos;
 
 
-			
+			//////multiply all these by 7
 
 			minPt.x = MathHelper::Min(minPt.x, P.x);
 			minPt.y = MathHelper::Min(minPt.y, P.y);
@@ -393,17 +325,6 @@ void LevelBuilder::CreateBoundingBox()
 		LevelCollisions[i].Extents.x = LevelCollisions[i].Extents.x * scale;
 		LevelCollisions[i].Extents.y = LevelCollisions[i].Extents.y * scale;
 		LevelCollisions[i].Extents.z = LevelCollisions[i].Extents.z * scale;
-
-		if (LevelPartsclass[i]->getRotationY() != 0)
-		{
-			FLOAT tempX = LevelCollisions[i].Extents.x;
-			FLOAT tempZ = LevelCollisions[i].Extents.z;
-
-			LevelCollisions[i].Extents.x = tempZ;
-			LevelCollisions[i].Extents.z = tempX;
-
-		}
-
 
 		//// this doesn't work, useless atm
 		//LevelPartsBox[i]->setCollisionType();
