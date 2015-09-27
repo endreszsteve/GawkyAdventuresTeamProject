@@ -39,8 +39,10 @@ public:
 	void SetPositionTwo(FLOAT x, FLOAT y, FLOAT z);
 	void SetPositionThree(FLOAT x, FLOAT y, FLOAT z);
 	void SetPositionFour(FLOAT x, FLOAT y, FLOAT z);
+	void setSpeed(FLOAT theSpeed);
 
 	void setScale(FLOAT scale);
+	void setcollisiontype(int collisiontype);
 
 	///getters
 	XMMATRIX getModelScale();
@@ -52,7 +54,9 @@ public:
 	XMFLOAT4X4 GetWorld();
 	XMFLOAT3 getEnemyPosition();
 	FLOAT getScale();
+	int getcollisiontype();
 
+	
 private:
 
 
@@ -94,12 +98,14 @@ private:
 	//// last travel point the enemy hit
 	XMFLOAT3 lastPoint;
 
+	FLOAT speed;
+
 	XMVECTOR direction;
 
 	int travelToPoint;
 
 	int timesThrough;
-
+	int mcollisiontype;
 	FLOAT theScale;
 
 

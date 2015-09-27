@@ -322,11 +322,18 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(barnfronttop, 0.47 + x2o, 27.38 + y2o, -24.96 + z2o, ctLevel, 25, 0);
 	Level1->createLevelParts(barnroof, 1.56 + x2o, 60.84 + y2o, 12.79 + z2o, ctLevel, 25, 0);
 	/// 1.57 = 90 degrees
+	Level1->createLevelParts(Fence1,-139, 7, 0,ctLevel, 11, 0);
+
+	Level1->createLevelParts(Fence1, 0, 7, 139, ctLevel, 11, 1.57);
+	Level1->createLevelParts(Fence1, 0, 7, -139, ctLevel, 11, 1.57);
+	
+	
+	
 	//bails
 	
 
 	//bottom Row
-	Level1->createLevelParts(roundbail, 20, 9,  20, ctLevel, 14, 0);
+	
 	Level1->createLevelParts(squarebail, -114, 0, 129, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -114, 11.6, 129, ctLevel, 7, 0);
 
@@ -387,17 +394,70 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -45.3, 11.6, 119.9, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -45.3, 11.6, 111.2, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -45.3, 11.6, 102.4, ctLevel, 7, 0);
+	
+	//
+	Level1->createLevelParts(squarebail, 40, 0, -43, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 40, 5.5, -43, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 40, 11.6, -43, ctLevel, 7, 0);
+	//
+	Level1->createLevelParts(squarebail, 54, 0, -43, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 54, 5.5, -43, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 54, 11.6, -43, ctLevel, 7, 0);
+	//
+	Level1->createLevelParts(squarebail, 68.5, 0, -43, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5, 5.5, -43, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5, 11.6, -43, ctLevel, 7, 0);
+	//
+	Level1->createLevelParts(squarebail, 68.5, 0, -52, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5, 5.5, -52, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5, 11.6, -52, ctLevel, 7, 0);
+	//
+	Level1->createLevelParts(squarebail, 54, 0, -52, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 54, 5.5, -52, ctLevel, 7, 0);
+	//
+	Level1->createLevelParts(squarebail, 40, 0, -52, ctLevel, 7, 0);
 
-	Level1->createLevelParts(squarebail, -45.3, 0, 94, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -45.3, 5.5, 94, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -45.3, 0, 94, ctNothing, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3, 5.5, 94, ctNothing, 7, 0);
 	Level1->createLevelParts(squarebail, -45.3, 11.6, 94, ctLevel, 7, 0);
+	
+	Level1->createLevelParts(roundbail, 41, 9, 52, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 67, 9, 52, ctLevel, 14, 0);
+
+	Level1->createLevelParts(roundbail, 41, 9, 13, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 67, 9, 13, ctLevel, 14, 0);
+
+	Level1->createLevelParts(roundbail, 41, 9, -27, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 67, 9, -27, ctLevel, 14, 0);
+	
 
 
 
-	theEnemies->createEnemy(tractor, 4.0f, 13, 88.0f, 4, 13, 50, 40,13, 50, 40, 13, 88, 1);
+	Objects->createObject(branch, 20, -3, -70, ctStumble, 1);
+
+	Objects->createObject(orange, 54, 4, 32, ctCollect, 1);
+	Objects->createObject(orange, 54, 4, -7, ctCollect, 1);
+
+	Objects->createObject(orange, -59, 4, 111, ctCollect, 1);
+	Objects->createObject(orange, -45, 4,  111, ctCollect, 1);
+	//
+	Objects->createObject(orange, 54, 35, 53, ctCollect, 1);
+	Objects->createObject(orange, 54, 35, 13, ctCollect, 1);
+	Objects->createObject(orange, 54, 35, -27, ctCollect, 1);
 
 
-	//theEnemies->createEnemy(simpleEnemy, 4.0f, 13, 88.0f, 4, 13, -96, 1, 0, 0, 0, 0, 0, 0);
+
+
+	theEnemies->createEnemy(simpleEnemy, 31, 2, -6, 76, 2, -6, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 76, 2, 32, 31, 2, 32, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+
+	theEnemies->createEnemy(simpleEnemy, 27, 2, -62, 27, 2, -42, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 47, 2, -62, 27, 2, -62, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+	///unkillable enemies must be placed at the end
+	theEnemies->createEnemy(tractor, 4.0f, 13, 88.0f, 4, 13, -96, 103, 13, -96, 103, 13, 88, 1, 30, ctUnkillable);
+	theEnemies->createEnemy(tractor, 103, 13, -96, 103, 13, 88, 4.0f, 13, 88.0f, 4, 13, -96, 1, 30, ctUnkillable);
+	
 	
 
 

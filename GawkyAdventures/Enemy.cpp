@@ -42,6 +42,20 @@ Enemy::~Enemy()
 }
 
 //setters
+
+void Enemy::setcollisiontype(int collisiontype)
+{
+
+	mcollisiontype = collisiontype;
+}
+
+void Enemy::setSpeed(FLOAT theSpeed)
+{
+
+	speed = theSpeed;
+}
+
+
 void Enemy::setScale(FLOAT scale)
 {
 
@@ -144,6 +158,13 @@ void Enemy::setWorld(XMFLOAT4X4 tempEnemyWorld)
 
 
 //getters
+
+int Enemy::getcollisiontype()
+{
+
+	return mcollisiontype;
+}
+
 
 FLOAT Enemy::getScale()
 {
@@ -313,6 +334,11 @@ void Enemy::move(FLOAT dt)
 		diffX = mEnemyPosition.x - mEnemyPositionTwo.x;
 		diffY = mEnemyPosition.y - mEnemyPositionTwo.y;
 		diffZ = mEnemyPosition.z - mEnemyPositionTwo.z;
+		mEnemyPositionThree.x;
+
+	
+	
+	
 
 		int nothing = 0;
 		if (diffX < 0.0f)
@@ -331,22 +357,36 @@ void Enemy::move(FLOAT dt)
 			diffZ *= -1;
 		}
 
+		//////////////////////////////////
+		if (diffX < 0.01)
+		{
 
+			mEnemyPosition.x = mEnemyPositionTwo.x;
+		}
+		if (diffY < 0.01)
+		{
 
+			mEnemyPosition.y = mEnemyPositionTwo.y;
+		}
+		if (diffZ < 0.01)
+		{
 
+			mEnemyPosition.z = mEnemyPositionTwo.z;
+		}
+		////////////////////////////////
 
 
 		if (mEnemyPosition.x > mEnemyPositionTwo.x)
 		{
 
-			direction += XMVectorSet(-1.0f, 0.0f, -0.0001f, 0.0f);
+			direction += XMVectorSet(-1.0f, 0.0f, 0, 0.0f);
 
 
 		}
 		else if (mEnemyPosition.x < mEnemyPositionTwo.x)
 		{
 
-			direction += XMVectorSet(1.0f, 0.0f, -0.001f, 0.0f);
+			direction += XMVectorSet(1.0f, 0.0f, 0, 0.0f);
 
 		}
 
@@ -380,12 +420,13 @@ void Enemy::move(FLOAT dt)
 			direction += XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 		}
-		if (diffX < 0.01f && diffY < 0.01f && diffZ < 0.01f)
+		if (diffX < 0.05f && diffY < 0.05f && diffZ < 0.05f)
 		{
 
+		
 			if (timesThrough == 0)
 			{
-				if (mEnemyPositionThree.x == NULL)
+				if (mEnemyPositionThree.x == 0)
 				{
 
 					dontUpdate = true;
@@ -394,7 +435,7 @@ void Enemy::move(FLOAT dt)
 					lastPoint = mEnemyPositionTwo;
 
 				}
-				else if (mEnemyPositionThree.x != NULL)
+				else if (mEnemyPositionThree.x != 0)
 				{
 					dontUpdate = true;
 					travelToPoint = 3;
@@ -411,9 +452,14 @@ void Enemy::move(FLOAT dt)
 				lastPoint = mEnemyPositionTwo;
 			}
 
+			int something = 1;
 		}
 
 	}
+
+
+
+	/////////////////////////////////////////
 	else if (travelToPoint == 1)
 	{
 
@@ -442,18 +488,37 @@ void Enemy::move(FLOAT dt)
 		}
 
 
+		//////////////////////////////////
+		if (diffX < 0.01)
+		{
+
+			mEnemyPosition.x = mEnemyPositionOne.x;
+		}
+		if (diffY < 0.01)
+		{
+
+			mEnemyPosition.y = mEnemyPositionOne.y;
+		}
+		if (diffZ < 0.01)
+		{
+
+			mEnemyPosition.z = mEnemyPositionOne.z;
+		}
+		////////////////////////////////
+
+
 
 		if (mEnemyPosition.x > mEnemyPositionOne.x)
 		{
 
-			direction += XMVectorSet(-1.0f, 0.0f, 0.001f, 0.0f);
+			direction += XMVectorSet(-1.0f, 0.0f, 0, 0.0f);
 
 
 		}
 		if (mEnemyPosition.x < mEnemyPositionOne.x)
 		{
 
-			direction += XMVectorSet(1.0f, 0.0f, 0.001f, 0.0f);
+			direction += XMVectorSet(1.0f, 0.0f,0, 0.0f);
 
 		}
 
@@ -487,9 +552,9 @@ void Enemy::move(FLOAT dt)
 			direction += XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 		}
-		if (diffX < 0.01 && diffY < 0.01f && diffZ < 0.01f)
+		if (diffX < 0.05f && diffY < 0.05f && diffZ < 0.05f)
 		{
-			dontUpdate = true;
+			
 			travelToPoint = 2;
 
 			lastPoint = mEnemyPositionOne;
@@ -525,6 +590,25 @@ void Enemy::move(FLOAT dt)
 
 			diffZ *= -1;
 		}
+
+
+		//////////////////////////////////
+		if (diffX < 0.01)
+		{
+
+			mEnemyPosition.x = mEnemyPositionThree.x;
+		}
+		if (diffY < 0.01)
+		{
+
+			mEnemyPosition.y = mEnemyPositionThree.y;
+		}
+		if (diffZ < 0.01)
+		{
+
+			mEnemyPosition.z = mEnemyPositionThree.z;
+		}
+		////////////////////////////////
 
 
 
@@ -572,14 +656,12 @@ void Enemy::move(FLOAT dt)
 			direction += XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 		}
-		if (diffX < 0.01f && diffY < 0.01f && diffZ < 0.01f)
+		if (diffX < 0.05f && diffY < 0.05f && diffZ < 0.05f)
 		{
 
 			if (mEnemyPositionFour.x == NULL)
 			{
-				dontUpdate = true;
-
-				lastPoint = mEnemyPositionThree;
+					
 
 
 				travelToPoint = 2;
@@ -587,10 +669,9 @@ void Enemy::move(FLOAT dt)
 			}
 			else
 			{
-				dontUpdate = true;
-
+				
 				travelToPoint = 4;
-				lastPoint = mEnemyPositionThree;
+		
 			}
 		}
 	}
@@ -620,19 +701,37 @@ void Enemy::move(FLOAT dt)
 			diffZ *= -1;
 		}
 
+		//////////////////////////////////
+		if (diffX < 0.001)
+		{
+
+			mEnemyPosition.x = mEnemyPositionFour.x;
+		}
+		if (diffY < 0.001)
+		{
+
+			mEnemyPosition.y = mEnemyPositionFour.y;
+		}
+		if (diffZ < 0.001)
+		{
+
+			mEnemyPosition.z = mEnemyPositionFour.z;
+		}
+		////////////////////////////////
+
 
 
 		if (mEnemyPosition.x > mEnemyPositionFour.x)
 		{
 
-			direction += XMVectorSet(-1.0f, 0.0f, -0.001f, 0.0f);
+			direction += XMVectorSet(-1.0f, 0.0f, 0, 0.0f);
 
 
 		}
 		if (mEnemyPosition.x < mEnemyPositionFour.x)
 		{
 
-			direction += XMVectorSet(1.0f, 0.0f, 0.001f, 0.0f);
+			direction += XMVectorSet(1.0f, 0.0f,0, 0.0f);
 
 		}
 
@@ -666,10 +765,10 @@ void Enemy::move(FLOAT dt)
 			direction += XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 		}
-		if (diffX < 0.01f && diffY < 0.01f && diffZ < 0.01f)
+		if (diffX < 0.05f && diffY < 0.05f && diffZ < 0.05f)
 		{
 
-			dontUpdate = true;
+			
 			travelToPoint = 1;
 
 			lastPoint = mEnemyPositionFour;
@@ -734,34 +833,15 @@ void Enemy::move(FLOAT dt)
 
 
 
-	float speed = 15.0f * dt;
+	float Speed = speed * dt;
 
 
 
-	direction = direction * speed;
+	direction = direction * Speed;
 
 
 
 	charPosition = charPosition + direction;
-
-
-
-	if (diffZ < 0.01 && diffZ != 0)
-	{
-		charPosition = XMVectorSetZ(charPosition, lastPoint.z);
-	}
-
-
-	if (diffX < 0.01 && diffX != 0)
-	{
-		charPosition = XMVectorSetX(charPosition, lastPoint.x);
-	}
-
-
-
-
-
-
 
 
 

@@ -114,7 +114,7 @@ void Enemies::addEnemy(BasicModelInstance theEnemy)
 
 
 
-void Enemies::createEnemy(int model, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2, FLOAT x3, FLOAT y3, FLOAT z3, FLOAT x4, FLOAT y4, FLOAT z4, FLOAT scale)
+void Enemies::createEnemy(int model, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2, FLOAT x3, FLOAT y3, FLOAT z3, FLOAT x4, FLOAT y4, FLOAT z4, FLOAT scale, int speed, int collisionstype)
 {
 	Enemy* newEnemy;
 
@@ -150,6 +150,8 @@ void Enemies::createEnemy(int model, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLO
 
 	newEnemy->setModel(anEnemy);
 	newEnemy->setScale(scale);
+	newEnemy->setSpeed(speed);
+	newEnemy->setcollisiontype(collisionstype);
 
 
 	BasicModelInstance oneEnemy;
@@ -246,7 +248,7 @@ void Enemies::CreateBoundingBox()
 			0.5f*(maxPt.y - minPt.y),
 			0.5f*(maxPt.z - minPt.z));
 
-		LevelCollisions[i].collisionType = 1;
+		LevelCollisions[i].collisionType = enemyclass[i]->getcollisiontype();
 
 
 		FLOAT scale = enemyclass[i]->getScale();
