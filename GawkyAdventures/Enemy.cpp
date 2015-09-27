@@ -11,11 +11,11 @@
 
 
 Enemy::Enemy() : mEnemyPosition(0.0f, 0.0f, 0.0f), mEnemyScale(3.0f, 3.0f, 3.0f), mEnemyRotation(0.0f, 0.0f, 0.0f, 1.0f),
-mEnemyRotationQuad(0.0f, 0.0f, 0.0f, 0.0f), mEnemyPositionOne(0.0f, 0.0f, 0.0f), mEnemyPositionTwo(0.0f, 0.0f, 0.0f), travelToPoint(1)
+mEnemyRotationQuad(0.0f, 0.0f, 0.0f, 0.0f), mEnemyPositionOne(0.0f, 0.0f, 0.0f), mEnemyPositionTwo(0.0f, 0.0f, 0.0f), travelToPoint(2), timesThrough(0)
 {
 
 
-
+	
 	///initialize player
 	XMVECTOR S = XMLoadFloat3(&mEnemyScale);
 	XMVECTOR P = XMLoadFloat3(&mEnemyPosition);
@@ -32,7 +32,7 @@ mEnemyRotationQuad(0.0f, 0.0f, 0.0f, 0.0f), mEnemyPositionOne(0.0f, 0.0f, 0.0f),
 
 
 	direction = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-
+	lastPoint = mEnemyPositionOne;
 
 }
 
@@ -42,6 +42,13 @@ Enemy::~Enemy()
 }
 
 //setters
+void Enemy::setScale(FLOAT scale)
+{
+
+	theScale = scale;
+}
+
+
 void Enemy::setModelScale(XMMATRIX& Scale)
 
 {
@@ -137,6 +144,12 @@ void Enemy::setWorld(XMFLOAT4X4 tempEnemyWorld)
 
 
 //getters
+
+FLOAT Enemy::getScale()
+{
+
+	return theScale;
+}
 XMMATRIX Enemy::getModelScale()
 {
 
@@ -205,8 +218,27 @@ void Enemy::SetPositionTwo(FLOAT x, FLOAT y, FLOAT z)
 	XMVECTOR temp = XMVectorSet(x, y, z, 0.0f);
 	XMStoreFloat3(&mEnemyPositionTwo, temp);
 
-	mEnemyPositionTwo;
+	
 }
+
+void Enemy::SetPositionThree(FLOAT x, FLOAT y, FLOAT z)
+{
+
+	XMVECTOR temp = XMVectorSet(x, y, z, 0.0f);
+	XMStoreFloat3(&mEnemyPositionThree, temp);
+
+	
+}
+
+void Enemy::SetPositionFour(FLOAT x, FLOAT y, FLOAT z)
+{
+
+	XMVECTOR temp = XMVectorSet(x, y, z, 0.0f);
+	XMStoreFloat3(&mEnemyPositionFour, temp);
+
+	
+}
+
 
 
 
@@ -240,6 +272,9 @@ void Enemy::update(FLOAT dt)
 void Enemy::move(FLOAT dt)
 {
 
+
+	bool dontUpdate = false;
+
 	XMMATRIX startingworldMatrix = XMLoadFloat4x4(&mEnemyStartingWorld);
 	XMVECTOR S;
 	XMVECTOR P;
@@ -271,8 +306,10 @@ void Enemy::move(FLOAT dt)
 
 
 
-	if (travelToPoint == 1)
+	if (travelToPoint == 2)
 	{
+	
+		
 		diffX = mEnemyPosition.x - mEnemyPositionTwo.x;
 		diffY = mEnemyPosition.y - mEnemyPositionTwo.y;
 		diffZ = mEnemyPosition.z - mEnemyPositionTwo.z;
@@ -295,11 +332,7 @@ void Enemy::move(FLOAT dt)
 		}
 
 
-		if (diffX < 1.0f && diffY < 1.f && diffZ < 1.0f)
-		{
 
-			travelToPoint = 2;
-		}
 
 
 
@@ -347,13 +380,50 @@ void Enemy::move(FLOAT dt)
 			direction += XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 		}
+		if (diffX < 0.01f && diffY < 0.01f && diffZ < 0.01f)
+		{
 
-		
+			if (timesThrough == 0)
+			{
+				if (mEnemyPositionThree.x == NULL)
+				{
+
+					dontUpdate = true;
+					travelToPoint = 1;
+					mEnemyPosition.x = mEnemyPositionTwo.x;
+					mEnemyPosition.y = mEnemyPositionTwo.y;
+					mEnemyPosition.z = mEnemyPositionTwo.z;
+					lastPoint = mEnemyPositionTwo;
+
+				}
+				else if (mEnemyPositionThree.x != NULL)
+				{
+					dontUpdate = true;
+					travelToPoint = 3;
+					mEnemyPosition.x = mEnemyPositionTwo.x;
+					mEnemyPosition.y = mEnemyPositionTwo.y;
+					mEnemyPosition.z = mEnemyPositionTwo.z;
+					lastPoint = mEnemyPositionTwo;
+
+				}
+			}
+			else
+			{
+				dontUpdate = true;
+				mEnemyPosition.x = mEnemyPositionTwo.x;
+				mEnemyPosition.y = mEnemyPositionTwo.y;
+				mEnemyPosition.z = mEnemyPositionTwo.z;
+				travelToPoint = 1;
+				lastPoint = mEnemyPositionTwo;
+			}
+	
+		}		
 
 	}
-	else if (travelToPoint == 2)
+	else if (travelToPoint == 1 )
 	{
 
+		timesThrough = 0;
 
 		diffX = mEnemyPosition.x - mEnemyPositionOne.x;
 		diffY = mEnemyPosition.y - mEnemyPositionOne.y;
@@ -421,13 +491,210 @@ void Enemy::move(FLOAT dt)
 			direction += XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 		}
-		if (diffX < 0.2f && diffY < 0.2f && diffZ < 0.2f)
+		if (diffX < 0.01 && diffY < 0.01f && diffZ < 0.01f)
 		{
-
-			travelToPoint = 1;
+				dontUpdate = true;
+				travelToPoint = 2;
+				mEnemyPosition.x = mEnemyPositionOne.x;
+				mEnemyPosition.y = mEnemyPositionOne.y;
+				mEnemyPosition.z = mEnemyPositionOne.z;
+				lastPoint = mEnemyPositionOne;
+			
 		}
 	}
 
+
+
+	////////////////////////////////////////////////////////////////////////////////
+	else if (travelToPoint == 3 && timesThrough == 0)
+	{
+
+
+		diffX = mEnemyPosition.x - mEnemyPositionThree.x;
+		diffY = mEnemyPosition.y - mEnemyPositionThree.y;
+		diffZ = mEnemyPosition.z - mEnemyPositionThree.z;
+
+
+		int nothing;
+		if (diffX < 0.0f)
+		{
+
+			diffX *= -1;
+		}
+		if (diffY < 0.0f)
+		{
+
+			diffY *= -1;
+		}
+		if (diffZ < 0.0f)
+		{
+
+			diffZ *= -1;
+		}
+
+
+
+		if (mEnemyPosition.x > mEnemyPositionThree.x)
+		{
+
+			direction += XMVectorSet(-1.0f, 0.0f, 0, 0.0f);
+
+
+		}
+		if (mEnemyPosition.x < mEnemyPositionThree.x)
+		{
+
+			direction += XMVectorSet(1.0f, 0.0f, 0, 0.0f);
+
+		}
+
+
+
+		if (mEnemyPosition.z > mEnemyPositionThree.z)
+		{
+
+			direction += XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f);
+
+
+		}
+		if (mEnemyPosition.z < mEnemyPositionThree.z)
+		{
+
+			direction += XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+		}
+
+
+		if (mEnemyPosition.y > mEnemyPositionThree.y)
+		{
+
+			direction += XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
+
+
+		}
+		if (mEnemyPosition.y < mEnemyPositionThree.y)
+		{
+
+			direction += XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+		}
+		if (diffX < 0.01f && diffY < 0.01f && diffZ < 0.01f)
+		{
+
+			if (mEnemyPositionFour.x == NULL)
+			{
+				dontUpdate = true;
+				mEnemyPosition.x = mEnemyPositionThree.x;
+				mEnemyPosition.y = mEnemyPositionThree.y;
+				mEnemyPosition.z = mEnemyPositionThree.z;
+				lastPoint = mEnemyPositionThree;
+
+
+				travelToPoint = 2;
+				timesThrough = 1;
+			}
+			else
+			{
+				dontUpdate = true;
+				mEnemyPosition.x = mEnemyPositionThree.x;
+				mEnemyPosition.y = mEnemyPositionThree.y;
+				mEnemyPosition.z = mEnemyPositionThree.z;
+				travelToPoint = 4;
+				lastPoint = mEnemyPositionThree;
+			}
+		}
+	}
+
+
+	else if (travelToPoint == 4)
+	{
+
+
+		diffX = mEnemyPosition.x - mEnemyPositionFour.x;
+		diffY = mEnemyPosition.y - mEnemyPositionFour.y;
+		diffZ = mEnemyPosition.z - mEnemyPositionFour.z;
+
+		if (diffX < 0.0f)
+		{
+
+			diffX *= -1;
+		}
+		if (diffY < 0.0f)
+		{
+
+			diffY *= -1;
+		}
+		if (diffZ < 0.0f)
+		{
+
+			diffZ *= -1;
+		}
+
+
+
+		if (mEnemyPosition.x > mEnemyPositionFour.x)
+		{
+
+			direction += XMVectorSet(-1.0f, 0.0f, -0.001f, 0.0f);
+
+
+		}
+		if (mEnemyPosition.x < mEnemyPositionFour.x)
+		{
+
+			direction += XMVectorSet(1.0f, 0.0f, 0.001f, 0.0f);
+
+		}
+
+
+
+		if (mEnemyPosition.z > mEnemyPositionFour.z)
+		{
+
+			direction += XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f);
+
+
+		}
+		if (mEnemyPosition.z < mEnemyPositionFour.z)
+		{
+
+			direction += XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+		}
+
+
+		if (mEnemyPosition.y > mEnemyPositionFour.y)
+		{
+
+			direction += XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
+
+
+		}
+		if (mEnemyPosition.y < mEnemyPositionFour.y)
+		{
+
+			direction += XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+		}
+		if (diffX < 0.01f && diffY < 0.01f && diffZ < 0.01f)
+		{
+
+			dontUpdate = true;
+			travelToPoint = 1;
+			mEnemyPosition.x = mEnemyPositionFour.x;
+			mEnemyPosition.y = mEnemyPositionFour.y;
+			mEnemyPosition.z = mEnemyPositionFour.z;
+			lastPoint = mEnemyPositionFour;
+		}
+	}
+
+
+
+
+
+
+
+	
 	
 
 
@@ -484,8 +751,29 @@ void Enemy::move(FLOAT dt)
 
 	
 	direction = direction * speed;
-	charPosition = charPosition + direction;
 
+	
+	if (dontUpdate == false)
+
+	{
+		charPosition = charPosition + direction;
+	}
+	else
+	{
+
+		charPosition = XMVectorSet(mEnemyPosition.x, mEnemyPosition.y, mEnemyPosition.z, 0);
+	}
+	
+
+
+	if (diffZ < 0.01)
+	{
+		charPosition = XMVectorSetZ(charPosition, lastPoint.z);
+	}
+	
+	
+		
+	
 
 	
 
@@ -494,9 +782,10 @@ void Enemy::move(FLOAT dt)
 
 	
 
-
+	
 
 	XMMATRIX Translation = XMMatrixTranslation(XMVectorGetX(charPosition), XMVectorGetY(charPosition), XMVectorGetZ(charPosition));
+	
 	rotationMatrix = XMMatrixRotationY(charDirAngle - 3.14159265f);		// Subtract PI from angle so the character doesn't run backwards
 
 
@@ -506,17 +795,19 @@ void Enemy::move(FLOAT dt)
 
 	XMMatrixDecompose(&S, &Q, &P, worldMatrix);
 
+
+		XMStoreFloat3(&mEnemyPosition, P);
 	
-	XMStoreFloat3(&mEnemyPosition, P);
-	XMStoreFloat4(&mEnemyRotationQuad, Q);
+		XMStoreFloat4(&mEnemyRotationQuad, Q);
+	
 
 
 
-	XMStoreFloat4x4(&mEnemyWorld, worldMatrix);
+		XMStoreFloat4x4(&mEnemyWorld, worldMatrix);
 
 
 
-	oldCharDirection = currCharDirection;
+		oldCharDirection = currCharDirection;
 
 
 

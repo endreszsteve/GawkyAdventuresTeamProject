@@ -42,7 +42,7 @@ public:
 
 
 
-	///////////////////////////////////////////////////////
+
 
 
 	//DeltaTime getter
@@ -51,7 +51,7 @@ public:
 
 private:
 	
-	void BuildSkullGeometryBuffers();
+	
 	
 
 
@@ -65,48 +65,13 @@ private:
 
 
 	XMFLOAT3 mPlayerPosition;
-	XMFLOAT3 mPlayerScale;	
-	XMFLOAT4 mPlayerRotationQuad;
-	XMFLOAT4 mPlayerRotation;
 
-
-
-	XMFLOAT3 mOPlayerPosition;
-	XMFLOAT3 mOPlayerScale;
-	XMFLOAT4 mOPlayerRotationQuad;
-	XMFLOAT4 mOPlayerRotation;
-
-
-
-
-	XMMATRIX mRotation;
-	XMFLOAT4X4 playerRotation;
-
-	int mPlayerVertexOffset;
-	UINT mPlayerIndexOffset;
-	UINT mPlayerIndexCount;
-
-	//textures
-	ID3D11ShaderResourceView* mPlayerMapSRV;
-	Material mPlayerMat;
-
-
-	XMFLOAT4X4 mPlayerTexTransform;
-	XMFLOAT4X4 mPlayerWorld;
 
 	XMVECTOR PlayerForward;
 	XMVECTOR PlayerRight;
 	XMVECTOR PlayerUp;
 	
 
-	XMVECTOR currCharDirection;
-	XMVECTOR oldCharDirection; 
-	XMVECTOR charPosition;
-	XMVECTOR moveDirection;
-
-
-	XMVECTOR tripDirection;
-	XMVECTOR tripDistance;
 
 
 
@@ -114,45 +79,13 @@ private:
 
 
 
-	///////////// the Players states
-	bool isAlive;
-	bool isImmune;
-	bool isTripping;
-
-	bool hitFeet;
-	bool onGround;
-	bool fellOffMap;
-	
-
-
-	//////////////////////////////jumping variables
-	bool isJump;
-	bool isFalling;
-	bool hitHead;
-
-
-	
-	int currentObject;
-	FLOAT currGround;
-	
-	XMVECTOR startJumpPos;
-	XMVECTOR Jump;
 
 
 
-	//////skull stuff
-	ID3D11Buffer* mSkullVB;
-	ID3D11Buffer* mSkullIB;
 
-	ID3D11Buffer* mSkySphereVB;
-	ID3D11Buffer* mSkySphereIB;	
-	
-	XMFLOAT4X4 mSkullWorld;
-	UINT mSkullIndexCount;
 
-	Material mSkullMat;
 
-	XNA::AxisAlignedBox mSkullBox;
+
 
 
 	///////lighting
@@ -230,64 +163,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 
 Game::Game(HINSTANCE hInstance)
-	: D3DApp(hInstance), mSky(0),
-	 mSkullVB(0), mSkullIB(0),
-	
-	mSkullIndexCount(0), mLightCount(3), mPlayerMapSRV(0),
-	 mPlayerPosition(0.0f, 2.0f, 0.0f), mPlayerRotationQuad(0.0f, 0.0f, 0.0f, 0.0f),
-	mPlayerScale(1.0f, 1.0f, 1.0f), mPlayerRotation(0.0f, 0.0f, 0.0f, 1.0f), DeltaTimeF(0.0f), isJump(0), onGround(false)
-	, isFalling(false), hitHead(false), hitFeet(false), currGround(2.0f), fellOffMap(false), mOPlayerPosition(0.0f, 2.0f, 0.0f), mOPlayerRotationQuad(0.0f, 0.0f, 0.0f, 0.0f),
-	mOPlayerScale(1.0f, 1.0f, 1.0f), mOPlayerRotation(0.0f, 0.0f, 0.0f, 1.0f), isAlive(true), isImmune(false), isTripping(false), totEnemy(0), totCollect(0)
+	: D3DApp(hInstance), mSky(0), mLightCount(3), 
+	 mPlayerPosition(0.0f, 2.0f, 0.0f), DeltaTimeF(0.0f), totEnemy(0), totCollect(0)
 	
 {
 	mMainWndCaption = L"Adventures of Gawky";
 
 
-	////////////////player movement
-	currCharDirection = XMVectorSet(0.0f, 3.0f, 0.0f, 0.0f);
-	oldCharDirection = XMVectorSet(0.0f, 3.0f, 0.0f, 0.0f);
-	charPosition = XMVectorSet(0.0f, 3.0f, 0.0f, 0.0f);
 	PlayerForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	PlayerRight = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-
-
-
+	PlayerUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	
 	////send player information to the camera
 	mCam.getPlayerPos(mPlayerPosition);
 	mCam.playerInfo(PlayerForward, PlayerRight, PlayerUp);
-	
-	///initialize player
-	XMVECTOR S = XMLoadFloat3(&mPlayerScale);
-	XMVECTOR P = XMLoadFloat3(&mPlayerPosition);
-	XMVECTOR Q = XMLoadFloat4(&mPlayerRotationQuad);
-	XMVECTOR rot = XMLoadFloat4(&mPlayerRotation);
-	XMStoreFloat4x4(&mPlayerWorld, XMMatrixAffineTransformation(S, rot, Q, P));
-
-
-	tripDirection = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-
-	
-
-
-
-	mLastMousePos.x = 0;
-	mLastMousePos.y = 0;
-
-
-	Jump = XMVectorSet(0.0f, 5.0f, 0.0f, 0.0f);
 
 	mCam.SetPosition(0.0f, 2.0f, -20.0f);
 
-	
 
-	XMMATRIX skullScale = XMMatrixScaling(1.0f, 1.0f, 1.0f);	
-	XMMATRIX skullRotation = XMMatrixRotationY(0);	
-	XMMATRIX skullOffset = XMMatrixTranslation(0.0f, 20.0f, 40.0f);
-
-	
-
-	XMStoreFloat4x4(&mSkullWorld, XMMatrixMultiply(skullScale * skullRotation, skullOffset));
 
 	mDirLights[0].Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	mDirLights[0].Diffuse = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -305,18 +198,6 @@ Game::Game(HINSTANCE hInstance)
 	mDirLights[2].Direction = XMFLOAT3(-0.5f, -1.9f, -1.57735f);
 
 
-
-	mPlayerMat.Ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	mPlayerMat.Diffuse = XMFLOAT4(0.7f, 0.70f, 0.70f, 1.0f);
-	mPlayerMat.Specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 32.0f);
-	mPlayerMat.Reflect = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-
-
-
-	mSkullMat.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
-	mSkullMat.Diffuse = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
-	mSkullMat.Specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 16.0f);
-	mSkullMat.Reflect = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 }
 
 Game::~Game()
@@ -326,12 +207,6 @@ Game::~Game()
 	SafeDelete(Level1);
 	SafeDelete(theEnemies);
 
-
-	
-	ReleaseCOM(mPlayerMapSRV);
-
-	ReleaseCOM(mSkullVB);
-	ReleaseCOM(mSkullIB);
 
 	Effects::DestroyAll();
 	InputLayouts::DestroyAll();
@@ -348,13 +223,8 @@ bool Game::Init(HINSTANCE hInstance)
 	InputLayouts::InitAll(md3dDevice);
 
 	mTexMgr.Init(md3dDevice);
-
-
-
-
+	
 	mSky = new Sky(md3dDevice, L"Textures//sunsetcube1024.dds", 5000.0f);
-
-
 
 
 	/// create the player
@@ -480,18 +350,54 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -114, 5.5, 111.48, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -100.6, 5.5, 128.9, ctLevel, 7,0);
 	Level1->createLevelParts(squarebail, -100.6,11.6, 128.9, ctLevel, 7, 0);
-
-
-
-
-
-
-
 	
+	//
+	Level1->createLevelParts(squarebail, -72.7, 0, 128.9, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7, 5.5, 128.9, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7, 11.6, 128.9, ctLevel, 7, 0);
 
+	Level1->createLevelParts(squarebail, -72.7, 0,119.9, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7, 5.5, 119.9, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7, 11.6, 119.9, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -72.7, 0,111.2, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7, 5.5, 111.2, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7, 11.6, 111.2, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -72.7, 0, 102.4, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7, 5.5, 102.4, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7, 11.6, 102.4, ctLevel, 7, 0);
 	
+	Level1->createLevelParts(squarebail, -72.7, 0, 94, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7, 5.5, 94, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7, 11.6, 94, ctLevel, 7, 0);
+	//
+
+	Level1->createLevelParts(squarebail, -59, 11.6, 128.9, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59, 11.6, 119.9, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59, 11.6, 111.2, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59, 11.6, 102.4, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -59, 0, 94, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59, 5.5, 94, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59, 11.6, 94, ctLevel, 7, 0);
+
+	//
+	Level1->createLevelParts(squarebail, -45.3, 11.6, 128.9, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3, 11.6, 119.9, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3, 11.6, 111.2, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3, 11.6, 102.4, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -45.3, 0, 94, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3, 5.5, 94, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3, 11.6, 94, ctLevel, 7, 0);
 
 
+
+	theEnemies->createEnemy(tractor, 4.0f, 13, 88.0f, 4, 13, 50, 40,13, 50, 40, 13, 88, 1);
+
+
+	//theEnemies->createEnemy(simpleEnemy, 4.0f, 13, 88.0f, 4, 13, -96, 1, 0, 0, 0, 0, 0, 0);
 	
 
 
@@ -538,11 +444,10 @@ bool Game::Init(HINSTANCE hInstance)
 	//////////////////////////////////////////////////////////
 
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice,
-		L"Textures/WoodCrate02.dds", 0, 0, &mPlayerMapSRV, 0));
 
 
-	BuildSkullGeometryBuffers();
+
+	
 
 
 
@@ -563,18 +468,10 @@ void Game::DrawScene()
 
 	md3dImmediateContext->IASetInputLayout(InputLayouts::Basic32);
 	md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	UINT stride = sizeof(Vertex::Basic32);
-	UINT offset = 0;
-
+	
 
 	mCam.UpdateViewMatrix();
-
-	XMMATRIX view = mCam.View();
-	XMMATRIX proj = mCam.Proj();
-	XMMATRIX viewProj = mCam.ViewProj();
-
-	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	
 
 	// Set per frame constants.
 	Effects::BasicFX->SetDirLights(mDirLights);
@@ -610,19 +507,8 @@ void Game::DrawScene()
 		activeSkullTech = Effects::BasicFX->Light3ReflectTech;
 		break;
 	}
+	
 
-	XMMATRIX world;
-	XMMATRIX worldInvTranspose;
-	XMMATRIX worldViewProj;
-
-
-	//
-	// Draw the grid, cylinders, and box without any cubemap reflection.
-	// 
-	D3DX11_TECHNIQUE_DESC techDesc;
-	activeTexTech->GetDesc(&techDesc);
-	for (UINT p = 0; p < techDesc.Passes; ++p)
-	{
 
 		
 
@@ -638,32 +524,12 @@ void Game::DrawScene()
 
 
 
-
+		//draw player
 		PlayerOne->drawPlayer(md3dImmediateContext, mCam, activeTexTech);
 
 	
-	}
+	
 
-	//draw Duck Model
-	for (UINT p = 0; p < techDesc.Passes; ++p)
-	{
-		// Draw the skull.
-
-		md3dImmediateContext->IASetVertexBuffers(0, 1, &mSkullVB, &stride, &offset);
-		md3dImmediateContext->IASetIndexBuffer(mSkullIB, DXGI_FORMAT_R32_UINT, 0);
-
-		world = XMLoadFloat4x4(&mSkullWorld);
-		worldInvTranspose = MathHelper::InverseTranspose(world);
-		worldViewProj = world*view*proj;
-
-		Effects::BasicFX->SetWorld(world);
-		Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
-		Effects::BasicFX->SetWorldViewProj(worldViewProj);
-		Effects::BasicFX->SetMaterial(mSkullMat);
-
-		activeSkullTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-		md3dImmediateContext->DrawIndexed(mSkullIndexCount, 0, 0);
-	}
 
 
 	////////////////////////////////////////
@@ -702,106 +568,6 @@ void Game::OnMouseMove(WPARAM btnState, int x, int y)
 
 
 
-void Game::BuildSkullGeometryBuffers()
-{
-	std::ifstream fin("Models/skull.txt");
-
-	if (!fin)
-	{
-		MessageBox(0, L"Models/skull.txt not found.", 0, 0);
-		return;
-	}
-
-	UINT vcount = 0;
-	UINT tcount = 0;
-	std::string ignore;
-
-	fin >> ignore >> vcount;
-	fin >> ignore >> tcount;
-	fin >> ignore >> ignore >> ignore >> ignore;
-
-	XMFLOAT3 vMin(+MathHelper::Infinity, +MathHelper::Infinity, +MathHelper::Infinity);
-	XMFLOAT3 vMax(-MathHelper::Infinity, -MathHelper::Infinity, -MathHelper::Infinity);
-
-	//XMVECTOR vMin = XMLoadFloat3(&vMinf3);
-	//XMVECTOR vMax = XMLoadFloat3(&vMaxf3);
-	std::vector<Vertex::Basic32> vertices(vcount);
-	for (UINT i = 0; i < vcount; ++i)
-	{
-		fin >> vertices[i].Pos.x >> vertices[i].Pos.y >> vertices[i].Pos.z;
-		fin >> vertices[i].Normal.x >> vertices[i].Normal.y >> vertices[i].Normal.z;
-
-		XMFLOAT3 P = vertices[i].Pos;
-
-		vMin.x = MathHelper::Min(vMin.x, P.x);
-		vMin.y = MathHelper::Min(vMin.y, P.y);
-		vMin.z = MathHelper::Min(vMin.z, P.z);
-
-		vMax.x = MathHelper::Max(vMax.x, P.x);
-		vMax.y = MathHelper::Max(vMax.y, P.y);
-		vMax.z = MathHelper::Max(vMax.z, P.z);
-	}
-
-	mSkullBox.Center = XMFLOAT3(0.5f*(vMin.x + vMax.x),
-		0.5f*(vMin.y + vMax.y),
-		0.5f*(vMin.z + vMax.z));
-
-	mSkullBox.Extents = XMFLOAT3(0.5f * (vMax.x - vMin.x),
-		0.5f*(vMax.y -vMin.y),
-		0.5f*(vMax.z - vMin.z));
-
-
-	mSkullBox.Center = XMFLOAT3(0.0f, 1.5f, 40.0f);
-
-	
-	
-
-
-
-	fin >> ignore;
-	fin >> ignore;
-	fin >> ignore;
-
-	mSkullIndexCount = 3 * tcount;
-	std::vector<UINT> indices(mSkullIndexCount);
-	for (UINT i = 0; i < tcount; ++i)
-	{
-		fin >> indices[i * 3 + 0] >> indices[i * 3 + 1] >> indices[i * 3 + 2];
-	}
-
-	fin.close();
-
-	D3D11_BUFFER_DESC vbd;
-	vbd.Usage = D3D11_USAGE_IMMUTABLE;
-	vbd.ByteWidth = sizeof(Vertex::Basic32) * vcount;
-	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vbd.CPUAccessFlags = 0;
-	vbd.MiscFlags = 0;
-	D3D11_SUBRESOURCE_DATA vinitData;
-	vinitData.pSysMem = &vertices[0];
-	HR(md3dDevice->CreateBuffer(&vbd, &vinitData, &mSkullVB));
-
-	//
-	// Pack the indices of all the meshes into one index buffer.
-	//
-
-	D3D11_BUFFER_DESC ibd;
-	ibd.Usage = D3D11_USAGE_IMMUTABLE;
-	ibd.ByteWidth = sizeof(UINT) * mSkullIndexCount;
-	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	ibd.CPUAccessFlags = 0;
-	ibd.MiscFlags = 0;
-	D3D11_SUBRESOURCE_DATA iinitData;
-	iinitData.pSysMem = &indices[0];
-	HR(md3dDevice->CreateBuffer(&ibd, &iinitData, &mSkullIB));
-}
-
-
-
-
-
-
-
 
 //////////////////////////////////////////////////////updates
 
@@ -809,8 +575,7 @@ void Game::UpdateScene(float dt)
 {
 	
 	addDeltaTime(dt);
-	moveDirection = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-	PlayerOne->setMoveDirection(moveDirection);
+
 	theEnemies->update(dt);
 
 	int levelColsize = LevelCollisions.size();
@@ -1054,12 +819,7 @@ void Game::UpdateScene(float dt)
 
 	mCam.moveCam();
 
-
-	
-
 	PlayerOne->move(dt, desiredCharDir, theEnemies, Objects );
-	
-
 
 	PlayerOne->update();
 	

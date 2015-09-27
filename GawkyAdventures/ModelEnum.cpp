@@ -4,7 +4,7 @@ barnback, barnfrontside, barnfronttop, barnroof, barnside, barnfrontside2,roundb
 
 
 
-enum enemy{simpleEnemy};
+enum enemy{simpleEnemy, tractor};
 
 
 enum object{orange, branch, gateone, gatetwo};

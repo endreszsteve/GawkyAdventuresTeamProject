@@ -16,7 +16,9 @@
 Enemies::Enemies(ID3D11Device* device, TextureMgr& texMgr)
 {
 
-	msimpleEnemy = new BasicModel(device, texMgr, "Models\\simpleenemy.obj", L"Textures\\");
+	mSimpleEnemy = new BasicModel(device, texMgr, "Models\\simpleenemy.obj", L"Textures\\");
+	mTractor = new BasicModel(device, texMgr, "Models\\tractor.obj", L"Textures\\");
+
 	
 
 
@@ -112,13 +114,13 @@ void Enemies::addEnemy(BasicModelInstance theEnemy)
 
 
 
-void Enemies::createEnemy(int model, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2)
+void Enemies::createEnemy(int model, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2, FLOAT x3, FLOAT y3, FLOAT z3, FLOAT x4, FLOAT y4, FLOAT z4, FLOAT scale)
 {
 	Enemy* newEnemy;
 
 	newEnemy = new Enemy();
 
-	XMMATRIX modelScale = XMMatrixScaling(3.0f, 3.0f, -3.0f);
+	XMMATRIX modelScale = XMMatrixScaling(scale, scale, -scale);
 	XMMATRIX modelRot = XMMatrixRotationY(0);
 	XMMATRIX modelOffset = XMMatrixTranslation(x1, y1, z1);
 
@@ -129,18 +131,25 @@ void Enemies::createEnemy(int model, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLO
 
 	newEnemy->SetPositionOne(x1, y1, z1);
 	newEnemy->SetPositionTwo(x2, y2, z2);
+	newEnemy->SetPositionThree(x3, y3, z3);
+	newEnemy->SetPositionFour(x4, y4, z4);
 
 
 
 	if (model == simpleEnemy)
 	{
-		anEnemy = msimpleEnemy;
+		anEnemy = mSimpleEnemy;
+	}
+	else if (model == tractor)
+	{
+		anEnemy = mTractor;
 	}
 
 
 	
 
 	newEnemy->setModel(anEnemy);
+	newEnemy->setScale(scale);
 
 
 	BasicModelInstance oneEnemy;
@@ -239,9 +248,12 @@ void Enemies::CreateBoundingBox()
 
 		LevelCollisions[i].collisionType = 1;
 
-		LevelCollisions[i].Extents.x = LevelCollisions[i].Extents.x * 3;
-		LevelCollisions[i].Extents.y = LevelCollisions[i].Extents.y * 3;
-		LevelCollisions[i].Extents.z = LevelCollisions[i].Extents.z * 3;
+
+		FLOAT scale = enemyclass[i]->getScale();
+
+		LevelCollisions[i].Extents.x = LevelCollisions[i].Extents.x * scale;
+		LevelCollisions[i].Extents.y = LevelCollisions[i].Extents.y * scale;
+		LevelCollisions[i].Extents.z = LevelCollisions[i].Extents.z * scale;
 
 		EnemyBox.collisionType = 1;
 
