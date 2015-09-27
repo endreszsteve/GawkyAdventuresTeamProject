@@ -15,7 +15,7 @@ mEnemyRotationQuad(0.0f, 0.0f, 0.0f, 0.0f), mEnemyPositionOne(0.0f, 0.0f, 0.0f),
 {
 
 
-	
+
 	///initialize player
 	XMVECTOR S = XMLoadFloat3(&mEnemyScale);
 	XMVECTOR P = XMLoadFloat3(&mEnemyPosition);
@@ -218,7 +218,7 @@ void Enemy::SetPositionTwo(FLOAT x, FLOAT y, FLOAT z)
 	XMVECTOR temp = XMVectorSet(x, y, z, 0.0f);
 	XMStoreFloat3(&mEnemyPositionTwo, temp);
 
-	
+
 }
 
 void Enemy::SetPositionThree(FLOAT x, FLOAT y, FLOAT z)
@@ -227,7 +227,7 @@ void Enemy::SetPositionThree(FLOAT x, FLOAT y, FLOAT z)
 	XMVECTOR temp = XMVectorSet(x, y, z, 0.0f);
 	XMStoreFloat3(&mEnemyPositionThree, temp);
 
-	
+
 }
 
 void Enemy::SetPositionFour(FLOAT x, FLOAT y, FLOAT z)
@@ -236,7 +236,7 @@ void Enemy::SetPositionFour(FLOAT x, FLOAT y, FLOAT z)
 	XMVECTOR temp = XMVectorSet(x, y, z, 0.0f);
 	XMStoreFloat3(&mEnemyPositionFour, temp);
 
-	
+
 }
 
 
@@ -301,15 +301,15 @@ void Enemy::move(FLOAT dt)
 	diffX = 0;
 	diffY = 0;
 	diffZ = 0;
-	
+
 
 
 
 
 	if (travelToPoint == 2)
 	{
-	
-		
+
+
 		diffX = mEnemyPosition.x - mEnemyPositionTwo.x;
 		diffY = mEnemyPosition.y - mEnemyPositionTwo.y;
 		diffZ = mEnemyPosition.z - mEnemyPositionTwo.z;
@@ -390,9 +390,7 @@ void Enemy::move(FLOAT dt)
 
 					dontUpdate = true;
 					travelToPoint = 1;
-					mEnemyPosition.x = mEnemyPositionTwo.x;
-					mEnemyPosition.y = mEnemyPositionTwo.y;
-					mEnemyPosition.z = mEnemyPositionTwo.z;
+
 					lastPoint = mEnemyPositionTwo;
 
 				}
@@ -400,9 +398,7 @@ void Enemy::move(FLOAT dt)
 				{
 					dontUpdate = true;
 					travelToPoint = 3;
-					mEnemyPosition.x = mEnemyPositionTwo.x;
-					mEnemyPosition.y = mEnemyPositionTwo.y;
-					mEnemyPosition.z = mEnemyPositionTwo.z;
+
 					lastPoint = mEnemyPositionTwo;
 
 				}
@@ -410,17 +406,15 @@ void Enemy::move(FLOAT dt)
 			else
 			{
 				dontUpdate = true;
-				mEnemyPosition.x = mEnemyPositionTwo.x;
-				mEnemyPosition.y = mEnemyPositionTwo.y;
-				mEnemyPosition.z = mEnemyPositionTwo.z;
+
 				travelToPoint = 1;
 				lastPoint = mEnemyPositionTwo;
 			}
-	
-		}		
+
+		}
 
 	}
-	else if (travelToPoint == 1 )
+	else if (travelToPoint == 1)
 	{
 
 		timesThrough = 0;
@@ -428,6 +422,8 @@ void Enemy::move(FLOAT dt)
 		diffX = mEnemyPosition.x - mEnemyPositionOne.x;
 		diffY = mEnemyPosition.y - mEnemyPositionOne.y;
 		diffZ = mEnemyPosition.z - mEnemyPositionOne.z;
+
+
 
 		if (diffX < 0.0f)
 		{
@@ -463,14 +459,14 @@ void Enemy::move(FLOAT dt)
 
 
 
-		if (mEnemyPosition.z > mEnemyPositionOne.z)
+		if (mEnemyPosition.z > mEnemyPositionOne.z && diffZ > 0.01)
 		{
 
 			direction += XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f);
 
 
 		}
-		if (mEnemyPosition.z < mEnemyPositionOne.z)
+		if (mEnemyPosition.z < mEnemyPositionOne.z && diffZ > 0.01)
 		{
 
 			direction += XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
@@ -493,13 +489,11 @@ void Enemy::move(FLOAT dt)
 		}
 		if (diffX < 0.01 && diffY < 0.01f && diffZ < 0.01f)
 		{
-				dontUpdate = true;
-				travelToPoint = 2;
-				mEnemyPosition.x = mEnemyPositionOne.x;
-				mEnemyPosition.y = mEnemyPositionOne.y;
-				mEnemyPosition.z = mEnemyPositionOne.z;
-				lastPoint = mEnemyPositionOne;
-			
+			dontUpdate = true;
+			travelToPoint = 2;
+
+			lastPoint = mEnemyPositionOne;
+
 		}
 	}
 
@@ -584,9 +578,7 @@ void Enemy::move(FLOAT dt)
 			if (mEnemyPositionFour.x == NULL)
 			{
 				dontUpdate = true;
-				mEnemyPosition.x = mEnemyPositionThree.x;
-				mEnemyPosition.y = mEnemyPositionThree.y;
-				mEnemyPosition.z = mEnemyPositionThree.z;
+
 				lastPoint = mEnemyPositionThree;
 
 
@@ -596,9 +588,7 @@ void Enemy::move(FLOAT dt)
 			else
 			{
 				dontUpdate = true;
-				mEnemyPosition.x = mEnemyPositionThree.x;
-				mEnemyPosition.y = mEnemyPositionThree.y;
-				mEnemyPosition.z = mEnemyPositionThree.z;
+
 				travelToPoint = 4;
 				lastPoint = mEnemyPositionThree;
 			}
@@ -648,14 +638,14 @@ void Enemy::move(FLOAT dt)
 
 
 
-		if (mEnemyPosition.z > mEnemyPositionFour.z)
+		if (mEnemyPosition.z > mEnemyPositionFour.z && diffZ > 0.01)
 		{
 
 			direction += XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f);
 
 
 		}
-		if (mEnemyPosition.z < mEnemyPositionFour.z)
+		if (mEnemyPosition.z < mEnemyPositionFour.z && diffZ > 0.01)
 		{
 
 			direction += XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
@@ -681,9 +671,7 @@ void Enemy::move(FLOAT dt)
 
 			dontUpdate = true;
 			travelToPoint = 1;
-			mEnemyPosition.x = mEnemyPositionFour.x;
-			mEnemyPosition.y = mEnemyPositionFour.y;
-			mEnemyPosition.z = mEnemyPositionFour.z;
+
 			lastPoint = mEnemyPositionFour;
 		}
 	}
@@ -694,8 +682,8 @@ void Enemy::move(FLOAT dt)
 
 
 
-	
-	
+
+
 
 
 
@@ -712,12 +700,12 @@ void Enemy::move(FLOAT dt)
 
 
 	/////character spinning make it more smooth
-	
+
 	if (XMVectorGetX(XMVector3Dot(direction, oldCharDirection)) == -1)
 	{
 		oldCharDirection += XMVectorSet(1.11f, 1.0f, 0.0f, 0.0f);
 	}
-	
+
 
 	///////get characters position in world space
 	charPosition = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
@@ -737,7 +725,7 @@ void Enemy::move(FLOAT dt)
 	// get the angle 
 	float charDirAngle = XMVectorGetX(XMVector3AngleBetweenNormals(XMVector3Normalize(currCharDirection), XMVector3Normalize(EnemyForward)));
 
-	
+
 
 	if (XMVectorGetY(XMVector3Cross(currCharDirection, EnemyForward)) > 0.0f)
 	{
@@ -747,45 +735,44 @@ void Enemy::move(FLOAT dt)
 
 
 	float speed = 15.0f * dt;
-	
 
-	
+
+
 	direction = direction * speed;
 
-	
-	if (dontUpdate == false)
-
-	{
-		charPosition = charPosition + direction;
-	}
-	else
-	{
-
-		charPosition = XMVectorSet(mEnemyPosition.x, mEnemyPosition.y, mEnemyPosition.z, 0);
-	}
-	
 
 
-	if (diffZ < 0.01)
+	charPosition = charPosition + direction;
+
+
+
+	if (diffZ < 0.01 && diffZ != 0)
 	{
 		charPosition = XMVectorSetZ(charPosition, lastPoint.z);
 	}
-	
-	
-		
-	
 
-	
+
+	if (diffX < 0.01 && diffX != 0)
+	{
+		charPosition = XMVectorSetX(charPosition, lastPoint.x);
+	}
+
+
+
+
+
+
+
 
 
 	XMMATRIX rotationMatrix;
 
-	
 
-	
+
+
 
 	XMMATRIX Translation = XMMatrixTranslation(XMVectorGetX(charPosition), XMVectorGetY(charPosition), XMVectorGetZ(charPosition));
-	
+
 	rotationMatrix = XMMatrixRotationY(charDirAngle - 3.14159265f);		// Subtract PI from angle so the character doesn't run backwards
 
 
@@ -796,18 +783,18 @@ void Enemy::move(FLOAT dt)
 	XMMatrixDecompose(&S, &Q, &P, worldMatrix);
 
 
-		XMStoreFloat3(&mEnemyPosition, P);
-	
-		XMStoreFloat4(&mEnemyRotationQuad, Q);
-	
+	XMStoreFloat3(&mEnemyPosition, P);
+
+	XMStoreFloat4(&mEnemyRotationQuad, Q);
 
 
 
-		XMStoreFloat4x4(&mEnemyWorld, worldMatrix);
+
+	XMStoreFloat4x4(&mEnemyWorld, worldMatrix);
 
 
 
-		oldCharDirection = currCharDirection;
+	oldCharDirection = currCharDirection;
 
 
 
