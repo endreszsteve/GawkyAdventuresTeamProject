@@ -4,6 +4,7 @@
 #include "Effects.h"
 #include "Camera.h"
 #include "Object.h"
+#include "ModelEnum.cpp"
 
 
 
@@ -12,12 +13,14 @@
 
 
 
-TheObjects::TheObjects()
+TheObjects::TheObjects(ID3D11Device* device, TextureMgr& texMgr)
 {
 
 
-
-
+	mOrange = new BasicModel(device, texMgr, "Models\\Orange.obj", L"Textures\\");
+	mBranch = new BasicModel(device, texMgr, "Models\\branch.obj", L"Textures\\");
+	mGateOne = new BasicModel(device, texMgr, "Models\\gate1.obj", L"Textures\\");
+	mGateTwo = new BasicModel(device, texMgr, "Models\\gate2.obj", L"Textures\\");
 
 
 
@@ -116,15 +119,13 @@ void TheObjects::addObject(BasicModelInstance theObject)
 
 
 
-void TheObjects::createObject(ID3D11Device* device, TextureMgr& texMgr,
-	const std::string& modelFilename,
-	const std::wstring& texturePath, FLOAT x, FLOAT y, FLOAT z,  int collisionstype)
+void TheObjects::createObject(int model, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale)
 {
 	Object* newObject;
 
 	newObject = new Object();
 
-	XMMATRIX modelScale = XMMatrixScaling(1.0f, 1.0f, -1.0f);
+	XMMATRIX modelScale = XMMatrixScaling(scale, scale, -scale);
 	XMMATRIX modelRot = XMMatrixRotationY(0);
 	XMMATRIX modelOffset = XMMatrixTranslation(x, y, z);
 
@@ -133,9 +134,27 @@ void TheObjects::createObject(ID3D11Device* device, TextureMgr& texMgr,
 	newObject->setModelRot(modelRot);
 	newObject->setModelOffset(modelOffset);
 
+	if (model == branch)
+	{
+		anObject = mBranch;
+	}
+	else if (model == orange)
+	{
+		anObject = mOrange;
 
-	anObject = new BasicModel(device, texMgr, modelFilename, texturePath);
+	}
+	else if (model == gateone)
+	{
+		anObject = mGateOne;
 
+
+	}
+	else if (model == gatetwo)
+	{
+		anObject = mGateTwo;
+
+
+	}
 	newObject->setModel(anObject);
 
 
@@ -151,6 +170,8 @@ void TheObjects::createObject(ID3D11Device* device, TextureMgr& texMgr,
 	newObject->setBasicMInstance(theObject);
 
 	oneObject = newObject->getBasicMInstance();
+
+	newObject->setScale(scale);
 
 
 
@@ -236,9 +257,9 @@ void TheObjects::CreateBoundingBox()
 
 		LevelCollisions[i].collisionType = Objectclass[i]->getCollisionType();
 
-		LevelCollisions[i].Extents.x = LevelCollisions[i].Extents.x;
-		LevelCollisions[i].Extents.y = LevelCollisions[i].Extents.y;
-		LevelCollisions[i].Extents.z = LevelCollisions[i].Extents.z;
+		LevelCollisions[i].Extents.x = (LevelCollisions[i].Extents.x * Objectclass[i]->getScale());
+		LevelCollisions[i].Extents.y = (LevelCollisions[i].Extents.y * Objectclass[i]->getScale());
+		LevelCollisions[i].Extents.z = (LevelCollisions[i].Extents.z * Objectclass[i]->getScale());
 
 		//// this doesn't work, useless atm
 		ObjectBox.collisionType = 2;

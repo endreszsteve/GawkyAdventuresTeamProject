@@ -4,6 +4,7 @@
 #include "Effects.h"
 #include "Camera.h"
 #include "LevelParts.h"
+#include "ModelEnum.cpp"
 
 
 
@@ -12,8 +13,38 @@
 
 
 
-LevelBuilder::LevelBuilder()
+LevelBuilder::LevelBuilder(ID3D11Device* device, TextureMgr& texMgr)
 {
+
+
+
+	mGround = new BasicModel(device, texMgr, "Models\\Ground.obj", L"Textures\\");
+	mPlatform = new BasicModel(device, texMgr, "Models\\Platform2.obj", L"Textures\\");
+	mVinebox = new BasicModel(device, texMgr, "Models\\vinebox.obj", L"Textures\\");
+	mSmallTree = new BasicModel(device, texMgr, "Models\\sTree.obj", L"Textures\\");
+	mTreeTrunk = new BasicModel(device, texMgr, "Models\\treetrunk.obj", L"Textures\\");
+	mTreeTop = new BasicModel(device, texMgr, "Models\\treetop.obj", L"Textures\\");
+	mFence1 = new BasicModel(device, texMgr, "Models\\Fence.obj", L"Textures\\");
+	mFence2 = new BasicModel(device, texMgr, "Models\\Fence2.obj", L"Textures\\");
+	mCattail = new BasicModel(device, texMgr, "Models\\cattail.obj", L"Textures\\");
+	mHouseSide = new BasicModel(device, texMgr, "Models\\houseside.obj", L"Textures\\");
+	mHouseBack = new BasicModel(device, texMgr, "Models\\houseback.obj", L"Textures\\");
+	mHouseRoof = new BasicModel(device, texMgr, "Models\\houseroof.obj", L"Textures\\");
+	mSandBox = new BasicModel(device, texMgr, "Models\\sandbox.obj", L"Textures\\");
+	mFencePart1 = new BasicModel(device, texMgr, "Models\\fencepart1.obj", L"Textures\\");
+	mFencePart2 = new BasicModel(device, texMgr, "Models\\fencepart2.obj", L"Textures\\");
+	mlvl2Ground = new BasicModel(device, texMgr, "Models\\lvl2Ground.obj", L"Textures\\");
+	mTestBarn = new BasicModel(device, texMgr, "Models\\barn.obj", L"Textures\\");
+	
+	mBarnBack = new BasicModel(device, texMgr, "Models\\bBack.obj", L"Textures\\");
+	mBarnFrontSide = new BasicModel(device, texMgr, "Models\\bFrontSide.obj", L"Textures\\");
+	mBarnFrontTop = new BasicModel(device, texMgr, "Models\\bFrontTop.obj", L"Textures\\");
+	mBarnRoof = new BasicModel(device, texMgr, "Models\\bRoof.obj", L"Textures\\");
+	mBarnSide = new BasicModel(device, texMgr, "Models\\bSide.obj", L"Textures\\");
+	mBarnFrontSide2 = new BasicModel(device, texMgr, "Models\\bFrontSide2.obj", L"Textures\\");
+	mRoundBail = new BasicModel(device, texMgr, "Models\\roundbail.obj", L"Textures\\");
+	mSquareBail = new BasicModel(device, texMgr, "Models\\squarebail.obj", L"Textures\\");
+	mWoodPile = new BasicModel(device, texMgr, "Models\\woodpile.obj", L"Textures\\");
 
 
 
@@ -26,8 +57,6 @@ LevelBuilder::LevelBuilder()
 
 LevelBuilder::~LevelBuilder()
 {
-
-
 	for (UINT i = 0; i < LevelPartsclass.size(); ++i)
 	{
 
@@ -35,10 +64,6 @@ LevelBuilder::~LevelBuilder()
 
 
 	}
-
-
-
-
 }
 
 
@@ -102,25 +127,20 @@ void LevelBuilder::draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTe
 void LevelBuilder::addLevelParts(BasicModelInstance theLevelParts)
 {
 
-
-
 	mLevelPartsInstances.push_back(theLevelParts);
-
-
+	
 }
 
 
 
-void LevelBuilder::createLevelParts(ID3D11Device* device, TextureMgr& texMgr,
-	const std::string& modelFilename,
-	const std::wstring& texturePath, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale)
+void LevelBuilder::createLevelParts(int model, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale, FLOAT rotation)
 {
 	LevelParts* newLevelParts;
 
 	newLevelParts = new LevelParts();
 
 	XMMATRIX modelScale = XMMatrixScaling(scale, scale, -scale);
-	XMMATRIX modelRot = XMMatrixRotationY(0);
+	XMMATRIX modelRot = XMMatrixRotationY(rotation);
 	XMMATRIX modelOffset = XMMatrixTranslation(x, y, z);
 
 
@@ -129,9 +149,154 @@ void LevelBuilder::createLevelParts(ID3D11Device* device, TextureMgr& texMgr,
 	newLevelParts->setModelOffset(modelOffset);
 
 
-	anLevelParts = new BasicModel(device, texMgr, modelFilename, texturePath);
+	if (model == Ground)
+	{
+		anLevelParts = mGround;
+
+	}
+	else if (model == Platform)
+	{
+
+		anLevelParts = mPlatform;
+	}
+	else if (model == Vinebox)
+	{
+
+		anLevelParts = mVinebox;
+	}
+	else if (model == SmallTree)
+	{
+
+		anLevelParts = mSmallTree;
+	}
+	else if (model == TreeTrunk)
+	{
+
+		anLevelParts = mTreeTrunk;
+	}
+	else if (model == TreeTop)
+	{
+		anLevelParts = mTreeTop;
+
+	}
+	else if (model == Fence1)
+	{
+		anLevelParts = mFence1;
+
+	}
+	else if (model == Fence2)
+	{
+		anLevelParts = mFence2;
+
+	}
+	else if (model == Cattail)
+	{
+		anLevelParts = mCattail;
+
+	}
+	else if (model == HouseSide)
+	{
+		anLevelParts = mHouseSide;
+	}
+	else if (model == HouseBack)
+	{
+		anLevelParts = mHouseBack;
+
+	}
+	else if (model == HouseRoof)
+	{
+
+		anLevelParts = mHouseRoof;
+	}
+	else if (model == SandBox)
+	{
+
+		anLevelParts = mSandBox;
+	}
+	else if (model == FencePart1)
+	{
+		anLevelParts = mFencePart1;
+
+	}
+	else if (model == FencePart2)
+	{
+		anLevelParts = mFencePart2;
+
+	}
+	else if (model == lvl2Ground)
+	{
+		anLevelParts = mlvl2Ground;
+
+	}
+	else if (model == testbarn)
+	{
+		anLevelParts = mTestBarn;
+
+	}
+	else if (model == barnback)
+	{
+		anLevelParts = mBarnBack;
+
+	}
+	else if (model == barnfrontside)
+	{
+		anLevelParts = mBarnFrontSide;
+
+	}
+	else if (model == barnfronttop)
+	{
+		anLevelParts = mBarnFrontTop;
+
+	}
+	else if (model == barnroof)
+	{
+		anLevelParts = mBarnRoof;
+
+	}
+	else if (model == barnside)
+	{
+		anLevelParts = mBarnSide;
+
+	}
+<<<<<<< HEAD
+	else if (model == barnside2)
+=======
+	else if (model == barnfrontside2)
+>>>>>>> 1dcfd2ff1100f257b77e44fb822fd0287636f9e8
+	{
+		anLevelParts = mBarnFrontSide2;
+
+	}
+<<<<<<< HEAD
+=======
+	else if (model == roundbail)
+	{
+		anLevelParts = mRoundBail;
+
+	}
+	else if (model == squarebail)
+	{
+		anLevelParts = mSquareBail;
+
+	}
+	else if (model == woodpile)
+	{
+		anLevelParts = mWoodPile;
+
+	}
+
+>>>>>>> 1dcfd2ff1100f257b77e44fb822fd0287636f9e8
+
+
+
+	
+
+
+	
 
 	newLevelParts->setModel(anLevelParts);
+
+	newLevelParts->setRotationY(rotation);
 
 
 	BasicModelInstance oneLevelParts;
@@ -199,7 +364,7 @@ void LevelBuilder::CreateBoundingBox()
 			XMFLOAT3 P = mLevelPartsInstances[i].Model->BasicVertices[j].Pos;
 
 
-			//////multiply all these by 7
+			
 
 			minPt.x = MathHelper::Min(minPt.x, P.x);
 			minPt.y = MathHelper::Min(minPt.y, P.y);
@@ -241,6 +406,17 @@ void LevelBuilder::CreateBoundingBox()
 		LevelCollisions[i].Extents.x = LevelCollisions[i].Extents.x * scale;
 		LevelCollisions[i].Extents.y = LevelCollisions[i].Extents.y * scale;
 		LevelCollisions[i].Extents.z = LevelCollisions[i].Extents.z * scale;
+
+		if (LevelPartsclass[i]->getRotationY() != 0)
+		{
+			FLOAT tempX = LevelCollisions[i].Extents.x;
+			FLOAT tempZ = LevelCollisions[i].Extents.z;
+
+			LevelCollisions[i].Extents.x = tempZ;
+			LevelCollisions[i].Extents.z = tempX;
+
+		}
+
 
 		//// this doesn't work, useless atm
 		//LevelPartsBox[i]->setCollisionType();

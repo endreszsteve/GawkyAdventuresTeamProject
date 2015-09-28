@@ -4,6 +4,7 @@
 #include "Effects.h"
 #include "Camera.h"
 #include "Enemy.h"
+#include "ModelEnum.cpp"
 
 
 
@@ -12,11 +13,13 @@
 
 
 
-Enemies::Enemies()
+Enemies::Enemies(ID3D11Device* device, TextureMgr& texMgr)
 {
+
+	mSimpleEnemy = new BasicModel(device, texMgr, "Models\\simpleenemy.obj", L"Textures\\");
+	mTractor = new BasicModel(device, texMgr, "Models\\tractor.obj", L"Textures\\");
+
 	
-
-
 
 
 }
@@ -24,16 +27,16 @@ Enemies::Enemies()
 
 Enemies::~Enemies()
 {
-	
+
 
 	for (UINT i = 0; i < enemyclass.size(); ++i)
 	{
-	
+
 		delete enemyclass[i];
 
 
 	}
-	
+
 }
 
 
@@ -111,27 +114,44 @@ void Enemies::addEnemy(BasicModelInstance theEnemy)
 
 
 
-void Enemies::createEnemy(ID3D11Device* device, TextureMgr& texMgr,
-	const std::string& modelFilename,
-	const std::wstring& texturePath, FLOAT x, FLOAT y, FLOAT z)
+void Enemies::createEnemy(int model, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2, FLOAT x3, FLOAT y3, FLOAT z3, FLOAT x4, FLOAT y4, FLOAT z4, FLOAT scale, int speed, int collisionstype)
 {
 	Enemy* newEnemy;
 
 	newEnemy = new Enemy();
 
-	XMMATRIX modelScale = XMMatrixScaling(3.0f, 3.0f, -3.0f);
+	XMMATRIX modelScale = XMMatrixScaling(scale, scale, -scale);
 	XMMATRIX modelRot = XMMatrixRotationY(0);
-	XMMATRIX modelOffset = XMMatrixTranslation(x,y,z);
+	XMMATRIX modelOffset = XMMatrixTranslation(x1, y1, z1);
 
 
 	newEnemy->setModelScale(modelScale);
 	newEnemy->setModelRot(modelRot);
 	newEnemy->setModelOffset(modelOffset);
 
+	newEnemy->SetPositionOne(x1, y1, z1);
+	newEnemy->SetPositionTwo(x2, y2, z2);
+	newEnemy->SetPositionThree(x3, y3, z3);
+	newEnemy->SetPositionFour(x4, y4, z4);
 
-	anEnemy = new BasicModel(device, texMgr, modelFilename, texturePath);
+
+
+	if (model == simpleEnemy)
+	{
+		anEnemy = mSimpleEnemy;
+	}
+	else if (model == tractor)
+	{
+		anEnemy = mTractor;
+	}
+
+
+	
 
 	newEnemy->setModel(anEnemy);
+	newEnemy->setScale(scale);
+	newEnemy->setSpeed(speed);
+	newEnemy->setcollisiontype(collisionstype);
 
 
 	BasicModelInstance oneEnemy;
@@ -142,18 +162,18 @@ void Enemies::createEnemy(ID3D11Device* device, TextureMgr& texMgr,
 
 	XMStoreFloat4x4(&theEnemy.World, modelScale*modelRot*modelOffset);
 
-	
+
 	newEnemy->setBasicMInstance(theEnemy);
 
 	oneEnemy = newEnemy->getBasicMInstance();
 
-	
+
 
 	addEnemy(theEnemy);
 
 	enemyclass.push_back(newEnemy);
 
-	
+
 	LevelCollisions.push_back(EnemyBox);
 
 	newEnemy->setWorld(theEnemy.World);
@@ -228,15 +248,18 @@ void Enemies::CreateBoundingBox()
 			0.5f*(maxPt.y - minPt.y),
 			0.5f*(maxPt.z - minPt.z));
 
-		LevelCollisions[i].collisionType = 1 ;
+		LevelCollisions[i].collisionType = enemyclass[i]->getcollisiontype();
 
-		LevelCollisions[i].Extents.x = LevelCollisions[i].Extents.x * 3;
-		LevelCollisions[i].Extents.y = LevelCollisions[i].Extents.y * 3;
-		LevelCollisions[i].Extents.z = LevelCollisions[i].Extents.z * 3;
+
+		FLOAT scale = enemyclass[i]->getScale();
+
+		LevelCollisions[i].Extents.x = LevelCollisions[i].Extents.x * scale;
+		LevelCollisions[i].Extents.y = LevelCollisions[i].Extents.y * scale;
+		LevelCollisions[i].Extents.z = LevelCollisions[i].Extents.z * scale;
 
 		EnemyBox.collisionType = 1;
 
-		
+
 		enemyclass[i]->setAABB(&LevelCollisions[i]);
 
 	}
@@ -255,9 +278,9 @@ std::vector<BasicModelInstance> Enemies::getEnemy()
 std::vector <XNA::AxisAlignedBox> Enemies::getEnemyCollisions()
 {
 
-	
 
-	
+
+
 
 
 
@@ -269,18 +292,18 @@ std::vector <XNA::AxisAlignedBox> Enemies::getEnemyCollisions()
 
 void Enemies::update(float dt)
 {
-	
 
-	
+
+
 	DeltaTime = dt;
 
 	for (int i = 0; i < mEnemyInstances.size(); i++)
 	{
 
 		enemyclass[i]->update(DeltaTime);
-		
+
 		mEnemyInstances[i].World = enemyclass[i]->GetWorld();
-		
+
 		XMMATRIX temp = XMLoadFloat4x4(&mEnemyInstances[i].World);
 		XMVECTOR Scale;
 		XMVECTOR Rotation;
@@ -290,14 +313,14 @@ void Enemies::update(float dt)
 
 		XMMatrixDecompose(&Scale, &Rotation, &Position, temp);
 		XMStoreFloat3(&tempPosition, Position);
-	
+
 
 
 		LevelCollisions[i].Center = tempPosition;
 
 
 	}
-	
+
 }
 
 
@@ -306,7 +329,7 @@ void Enemies::RemovemObjectInstance(int number)
 
 	mEnemyInstances.erase(mEnemyInstances.begin() + number);
 
-	LevelCollisions.erase(LevelCollisions.begin() + number);	
+	LevelCollisions.erase(LevelCollisions.begin() + number);
 	delete(enemyclass[number]);
 	enemyclass.erase(enemyclass.begin() + number);
 }

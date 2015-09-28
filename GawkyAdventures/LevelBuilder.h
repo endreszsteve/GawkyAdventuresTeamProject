@@ -5,6 +5,7 @@
 #include "BasicModel.h"
 #include "xnacollision.h"
 #include "GameTimer.h"
+//
 
 
 
@@ -17,7 +18,7 @@ class GameTimer;
 class LevelBuilder
 {
 public:
-	LevelBuilder();
+	LevelBuilder(ID3D11Device* device, TextureMgr& texMgr);
 
 	~LevelBuilder();
 
@@ -27,9 +28,7 @@ public:
 
 	void draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTechnique* activeTexTech);
 
-	void createLevelParts(ID3D11Device* device, TextureMgr& texMgr,
-		const std::string& modelFilename,
-		const std::wstring& texturePath, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale);
+	void createLevelParts(int model,FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale, FLOAT rotation);
 
 
 	void CreateBoundingBox();
@@ -52,6 +51,38 @@ private:
 	std::vector <XNA::AxisAlignedBox> LevelCollisions;
 
 	BasicModel* anLevelParts;
+
+	
+
+
+	BasicModel* mGround;
+	BasicModel* mPlatform;
+	BasicModel* mVinebox;
+	BasicModel* mSmallTree;
+	BasicModel* mTreeTrunk;
+	BasicModel* mTreeTop;
+	BasicModel* mFence1;
+	BasicModel* mFence2;
+	BasicModel* mCattail;
+	BasicModel* mHouseSide;
+	BasicModel* mHouseBack;
+	BasicModel* mHouseRoof;
+	BasicModel* mSandBox;
+	BasicModel* mFencePart1;
+	BasicModel* mFencePart2;
+	BasicModel* mlvl2Ground;
+	BasicModel* mTestBarn;
+	BasicModel* mBarnBack;
+	BasicModel* mBarnFrontSide;
+	BasicModel* mBarnFrontTop;
+	BasicModel* mBarnRoof;
+	BasicModel* mBarnSide;
+	BasicModel* mBarnFrontSide2;
+	BasicModel* mRoundBail;
+	BasicModel* mSquareBail;
+	BasicModel* mWoodPile;
+
+
 
 	BasicModelInstance theLevelParts;
 	XNA::AxisAlignedBox LevelPartsBox;

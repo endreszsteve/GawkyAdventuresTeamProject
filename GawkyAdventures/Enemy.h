@@ -35,7 +35,15 @@ public:
 	void setBasicMInstance(BasicModelInstance model);
 	void setAABB(XNA::AxisAlignedBox* tempEnemyBox);
 	void setWorld(XMFLOAT4X4 tempEnemyWorld);
-	
+	void SetPositionOne(FLOAT x, FLOAT y, FLOAT z);
+	void SetPositionTwo(FLOAT x, FLOAT y, FLOAT z);
+	void SetPositionThree(FLOAT x, FLOAT y, FLOAT z);
+	void SetPositionFour(FLOAT x, FLOAT y, FLOAT z);
+	void setSpeed(FLOAT theSpeed);
+
+	void setScale(FLOAT scale);
+	void setcollisiontype(int collisiontype);
+
 	///getters
 	XMMATRIX getModelScale();
 	XMMATRIX getModelRot();
@@ -45,10 +53,12 @@ public:
 	XNA::AxisAlignedBox* getEnemyAABB();
 	XMFLOAT4X4 GetWorld();
 	XMFLOAT3 getEnemyPosition();
+	FLOAT getScale();
+	int getcollisiontype();
 
-
-private:
 	
+private:
+
 
 	XMMATRIX modelScale;
 	XMMATRIX modelRot;
@@ -65,13 +75,18 @@ private:
 	XMFLOAT4 mEnemyRotationQuad;
 	XMFLOAT4 mEnemyRotation;
 
+	XMFLOAT3 mEnemyPositionOne;
+	XMFLOAT3 mEnemyPositionTwo;
+	XMFLOAT3 mEnemyPositionThree;
+	XMFLOAT3 mEnemyPositionFour;
+
 	BasicModel* anEnemy;
 
 	BasicModelInstance theEnemy;
 
 	XNA::AxisAlignedBox* EnemyBox;
 
-	
+
 	XMVECTOR currCharDirection;
 	XMVECTOR oldCharDirection;
 	XMVECTOR charPosition;
@@ -80,16 +95,26 @@ private:
 	XMVECTOR EnemyForward;
 	XMVECTOR EnemyRight;
 	XMVECTOR EnemyUp;
+	//// last travel point the enemy hit
+	XMFLOAT3 lastPoint;
+
+	FLOAT speed;
 
 	XMVECTOR direction;
 
-	
-	
+	int travelToPoint;
 
-	
-	
+	int timesThrough;
+	int mcollisiontype;
+	FLOAT theScale;
 
-	
+
+
+
+
+
+
+
 
 
 };

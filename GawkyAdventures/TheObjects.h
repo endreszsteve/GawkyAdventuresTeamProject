@@ -17,7 +17,7 @@ class GameTimer;
 class TheObjects
 {
 public:
-	TheObjects();
+	TheObjects(ID3D11Device* device, TextureMgr& texMgr);
 
 	~TheObjects();
 
@@ -27,9 +27,7 @@ public:
 
 	void draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTechnique* activeTexTech);
 
-	void createObject(ID3D11Device* device, TextureMgr& texMgr,
-		const std::string& modelFilename,
-		const std::wstring& texturePath, FLOAT x, FLOAT y, FLOAT z, int collisionstype);
+	void createObject(int model, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale);
 
 
 	void CreateBoundingBox();
@@ -72,6 +70,11 @@ private:
 
 	Object* newObject;
 
+	/// the models to be loaded in
+	BasicModel* mOrange;
+	BasicModel* mBranch;
+	BasicModel* mGateOne;
+	BasicModel* mGateTwo;
 	
 
 	
