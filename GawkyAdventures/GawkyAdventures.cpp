@@ -40,26 +40,13 @@ public:
 	void OnMouseMove(WPARAM btnState, int x, int y);
 
 
-
-
-
-
-
 	//DeltaTime getter
 	float Game::getDeltaTime();
 ////////////////////
 
 private:
-	
-	
-	
-
-
-
 
 	Sky* mSky;
-
-
 	////////////////////////////////////////Player
 
 
@@ -70,30 +57,12 @@ private:
 	XMVECTOR PlayerForward;
 	XMVECTOR PlayerRight;
 	XMVECTOR PlayerUp;
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	///////lighting
 	DirectionalLight mDirLights[3];
 
 	UINT mLightCount;
-
-
 
 	Camera mCam;
 	
@@ -246,7 +215,7 @@ bool Game::Init(HINSTANCE hInstance)
 	Objects->createObject(orange, 20.0f, 4.0f, 20.0f, ctCollect, 1);
 	Objects->createObject(orange, -80.0f, 10.0f, -60.0f, ctCollect, 1);
 
-	Objects->createObject(gatetwo, -95.0f, 8.5f, 0.0f, ctStumble, 7);
+	//Objects->createObject(gatetwo, -95.0f, 8.5f, 0.0f, ctStumble, 7);
 	
 
 
@@ -429,6 +398,9 @@ bool Game::Init(HINSTANCE hInstance)
 
 	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, -27 + z2o, ctLevel, 14, 0);
 	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, -27 + z2o, ctLevel, 14, 0);
+
+
+	Level1->createLevelParts(woodpile, -130 + x2o, 4 + y2o, -127 + z2o, ctLevel, 1, 1.57);
 	
 
 
@@ -453,6 +425,8 @@ bool Game::Init(HINSTANCE hInstance)
 
 	theEnemies->createEnemy(simpleEnemy, 27 + x2o, 2 + y2o, -62 + z2o, 27 + x2o, 2 + y2o, -42 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
 	theEnemies->createEnemy(simpleEnemy, 47 + x2o, 2 + y2o, -62 + z2o, 27 + x2o, 2 + y2o, -62 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+	
+	
 	///unkillable enemies must be placed at the end
 	theEnemies->createEnemy(tractor, 4.0f + x2o, 13 + y2o, 88.0f + z2o, 4 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, 88 + z2o, 1, 30, ctUnkillable);
 	theEnemies->createEnemy(tractor, 103 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, 88 + z2o, 4.0f + x2o, 13 + y2o, 88.0f + z2o, 4 + x2o, 13 + y2o, -96 + z2o, 1, 30, ctUnkillable);
@@ -609,7 +583,7 @@ void Game::DrawScene()
 void Game::OnMouseDown(WPARAM btnState, int x, int y)
 {
 
-	//theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\Hat.obj", L"Textures\\", x, 4.0f, y);
+
 
 	SetCapture(mhMainWnd);
 }

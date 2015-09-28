@@ -44,6 +44,7 @@ LevelBuilder::LevelBuilder(ID3D11Device* device, TextureMgr& texMgr)
 	mBarnFrontSide2 = new BasicModel(device, texMgr, "Models\\bFrontSide2.obj", L"Textures\\");
 	mRoundBail = new BasicModel(device, texMgr, "Models\\roundbail.obj", L"Textures\\");
 	mSquareBail = new BasicModel(device, texMgr, "Models\\squarebail.obj", L"Textures\\");
+	mWoodPile = new BasicModel(device, texMgr, "Models\\woodpile.obj", L"Textures\\");
 
 
 
@@ -270,6 +271,11 @@ void LevelBuilder::createLevelParts(int model, FLOAT x, FLOAT y, FLOAT z, int co
 	else if (model == squarebail)
 	{
 		anLevelParts = mSquareBail;
+
+	}
+	else if (model == woodpile)
+	{
+		anLevelParts = mWoodPile;
 
 	}
 

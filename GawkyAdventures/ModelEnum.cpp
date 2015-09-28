@@ -1,6 +1,6 @@
 enum levelEnum  {Ground, Platform, Vinebox, SmallTree, TreeTrunk, TreeTop, Fence1, Fence2, Cattail,
 HouseSide, HouseBack, HouseRoof, SandBox, FencePart1, FencePart2, lvl2Ground, testbarn,
-barnback, barnfrontside, barnfronttop, barnroof, barnside, barnfrontside2,roundbail, squarebail, nocoll = 99};
+barnback, barnfrontside, barnfronttop, barnroof, barnside, barnfrontside2,roundbail, squarebail, woodpile, nocoll = 99};
 
 
 

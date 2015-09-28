@@ -80,6 +80,7 @@ private:
 	BasicModel* mBarnFrontSide2;
 	BasicModel* mRoundBail;
 	BasicModel* mSquareBail;
+	BasicModel* mWoodPile;
 
 
 	BasicModelInstance theLevelParts;
