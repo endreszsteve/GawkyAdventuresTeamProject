@@ -1,4 +1,6 @@
 
+#include <memory>
+#include <iostream>
 
 #include "d3dApp.h"
 #include "d3dx11Effect.h"
@@ -19,6 +21,12 @@
 #include "LevelBuilder.h"
 #include "Player.h"
 #include "ModelEnum.cpp"
+#include "IntroState.h"
+#include "MainMenuState.h"
+#include "PlayState.h"
+#include "DefaultGameStateManager.h"
+#include "GameState.h"
+
 
 
 
@@ -35,14 +43,11 @@ public:
 	void UpdateScene(float dt);
 	void DrawScene();
 
+
 	void OnMouseDown(WPARAM btnState, int x, int y);
 	void OnMouseUp(WPARAM btnState, int x, int y);
 	void OnMouseMove(WPARAM btnState, int x, int y);
 
-
-
-
-	///////////////////////////////////////////////////////
 
 
 	//DeltaTime getter
@@ -50,118 +55,24 @@ public:
 ////////////////////
 
 private:
-	
-	void BuildSkullGeometryBuffers();
-	
-
-
-
 
 	Sky* mSky;
-
-
 	////////////////////////////////////////Player
 
 
 
 	XMFLOAT3 mPlayerPosition;
-	XMFLOAT3 mPlayerScale;	
-	XMFLOAT4 mPlayerRotationQuad;
-	XMFLOAT4 mPlayerRotation;
 
-
-
-	XMFLOAT3 mOPlayerPosition;
-	XMFLOAT3 mOPlayerScale;
-	XMFLOAT4 mOPlayerRotationQuad;
-	XMFLOAT4 mOPlayerRotation;
-
-
-
-
-	XMMATRIX mRotation;
-	XMFLOAT4X4 playerRotation;
-
-	int mPlayerVertexOffset;
-	UINT mPlayerIndexOffset;
-	UINT mPlayerIndexCount;
-
-	//textures
-	ID3D11ShaderResourceView* mPlayerMapSRV;
-	Material mPlayerMat;
-
-
-	XMFLOAT4X4 mPlayerTexTransform;
-	XMFLOAT4X4 mPlayerWorld;
 
 	XMVECTOR PlayerForward;
 	XMVECTOR PlayerRight;
 	XMVECTOR PlayerUp;
-	
-
-	XMVECTOR currCharDirection;
-	XMVECTOR oldCharDirection; 
-	XMVECTOR charPosition;
-	XMVECTOR moveDirection;
-
-
-	XMVECTOR tripDirection;
-	XMVECTOR tripDistance;
-
-
-
-	// Bounding box of the Player
-	XNA::AxisAlignedBox mPlayerBox;
-
-
-
-	///////////// the Players states
-	bool isAlive;
-	bool isImmune;
-	bool isTripping;
-
-	bool hitFeet;
-	bool onGround;
-	bool fellOffMap;
-	
-
-
-	//////////////////////////////jumping variables
-	bool isJump;
-	bool isFalling;
-	bool hitHead;
-
-
-	
-	int currentObject;
-	FLOAT currGround;
-	
-	XMVECTOR startJumpPos;
-	XMVECTOR Jump;
-
-
-
-	//////skull stuff
-	ID3D11Buffer* mSkullVB;
-	ID3D11Buffer* mSkullIB;
-
-	ID3D11Buffer* mSkySphereVB;
-	ID3D11Buffer* mSkySphereIB;	
-	
-	XMFLOAT4X4 mSkullWorld;
-	UINT mSkullIndexCount;
-
-	Material mSkullMat;
-
-	XNA::AxisAlignedBox mSkullBox;
 
 
 	///////lighting
 	DirectionalLight mDirLights[3];
 
 	UINT mLightCount;
-
-
 
 	Camera mCam;
 	
@@ -201,8 +112,8 @@ private:
 	int totEnemy;
 	int totCollect;
 
-
-
+	/////// GameState
+	std::shared_ptr<DefaultGameStateManager>gameStateManager = std::make_shared<DefaultGameStateManager>();
 };
 
 
@@ -231,64 +142,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 
 Game::Game(HINSTANCE hInstance)
-	: D3DApp(hInstance), mSky(0),
-	 mSkullVB(0), mSkullIB(0),
-	
-	mSkullIndexCount(0), mLightCount(3), mPlayerMapSRV(0),
-	 mPlayerPosition(0.0f, 2.0f, 0.0f), mPlayerRotationQuad(0.0f, 0.0f, 0.0f, 0.0f),
-	mPlayerScale(1.0f, 1.0f, 1.0f), mPlayerRotation(0.0f, 0.0f, 0.0f, 1.0f), DeltaTimeF(0.0f), isJump(0), onGround(false)
-	, isFalling(false), hitHead(false), hitFeet(false), currGround(2.0f), fellOffMap(false), mOPlayerPosition(0.0f, 2.0f, 0.0f), mOPlayerRotationQuad(0.0f, 0.0f, 0.0f, 0.0f),
-	mOPlayerScale(1.0f, 1.0f, 1.0f), mOPlayerRotation(0.0f, 0.0f, 0.0f, 1.0f), isAlive(true), isImmune(false), isTripping(false), totEnemy(0), totCollect(0)
+	: D3DApp(hInstance), mSky(0), mLightCount(3), 
+	 mPlayerPosition(0.0f, 2.0f, 0.0f), DeltaTimeF(0.0f), totEnemy(0), totCollect(0)
 	
 {
 	mMainWndCaption = L"Adventures of Gawky";
 
 
-	////////////////player movement
-	currCharDirection = XMVectorSet(0.0f, 3.0f, 0.0f, 0.0f);
-	oldCharDirection = XMVectorSet(0.0f, 3.0f, 0.0f, 0.0f);
-	charPosition = XMVectorSet(0.0f, 3.0f, 0.0f, 0.0f);
 	PlayerForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	PlayerRight = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-
-
-
+	PlayerUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	
 	////send player information to the camera
 	mCam.getPlayerPos(mPlayerPosition);
 	mCam.playerInfo(PlayerForward, PlayerRight, PlayerUp);
-	
-	///initialize player
-	XMVECTOR S = XMLoadFloat3(&mPlayerScale);
-	XMVECTOR P = XMLoadFloat3(&mPlayerPosition);
-	XMVECTOR Q = XMLoadFloat4(&mPlayerRotationQuad);
-	XMVECTOR rot = XMLoadFloat4(&mPlayerRotation);
-	XMStoreFloat4x4(&mPlayerWorld, XMMatrixAffineTransformation(S, rot, Q, P));
-
-
-	tripDirection = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-
-	
-
-
-
-	mLastMousePos.x = 0;
-	mLastMousePos.y = 0;
-
-
-	Jump = XMVectorSet(0.0f, 5.0f, 0.0f, 0.0f);
 
 	mCam.SetPosition(0.0f, 2.0f, -20.0f);
 
-	
 
-	XMMATRIX skullScale = XMMatrixScaling(1.0f, 1.0f, 1.0f);	
-	XMMATRIX skullRotation = XMMatrixRotationY(0);	
-	XMMATRIX skullOffset = XMMatrixTranslation(0.0f, 20.0f, 40.0f);
-
-	
-
-	XMStoreFloat4x4(&mSkullWorld, XMMatrixMultiply(skullScale * skullRotation, skullOffset));
 
 	mDirLights[0].Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	mDirLights[0].Diffuse = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -306,18 +177,6 @@ Game::Game(HINSTANCE hInstance)
 	mDirLights[2].Direction = XMFLOAT3(-0.5f, -1.9f, -1.57735f);
 
 
-
-	mPlayerMat.Ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	mPlayerMat.Diffuse = XMFLOAT4(0.7f, 0.70f, 0.70f, 1.0f);
-	mPlayerMat.Specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 32.0f);
-	mPlayerMat.Reflect = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-
-
-
-	mSkullMat.Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
-	mSkullMat.Diffuse = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
-	mSkullMat.Specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 16.0f);
-	mSkullMat.Reflect = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 }
 
 Game::~Game()
@@ -327,12 +186,6 @@ Game::~Game()
 	SafeDelete(Level1);
 	SafeDelete(theEnemies);
 
-
-	
-	ReleaseCOM(mPlayerMapSRV);
-
-	ReleaseCOM(mSkullVB);
-	ReleaseCOM(mSkullIB);
 
 	Effects::DestroyAll();
 	InputLayouts::DestroyAll();
@@ -349,14 +202,13 @@ bool Game::Init(HINSTANCE hInstance)
 	InputLayouts::InitAll(md3dDevice);
 
 	mTexMgr.Init(md3dDevice);
-
-
-
-
+	
 	mSky = new Sky(md3dDevice, L"Textures//sunsetcube1024.dds", 5000.0f);
 
+	// gameState
+	
 
-
+	gameStateManager->Push(std::make_shared<PlayState>(gameStateManager));
 
 	/// create the player
 	PlayerOne = new Player(md3dDevice, mTexMgr, "Models\\gawky.obj", L"Textures\\", 0.0f, 10.0f, 0.0f);
@@ -369,69 +221,264 @@ bool Game::Init(HINSTANCE hInstance)
 	
 	
 	
-
-
-	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble);
-	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble);
+<<<<<<< HEAD
+	/*
+	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble, 1);
+	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble, 1);
 	
-	Objects->createObject(orange, 80.0f, 30.0f, 20.0f, ctCollect);
-	Objects->createObject(orange, 20.0f, 4.0f, 20.0f, ctCollect);
-	Objects->createObject(orange, -80.0f, 10.0f, -60.0f, ctCollect);
+=======
+	
+	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble, 1);
+	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble, 1);
+	
+>>>>>>> 1dcfd2ff1100f257b77e44fb822fd0287636f9e8
+	Objects->createObject(orange, 80.0f, 30.0f, 20.0f, ctCollect, 1);
+	Objects->createObject(orange, 20.0f, 4.0f, 20.0f, ctCollect, 1);
+	Objects->createObject(orange, -80.0f, 10.0f, -60.0f, ctCollect, 1);
+
+<<<<<<< HEAD
+	Objects->createObject(gatetwo, -95.0f, 8.5f, 0.0f, ctStumble, 7);
+=======
+	//Objects->createObject(gatetwo, -95.0f, 8.5f, 0.0f, ctStumble, 7);
+>>>>>>> 1dcfd2ff1100f257b77e44fb822fd0287636f9e8
 	
 
 
-	theEnemies->createEnemy(simpleEnemy, -85.0f, 9.0f, 78.0f, -65.f, 9.0f, 78.0f);
-	theEnemies->createEnemy(simpleEnemy, 55.0f, 3.0f, 80.0f, 55.0f, 3.0f, 60.0f);
-	theEnemies->createEnemy(simpleEnemy, 0.0f, 3.0f, 45.0f, 0.0f, 3.0f, 25.0f);
+	theEnemies->createEnemy(simpleEnemy, -85.0f, 9.0f, 78.0f, -65.f, 9.0f, 78.0f, NULL,0,0,0,0,0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 55.0f, 3.0f, 80.0f, 55.0f, 3.0f, 60.0f,NULL, 0, 0, 0, 0, 0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 0.0f, 3.0f, 45.0f, 0.0f, 3.0f, 25.0f, NULL, 0, 0, 0, 0, 0, 3, 15, ctEnemy);
 
 	
 
-	Level1->createLevelParts(Ground,  0, -1.8, 0, 0, 7);
+	Level1->createLevelParts(Ground,  0, -1.8, 0, 0, 7, 0);
 
 	///left side 3 platforms
-	Level1->createLevelParts(Platform, -76, 2.1, 26.6, 0, 7);
-	Level1->createLevelParts(Platform, -76, 9.1, 50.82, 0, 7);
-	Level1->createLevelParts(Platform, -76, 2.1, 74.2, 0, 7);
+	Level1->createLevelParts(Platform, -76, 2.1, 26.6, 0, 7, 0);
+	Level1->createLevelParts(Platform, -76, 9.1, 50.82, 0, 7, 0);
+	Level1->createLevelParts(Platform, -76, 2.1, 74.2, 0, 7, 0);
 	
 
 
 	///rightside 3 platforms
-	Level1->createLevelParts(Platform, 73, 2.1, 75.6, 0, 7);
-	Level1->createLevelParts(Platform, 73, 9.1, 50.82, 0, 7);
-	Level1->createLevelParts(Platform, 73, 14.0, 15.82, 0, 7);
+	Level1->createLevelParts(Platform, 73, 2.1, 75.6, 0, 7, 0);
+	Level1->createLevelParts(Platform, 73, 9.1, 50.82, 0, 7, 0);
+	Level1->createLevelParts(Platform, 73, 14.0, 15.82, 0, 7, 0 );
 	
 	
 	///the tree's
-	Level1->createLevelParts(SmallTree, -56, 15.4, 86.8, 0, 7);
-	Level1->createLevelParts(SmallTree, -56, 15.4, 72.8, 0, 7);
-	Level1->createLevelParts(SmallTree, -56, 15.4, 58.8, 0, 7);
+	Level1->createLevelParts(SmallTree, -56, 15.4, 86.8, 0, 7, 0);
+	Level1->createLevelParts(SmallTree, -56, 15.4, 72.8, 0, 7, 0);
+	Level1->createLevelParts(SmallTree, -56, 15.4, 58.8, 0, 7, 0);
 
 	/// large tree
-	Level1->createLevelParts(TreeTrunk, 0, 14, 57.6, 0, 7);
-	Level1->createLevelParts(TreeTop, 0, 61.6, 57.6, 0, 7);
+	Level1->createLevelParts(TreeTrunk, 0, 14, 57.6, 0, 7, 0);
+	Level1->createLevelParts(TreeTop, 0, 61.6, 57.6, 0, 7, 0);
 
 	// the Fence
 	Level1->createLevelParts(Fence1, 87, 5, 0, 0, 7);
-	Level1->createLevelParts(Fence1, -95, 5, 0, 0, 7);
-	Level1->createLevelParts(Fence2, -5, 5, 91, 0, 7);
-	Level1->createLevelParts(Fence2, -5, 5, -91, 0, 7);
+	Level1->createLevelParts(FencePart2, -95, 6, 48, 0, 7);
+	Level1->createLevelParts(FencePart2, -95, 6, -48, 0, 7);
+
+
+	Level1->createLevelParts(Fence2, -5, 6, 91, 0, 7);
+	Level1->createLevelParts(Fence2, -5, 6, -91, 0, 7);
+	Level1->createLevelParts(Fence1, 87, 5, 0, 0, 7, 0);
+	Level1->createLevelParts(FencePart2, -95, 6, 48, 0, 7, 0);
+	Level1->createLevelParts(FencePart2, -95, 6, -48, 0, 7, 0);
+
+
+	Level1->createLevelParts(Fence2, -5, 6, 91, 0, 7, 0);
+	Level1->createLevelParts(Fence2, -5, 6, -91, 0, 7, 0);
 	//cattails
-	Level1->createLevelParts(Cattail, 84, 5.6, -47.6, 0, 7);
-	Level1->createLevelParts(Cattail, 77, 5.6, -47.6, 0, 7);
-	Level1->createLevelParts(Cattail, 68.25, 5.6, -47.6, 0, 7);
-	Level1->createLevelParts(Cattail, 59.5, 5.6, -47.6, 0, 7);
-	Level1->createLevelParts(Cattail,  50.75, 5.6, -47.6, 0, 7);
+	Level1->createLevelParts(Cattail, 84, 5.6, -47.6, 0, 7, 0);
+	Level1->createLevelParts(Cattail, 77, 5.6, -47.6, 0, 7, 0);
+	Level1->createLevelParts(Cattail, 68.25, 5.6, -47.6, 0, 7, 0);
+	Level1->createLevelParts(Cattail, 59.5, 5.6, -47.6, 0, 7, 0);
+	Level1->createLevelParts(Cattail,  50.75, 5.6, -47.6, 0, 7, 0);
 	/// the House
-	Level1->createLevelParts(HouseSide, 43.4, 14, -70.0, 0, 7);
-	Level1->createLevelParts(HouseSide, 7, 14, -70.0, 0, 7);
-	Level1->createLevelParts(HouseBack, 24.5, 14, -82.6, 0, 7);
-	Level1->createLevelParts(HouseRoof, 24.5, 34.0, -70.5, 0, 6);
+	Level1->createLevelParts(HouseSide, 43.4, 14, -70.0, 0, 7, 0);
+	Level1->createLevelParts(HouseSide, 7, 14, -70.0, 0, 7, 0);
+	Level1->createLevelParts(HouseBack, 24.5, 14, -82.6, 0, 7, 0);
+	Level1->createLevelParts(HouseRoof, 24.5, 34.0, -70.5, 0, 6, 0);
 
 	/// build the sandbox
+
 	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7);
+	*/
+	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7, 0);
+
+
+	////2nd section of level
+	////offset everything by -250 and -15
+		
+	//the barn
+	int x2o = -230;
+	int y2o = 0;
+	int z2o = 0;
+
+	Level1->createLevelParts(lvl2Ground, 0 + x2o, -5 + y2o, 0.0 + z2o, ctLevel, 14, 0);
+	Level1->createLevelParts(barnback, -81.56 + x2o, 22.8 + y2o, 136.8 + z2o, ctLevel, 23, 0);
+	Level1->createLevelParts(barnside, -124.34 + x2o, 23.58 + y2o, 100.92 + z2o, ctLevel, 25, 0);
+	Level1->createLevelParts(barnside, -36.34 + x2o, 23.58 + y2o, 100.92 + z2o, ctLevel, 25, 0);
+	Level1->createLevelParts(barnfrontside, -44.74 + x2o,23.74 + y2o, 64.96 + z2o, ctLevel, 25, 0);
+	Level1->createLevelParts(barnfrontside2, -117.21 + x2o, 22.8 + y2o, 64.96 + z2o, ctLevel, 25, 0);
+	Level1->createLevelParts(barnfronttop, -80.47 + x2o, 64.38 + y2o, 64.96 + z2o, ctLevel, 25, 0);
+	Level1->createLevelParts(barnroof, -81.56 + x2o, 75.84 + y2o, 102.79 + z2o, ctLevel, 25, 0);
+	/// 1.57 = 90 degrees
+	Level1->createLevelParts(Fence1, -139 + x2o, 7 + y2o, 0 + z2o, ctLevel, 11, 0);
+
+	Level1->createLevelParts(Fence1, 0 + x2o, 7 + y2o, 139 + z2o, ctLevel, 11, 1.57);
+	Level1->createLevelParts(Fence1, 0 + x2o, 7 + y2o, -139 + z2o, ctLevel, 11, 1.57);
+	
+	
+	
+	//bails
+	
+
+	//bottom Row
+	
+	Level1->createLevelParts(squarebail, -114 + x2o, 0 + y2o, 129 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -114 + x2o, 11.6 + y2o, 129 + z2o, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -114 + x2o, 0 + y2o, 120.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -114 + x2o, 0 + y2o, 111.48 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -114 + x2o, 0 + y2o, 102.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -100 + x2o, 0 + y2o, 128.98 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -86.68 + x2o, 0 + y2o, 128.98 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -86.68 + x2o, 5.5 + y2o, 128.98 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -86.68 + x2o, 11.6 + y2o, 128.98 + z2o, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -103 + x2o, 0 + y2o, 118 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -93.9 + x2o, 0 + y2o, 118 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -84.98 + x2o, 0 + y2o, 118 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -103 + x2o, 0 + y2o, 104.9 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -93.9 + x2o, 0 + y2o, 104.9 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -85 + x2o, 0 + y2o, 104.9 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -114 + x2o, 5.5 + y2o, 120.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -114 + x2o, 11.6 + y2o, 120.2 + z2o, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -114 + x2o, 5.5 + y2o, 111.48 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -100.6 + x2o, 5.5 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -100.6 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+	
+	//
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 119.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 119.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 119.9 + z2o, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 111.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 111.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 111.2 + z2o, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 102.4 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 102.4 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 102.4 + z2o, ctLevel, 7, 0);
+	
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 94 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 94 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
+	//
+
+	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 119.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 111.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 102.4 + z2o, ctLevel, 7, 0);
+
+	Level1->createLevelParts(squarebail, -59 + x2o, 0 + y2o, 94 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 5.5 + y2o, 94 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
+
+	//
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 119.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 111.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 102.4 + z2o, ctLevel, 7, 0);
+	
+	//
+	Level1->createLevelParts(squarebail, 40 + x2o, 0 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 40 + x2o, 5.5 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 40 + x2o, 11.6 + y2o, -43 + z2o, ctLevel, 7, 0);
+	//
+	Level1->createLevelParts(squarebail, 54 + x2o, 0 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 54 + x2o, 5.5 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 54 + x2o, 11.6 + y2o, -43 + z2o, ctLevel, 7, 0);
+	//
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 0 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 5.5 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 11.6 + y2o, -43 + z2o, ctLevel, 7, 0);
+	//
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 0 + y2o, -52 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 5.5 + y2o, -52 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 11.6 + y2o, -52 + z2o, ctLevel, 7, 0);
+	//
+	Level1->createLevelParts(squarebail, 54 + x2o, 0 + y2o, -52 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 54 + x2o, 5.5 + y2o, -52 + z2o, ctLevel, 7, 0);
+	//
+	Level1->createLevelParts(squarebail, 40 + x2o, 0 + y2o, -52 + z2o, ctLevel, 7, 0);
+
+
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 0 + y2o, 94 + z2o, ctNothing, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 5.5 + y2o, 94 + z2o, ctNothing, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
+	
+	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, 52 + z2o, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, 52 + z2o, ctLevel, 14, 0);
+
+	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, 13 + z2o, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, 13 + z2o, ctLevel, 14, 0);
+
+	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, -27 + z2o, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, -27 + z2o, ctLevel, 14, 0);
+
+
+	Level1->createLevelParts(woodpile, -130 + x2o, 4 + y2o, -127 + z2o, ctLevel, 1, 1.57);
+	
 
 
 
+	Objects->createObject(branch, 20 + x2o, -3 + y2o, -70 + z2o, ctStumble, 1);
+
+	Objects->createObject(orange, 54 + x2o, 4 + y2o, 32 + z2o, ctCollect, 1);
+	Objects->createObject(orange, 54 + x2o, 4 + y2o, -7 + z2o, ctCollect, 1);
+
+	Objects->createObject(orange, -59 + x2o, 4 + y2o, 111 + z2o, ctCollect, 1);
+	Objects->createObject(orange, -45 + x2o, 4 + y2o, 111 + z2o, ctCollect, 1);
+	//
+	Objects->createObject(orange, 54 + x2o, 35 + y2o, 53 + z2o, ctCollect, 1);
+	Objects->createObject(orange, 54 + x2o, 35 + y2o, 13 + z2o, ctCollect, 1);
+	Objects->createObject(orange, 54 + x2o, 35 + y2o, -27 + z2o, ctCollect, 1);
+
+
+
+	////2nd section of level
+	////offset everything by -250 and -15
+	Level1->createLevelParts(lvl2Ground, 0, -5, 0.0, ctLevel, 14);
+	//the barn
+	Level1->createLevelParts(barnback, 0, 5, 30, ctLevel, 14);
+	Level1->createLevelParts(barnside, 26.5, 5.5, 7, ctLevel, 14);
+	Level1->createLevelParts(barnside, -26.5, 5.5, 7, ctLevel, 14);
+	Level1->createLevelParts(barnfrontside, -18.8, 5.7, -16, ctLevel, 14);
+	Level1->createLevelParts(barnfronttop, 0.0, 17.7, -12.6, ctLevel, 14);
+	Level1->createLevelParts(barnroof, 1, 39, 9, ctLevel, 14);
+
+	
+
+
+	theEnemies->createEnemy(simpleEnemy, 31 + x2o, 2 + y2o, -6 + z2o, 76 + x2o, 2 + y2o, -6 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 76 + x2o, 2 + y2o, 32 + z2o, 31 + x2o, 2 + y2o, 32 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+
+	theEnemies->createEnemy(simpleEnemy, 27 + x2o, 2 + y2o, -62 + z2o, 27 + x2o, 2 + y2o, -42 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 47 + x2o, 2 + y2o, -62 + z2o, 27 + x2o, 2 + y2o, -62 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+	
+	
+	///unkillable enemies must be placed at the end
+	theEnemies->createEnemy(tractor, 4.0f + x2o, 13 + y2o, 88.0f + z2o, 4 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, 88 + z2o, 1, 30, ctUnkillable);
+	theEnemies->createEnemy(tractor, 103 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, 88 + z2o, 4.0f + x2o, 13 + y2o, 88.0f + z2o, 4 + x2o, 13 + y2o, -96 + z2o, 1, 30, ctUnkillable);
+	
 	
 
 
@@ -478,11 +525,10 @@ bool Game::Init(HINSTANCE hInstance)
 	//////////////////////////////////////////////////////////
 
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice,
-		L"Textures/WoodCrate02.dds", 0, 0, &mPlayerMapSRV, 0));
 
 
-	BuildSkullGeometryBuffers();
+
+	
 
 
 
@@ -503,18 +549,10 @@ void Game::DrawScene()
 
 	md3dImmediateContext->IASetInputLayout(InputLayouts::Basic32);
 	md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	UINT stride = sizeof(Vertex::Basic32);
-	UINT offset = 0;
-
+	
 
 	mCam.UpdateViewMatrix();
-
-	XMMATRIX view = mCam.View();
-	XMMATRIX proj = mCam.Proj();
-	XMMATRIX viewProj = mCam.ViewProj();
-
-	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	
 
 	// Set per frame constants.
 	Effects::BasicFX->SetDirLights(mDirLights);
@@ -550,19 +588,8 @@ void Game::DrawScene()
 		activeSkullTech = Effects::BasicFX->Light3ReflectTech;
 		break;
 	}
+	
 
-	XMMATRIX world;
-	XMMATRIX worldInvTranspose;
-	XMMATRIX worldViewProj;
-
-
-	//
-	// Draw the grid, cylinders, and box without any cubemap reflection.
-	// 
-	D3DX11_TECHNIQUE_DESC techDesc;
-	activeTexTech->GetDesc(&techDesc);
-	for (UINT p = 0; p < techDesc.Passes; ++p)
-	{
 
 		
 
@@ -578,32 +605,12 @@ void Game::DrawScene()
 
 
 
-
+		//draw player
 		PlayerOne->drawPlayer(md3dImmediateContext, mCam, activeTexTech);
 
 	
-	}
+	
 
-	//draw Duck Model
-	for (UINT p = 0; p < techDesc.Passes; ++p)
-	{
-		// Draw the skull.
-
-		md3dImmediateContext->IASetVertexBuffers(0, 1, &mSkullVB, &stride, &offset);
-		md3dImmediateContext->IASetIndexBuffer(mSkullIB, DXGI_FORMAT_R32_UINT, 0);
-
-		world = XMLoadFloat4x4(&mSkullWorld);
-		worldInvTranspose = MathHelper::InverseTranspose(world);
-		worldViewProj = world*view*proj;
-
-		Effects::BasicFX->SetWorld(world);
-		Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
-		Effects::BasicFX->SetWorldViewProj(worldViewProj);
-		Effects::BasicFX->SetMaterial(mSkullMat);
-
-		activeSkullTech->GetPassByIndex(p)->Apply(0, md3dImmediateContext);
-		md3dImmediateContext->DrawIndexed(mSkullIndexCount, 0, 0);
-	}
 
 
 	////////////////////////////////////////
@@ -624,7 +631,7 @@ void Game::DrawScene()
 void Game::OnMouseDown(WPARAM btnState, int x, int y)
 {
 
-	//theEnemies->createEnemy(md3dDevice, mTexMgr, "Models\\Hat.obj", L"Textures\\", x, 4.0f, y);
+
 
 	SetCapture(mhMainWnd);
 }
@@ -642,115 +649,14 @@ void Game::OnMouseMove(WPARAM btnState, int x, int y)
 
 
 
-void Game::BuildSkullGeometryBuffers()
-{
-	std::ifstream fin("Models/skull.txt");
-
-	if (!fin)
-	{
-		MessageBox(0, L"Models/skull.txt not found.", 0, 0);
-		return;
-	}
-
-	UINT vcount = 0;
-	UINT tcount = 0;
-	std::string ignore;
-
-	fin >> ignore >> vcount;
-	fin >> ignore >> tcount;
-	fin >> ignore >> ignore >> ignore >> ignore;
-
-	XMFLOAT3 vMin(+MathHelper::Infinity, +MathHelper::Infinity, +MathHelper::Infinity);
-	XMFLOAT3 vMax(-MathHelper::Infinity, -MathHelper::Infinity, -MathHelper::Infinity);
-
-	//XMVECTOR vMin = XMLoadFloat3(&vMinf3);
-	//XMVECTOR vMax = XMLoadFloat3(&vMaxf3);
-	std::vector<Vertex::Basic32> vertices(vcount);
-	for (UINT i = 0; i < vcount; ++i)
-	{
-		fin >> vertices[i].Pos.x >> vertices[i].Pos.y >> vertices[i].Pos.z;
-		fin >> vertices[i].Normal.x >> vertices[i].Normal.y >> vertices[i].Normal.z;
-
-		XMFLOAT3 P = vertices[i].Pos;
-
-		vMin.x = MathHelper::Min(vMin.x, P.x);
-		vMin.y = MathHelper::Min(vMin.y, P.y);
-		vMin.z = MathHelper::Min(vMin.z, P.z);
-
-		vMax.x = MathHelper::Max(vMax.x, P.x);
-		vMax.y = MathHelper::Max(vMax.y, P.y);
-		vMax.z = MathHelper::Max(vMax.z, P.z);
-	}
-
-	mSkullBox.Center = XMFLOAT3(0.5f*(vMin.x + vMax.x),
-		0.5f*(vMin.y + vMax.y),
-		0.5f*(vMin.z + vMax.z));
-
-	mSkullBox.Extents = XMFLOAT3(0.5f * (vMax.x - vMin.x),
-		0.5f*(vMax.y -vMin.y),
-		0.5f*(vMax.z - vMin.z));
-
-
-	mSkullBox.Center = XMFLOAT3(0.0f, 1.5f, 40.0f);
-
-	
-	
-
-
-
-	fin >> ignore;
-	fin >> ignore;
-	fin >> ignore;
-
-	mSkullIndexCount = 3 * tcount;
-	std::vector<UINT> indices(mSkullIndexCount);
-	for (UINT i = 0; i < tcount; ++i)
-	{
-		fin >> indices[i * 3 + 0] >> indices[i * 3 + 1] >> indices[i * 3 + 2];
-	}
-
-	fin.close();
-
-	D3D11_BUFFER_DESC vbd;
-	vbd.Usage = D3D11_USAGE_IMMUTABLE;
-	vbd.ByteWidth = sizeof(Vertex::Basic32) * vcount;
-	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vbd.CPUAccessFlags = 0;
-	vbd.MiscFlags = 0;
-	D3D11_SUBRESOURCE_DATA vinitData;
-	vinitData.pSysMem = &vertices[0];
-	HR(md3dDevice->CreateBuffer(&vbd, &vinitData, &mSkullVB));
-
-	//
-	// Pack the indices of all the meshes into one index buffer.
-	//
-
-	D3D11_BUFFER_DESC ibd;
-	ibd.Usage = D3D11_USAGE_IMMUTABLE;
-	ibd.ByteWidth = sizeof(UINT) * mSkullIndexCount;
-	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	ibd.CPUAccessFlags = 0;
-	ibd.MiscFlags = 0;
-	D3D11_SUBRESOURCE_DATA iinitData;
-	iinitData.pSysMem = &indices[0];
-	HR(md3dDevice->CreateBuffer(&ibd, &iinitData, &mSkullIB));
-}
-
-
-
-
-
-
-
 
 //////////////////////////////////////////////////////updates
 
 void Game::UpdateScene(float dt)
 {
-	
+	//gameStateManager->Update(dt);
 	addDeltaTime(dt);
-	moveDirection = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-	PlayerOne->setMoveDirection(moveDirection);
+
 	theEnemies->update(dt);
 
 	int levelColsize = LevelCollisions.size();
@@ -805,12 +711,13 @@ void Game::UpdateScene(float dt)
 
 				LevelCollisions[i] = temp[j];
 				LevelCollisions[i].Center = temp[j].Center;
-				
+
 
 			}
 		}
 
-	}else 
+	}
+	else
 	{
 		int	j = 0;
 		for (UINT i = tempObject.size() + tempLevel.size(); i < tempOtherObject; i++, j++)
@@ -818,21 +725,21 @@ void Game::UpdateScene(float dt)
 			LevelCollisions[i] = temp[j];
 
 		}
-	
-	
+
+
 	}
 
 
 	/////////////////////////////
 
-	
+
 
 
 
 	PlayerOne->setLevelCollisions(LevelCollisions);
-	
 
-	
+
+
 
 	/////////////////////////////
 
@@ -849,9 +756,9 @@ void Game::UpdateScene(float dt)
 	XMVECTOR multiply = XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f);
 
 	camUp = XMVectorAdd(camUp, multiply);
-	
-	
-	
+
+
+
 	bool jumpChar = false;
 
 
@@ -924,19 +831,19 @@ void Game::UpdateScene(float dt)
 	}
 
 
-	
-	
+
+
 	if (PlayerOne->getOnGround() == true)
 	{
 
 
-	
+
 
 
 		if (GetAsyncKeyState('J') & 0x8000)
 		{
 			desiredCharDir += camUp;
-			
+
 			moveChar = true;
 		}
 
@@ -974,7 +881,7 @@ void Game::UpdateScene(float dt)
 	{
 		mLightCount = 0;
 
-		
+
 	}
 	if (GetAsyncKeyState('1') & 0x8000)
 		mLightCount = 1;
@@ -995,14 +902,10 @@ void Game::UpdateScene(float dt)
 	mCam.moveCam();
 
 
-	
-
 	PlayerOne->move(dt, desiredCharDir, theEnemies, Objects );
-	
-
 
 	PlayerOne->update();
-	
+
 
 
 }

@@ -28,7 +28,7 @@ public:
 
 	void draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTechnique* activeTexTech);
 
-	void createLevelParts(int model,FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale);
+	void createLevelParts(int model,FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale, FLOAT rotation);
 
 
 	void CreateBoundingBox();
@@ -68,6 +68,20 @@ private:
 	BasicModel* mHouseBack;
 	BasicModel* mHouseRoof;
 	BasicModel* mSandBox;
+	BasicModel* mFencePart1;
+	BasicModel* mFencePart2;
+	BasicModel* mlvl2Ground;
+	BasicModel* mTestBarn;
+	BasicModel* mBarnBack;
+	BasicModel* mBarnFrontSide;
+	BasicModel* mBarnFrontTop;
+	BasicModel* mBarnRoof;
+	BasicModel* mBarnSide;
+	BasicModel* mBarnFrontSide2;
+	BasicModel* mRoundBail;
+	BasicModel* mSquareBail;
+	BasicModel* mWoodPile;
+
 
 
 	BasicModelInstance theLevelParts;
