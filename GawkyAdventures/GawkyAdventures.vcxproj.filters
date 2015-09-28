@@ -110,14 +110,7 @@
     <ClCompile Include="xnacollision.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="GameStateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Modality.cpp">
-=======
     <ClCompile Include="Player.cpp">
->>>>>>> master
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Modality.cpp">
@@ -142,6 +135,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ModelEnum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -221,14 +223,7 @@
     <ClInclude Include="Waves.h">
       <Filter>Common</Filter>
     </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="GameStateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Modality.h">
-=======
     <ClInclude Include="Player.h">
->>>>>>> master
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Modality.h">
@@ -250,6 +245,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SceneGraphGameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

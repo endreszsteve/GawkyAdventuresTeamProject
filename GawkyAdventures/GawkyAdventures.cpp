@@ -1,4 +1,6 @@
 
+#include <memory>
+#include <iostream>
 
 #include "d3dApp.h"
 #include "d3dx11Effect.h"
@@ -19,6 +21,12 @@
 #include "LevelBuilder.h"
 #include "Player.h"
 #include "ModelEnum.cpp"
+#include "IntroState.h"
+#include "MainMenuState.h"
+#include "PlayState.h"
+#include "DefaultGameStateManager.h"
+#include "GameState.h"
+
 
 
 
@@ -35,9 +43,11 @@ public:
 	void UpdateScene(float dt);
 	void DrawScene();
 
+
 	void OnMouseDown(WPARAM btnState, int x, int y);
 	void OnMouseUp(WPARAM btnState, int x, int y);
 	void OnMouseMove(WPARAM btnState, int x, int y);
+
 
 
 	//DeltaTime getter
@@ -102,8 +112,8 @@ private:
 	int totEnemy;
 	int totCollect;
 
-
-
+	/////// GameState
+	std::shared_ptr<DefaultGameStateManager>gameStateManager = std::make_shared<DefaultGameStateManager>();
 };
 
 
@@ -195,6 +205,10 @@ bool Game::Init(HINSTANCE hInstance)
 	
 	mSky = new Sky(md3dDevice, L"Textures//sunsetcube1024.dds", 5000.0f);
 
+	// gameState
+	
+
+	gameStateManager->Push(std::make_shared<PlayState>(gameStateManager));
 
 	/// create the player
 	PlayerOne = new Player(md3dDevice, mTexMgr, "Models\\gawky.obj", L"Textures\\", 0.0f, 10.0f, 0.0f);
@@ -207,15 +221,26 @@ bool Game::Init(HINSTANCE hInstance)
 	
 	
 	
+<<<<<<< HEAD
+	/*
+	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble, 1);
+	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble, 1);
+	
+=======
 	
 	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble, 1);
 	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble, 1);
 	
+>>>>>>> 1dcfd2ff1100f257b77e44fb822fd0287636f9e8
 	Objects->createObject(orange, 80.0f, 30.0f, 20.0f, ctCollect, 1);
 	Objects->createObject(orange, 20.0f, 4.0f, 20.0f, ctCollect, 1);
 	Objects->createObject(orange, -80.0f, 10.0f, -60.0f, ctCollect, 1);
 
+<<<<<<< HEAD
+	Objects->createObject(gatetwo, -95.0f, 8.5f, 0.0f, ctStumble, 7);
+=======
 	//Objects->createObject(gatetwo, -95.0f, 8.5f, 0.0f, ctStumble, 7);
+>>>>>>> 1dcfd2ff1100f257b77e44fb822fd0287636f9e8
 	
 
 
@@ -250,6 +275,13 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(TreeTop, 0, 61.6, 57.6, 0, 7, 0);
 
 	// the Fence
+	Level1->createLevelParts(Fence1, 87, 5, 0, 0, 7);
+	Level1->createLevelParts(FencePart2, -95, 6, 48, 0, 7);
+	Level1->createLevelParts(FencePart2, -95, 6, -48, 0, 7);
+
+
+	Level1->createLevelParts(Fence2, -5, 6, 91, 0, 7);
+	Level1->createLevelParts(Fence2, -5, 6, -91, 0, 7);
 	Level1->createLevelParts(Fence1, 87, 5, 0, 0, 7, 0);
 	Level1->createLevelParts(FencePart2, -95, 6, 48, 0, 7, 0);
 	Level1->createLevelParts(FencePart2, -95, 6, -48, 0, 7, 0);
@@ -270,6 +302,9 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(HouseRoof, 24.5, 34.0, -70.5, 0, 6, 0);
 
 	/// build the sandbox
+
+	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7);
+	*/
 	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7, 0);
 
 
@@ -418,6 +453,19 @@ bool Game::Init(HINSTANCE hInstance)
 	Objects->createObject(orange, 54 + x2o, 35 + y2o, -27 + z2o, ctCollect, 1);
 
 
+
+	////2nd section of level
+	////offset everything by -250 and -15
+	Level1->createLevelParts(lvl2Ground, 0, -5, 0.0, ctLevel, 14);
+	//the barn
+	Level1->createLevelParts(barnback, 0, 5, 30, ctLevel, 14);
+	Level1->createLevelParts(barnside, 26.5, 5.5, 7, ctLevel, 14);
+	Level1->createLevelParts(barnside, -26.5, 5.5, 7, ctLevel, 14);
+	Level1->createLevelParts(barnfrontside, -18.8, 5.7, -16, ctLevel, 14);
+	Level1->createLevelParts(barnfronttop, 0.0, 17.7, -12.6, ctLevel, 14);
+	Level1->createLevelParts(barnroof, 1, 39, 9, ctLevel, 14);
+
+	
 
 
 	theEnemies->createEnemy(simpleEnemy, 31 + x2o, 2 + y2o, -6 + z2o, 76 + x2o, 2 + y2o, -6 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
@@ -606,7 +654,7 @@ void Game::OnMouseMove(WPARAM btnState, int x, int y)
 
 void Game::UpdateScene(float dt)
 {
-	
+	//gameStateManager->Update(dt);
 	addDeltaTime(dt);
 
 	theEnemies->update(dt);
@@ -663,12 +711,13 @@ void Game::UpdateScene(float dt)
 
 				LevelCollisions[i] = temp[j];
 				LevelCollisions[i].Center = temp[j].Center;
-				
+
 
 			}
 		}
 
-	}else 
+	}
+	else
 	{
 		int	j = 0;
 		for (UINT i = tempObject.size() + tempLevel.size(); i < tempOtherObject; i++, j++)
@@ -676,21 +725,21 @@ void Game::UpdateScene(float dt)
 			LevelCollisions[i] = temp[j];
 
 		}
-	
-	
+
+
 	}
 
 
 	/////////////////////////////
 
-	
+
 
 
 
 	PlayerOne->setLevelCollisions(LevelCollisions);
-	
 
-	
+
+
 
 	/////////////////////////////
 
@@ -707,9 +756,9 @@ void Game::UpdateScene(float dt)
 	XMVECTOR multiply = XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f);
 
 	camUp = XMVectorAdd(camUp, multiply);
-	
-	
-	
+
+
+
 	bool jumpChar = false;
 
 
@@ -782,19 +831,19 @@ void Game::UpdateScene(float dt)
 	}
 
 
-	
-	
+
+
 	if (PlayerOne->getOnGround() == true)
 	{
 
 
-	
+
 
 
 		if (GetAsyncKeyState('J') & 0x8000)
 		{
 			desiredCharDir += camUp;
-			
+
 			moveChar = true;
 		}
 
@@ -832,7 +881,7 @@ void Game::UpdateScene(float dt)
 	{
 		mLightCount = 0;
 
-		
+
 	}
 	if (GetAsyncKeyState('1') & 0x8000)
 		mLightCount = 1;
@@ -852,10 +901,11 @@ void Game::UpdateScene(float dt)
 
 	mCam.moveCam();
 
+
 	PlayerOne->move(dt, desiredCharDir, theEnemies, Objects );
 
 	PlayerOne->update();
-	
+
 
 
 }

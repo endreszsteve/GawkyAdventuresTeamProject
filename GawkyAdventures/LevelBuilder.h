@@ -83,6 +83,7 @@ private:
 	BasicModel* mWoodPile;
 
 
+
 	BasicModelInstance theLevelParts;
 	XNA::AxisAlignedBox LevelPartsBox;
 

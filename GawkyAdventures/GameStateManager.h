@@ -39,4 +39,3 @@ namespace Gawky { namespace Game { namespace States{
 }}}
 
 #endif // GAMESTATEMANAGER_H
-
