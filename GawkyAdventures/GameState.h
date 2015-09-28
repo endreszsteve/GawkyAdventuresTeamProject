@@ -9,13 +9,13 @@ namespace Gawky { namespace Game { namespace States {
 		// Destroy the game state
 		virtual ~GameState(){}
 		// Notifies the game state it is about to be exited
-		virtual void Exiting() = 0;
+		virtual void Exiting() {};
 		// Notifies the game state that it has been entered
-		virtual void Entered() = 0;
+		virtual void Entered() {};
 		// Notifies the games state that it has been obscured by another state
-		virtual void Obscuring() = 0;
+		virtual void Obscuring(){};
 		// Notifies the game state that it is no longer obscured by another state
-		virtual void Revealed() = 0;
+		virtual void Revealed(){};
 	};
 		}}}
 #endif //GAMESTATE_H
