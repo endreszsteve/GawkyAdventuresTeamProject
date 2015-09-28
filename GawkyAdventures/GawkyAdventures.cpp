@@ -238,7 +238,7 @@ bool Game::Init(HINSTANCE hInstance)
 	
 	
 	
-	/*
+	
 	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble, 1);
 	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble, 1);
 	
@@ -250,82 +250,81 @@ bool Game::Init(HINSTANCE hInstance)
 	
 
 
-	theEnemies->createEnemy(simpleEnemy, -85.0f, 9.0f, 78.0f, -65.f, 9.0f, 78.0f);
-	theEnemies->createEnemy(simpleEnemy, 55.0f, 3.0f, 80.0f, 55.0f, 3.0f, 60.0f);
-	theEnemies->createEnemy(simpleEnemy, 0.0f, 3.0f, 45.0f, 0.0f, 3.0f, 25.0f);
+	theEnemies->createEnemy(simpleEnemy, -85.0f, 9.0f, 78.0f, -65.f, 9.0f, 78.0f, NULL,0,0,0,0,0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 55.0f, 3.0f, 80.0f, 55.0f, 3.0f, 60.0f,NULL, 0, 0, 0, 0, 0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 0.0f, 3.0f, 45.0f, 0.0f, 3.0f, 25.0f, NULL, 0, 0, 0, 0, 0, 3, 15, ctEnemy);
 
 	
 
-	Level1->createLevelParts(Ground,  0, -1.8, 0, 0, 7);
+	Level1->createLevelParts(Ground,  0, -1.8, 0, 0, 7, 0);
 
 	///left side 3 platforms
-	Level1->createLevelParts(Platform, -76, 2.1, 26.6, 0, 7);
-	Level1->createLevelParts(Platform, -76, 9.1, 50.82, 0, 7);
-	Level1->createLevelParts(Platform, -76, 2.1, 74.2, 0, 7);
+	Level1->createLevelParts(Platform, -76, 2.1, 26.6, 0, 7, 0);
+	Level1->createLevelParts(Platform, -76, 9.1, 50.82, 0, 7, 0);
+	Level1->createLevelParts(Platform, -76, 2.1, 74.2, 0, 7, 0);
 	
 
 
 	///rightside 3 platforms
-	Level1->createLevelParts(Platform, 73, 2.1, 75.6, 0, 7);
-	Level1->createLevelParts(Platform, 73, 9.1, 50.82, 0, 7);
-	Level1->createLevelParts(Platform, 73, 14.0, 15.82, 0, 7);
+	Level1->createLevelParts(Platform, 73, 2.1, 75.6, 0, 7, 0);
+	Level1->createLevelParts(Platform, 73, 9.1, 50.82, 0, 7, 0);
+	Level1->createLevelParts(Platform, 73, 14.0, 15.82, 0, 7, 0 );
 	
 	
 	///the tree's
-	Level1->createLevelParts(SmallTree, -56, 15.4, 86.8, 0, 7);
-	Level1->createLevelParts(SmallTree, -56, 15.4, 72.8, 0, 7);
-	Level1->createLevelParts(SmallTree, -56, 15.4, 58.8, 0, 7);
+	Level1->createLevelParts(SmallTree, -56, 15.4, 86.8, 0, 7, 0);
+	Level1->createLevelParts(SmallTree, -56, 15.4, 72.8, 0, 7, 0);
+	Level1->createLevelParts(SmallTree, -56, 15.4, 58.8, 0, 7, 0);
 
 	/// large tree
-	Level1->createLevelParts(TreeTrunk, 0, 14, 57.6, 0, 7);
-	Level1->createLevelParts(TreeTop, 0, 61.6, 57.6, 0, 7);
+	Level1->createLevelParts(TreeTrunk, 0, 14, 57.6, 0, 7, 0);
+	Level1->createLevelParts(TreeTop, 0, 61.6, 57.6, 0, 7, 0);
 
 	// the Fence
-	Level1->createLevelParts(Fence1, 87, 5, 0, 0, 7);
-	Level1->createLevelParts(FencePart2, -95, 6, 48, 0, 7);
-	Level1->createLevelParts(FencePart2, -95, 6, -48, 0, 7);
+	Level1->createLevelParts(Fence1, 87, 5, 0, 0, 7, 0);
+	Level1->createLevelParts(FencePart2, -95, 6, 48, 0, 7, 0);
+	Level1->createLevelParts(FencePart2, -95, 6, -48, 0, 7, 0);
 
 
-	Level1->createLevelParts(Fence2, -5, 6, 91, 0, 7);
-	Level1->createLevelParts(Fence2, -5, 6, -91, 0, 7);
+	Level1->createLevelParts(Fence2, -5, 6, 91, 0, 7, 0);
+	Level1->createLevelParts(Fence2, -5, 6, -91, 0, 7, 0);
 	//cattails
-	Level1->createLevelParts(Cattail, 84, 5.6, -47.6, 0, 7);
-	Level1->createLevelParts(Cattail, 77, 5.6, -47.6, 0, 7);
-	Level1->createLevelParts(Cattail, 68.25, 5.6, -47.6, 0, 7);
-	Level1->createLevelParts(Cattail, 59.5, 5.6, -47.6, 0, 7);
-	Level1->createLevelParts(Cattail,  50.75, 5.6, -47.6, 0, 7);
+	Level1->createLevelParts(Cattail, 84, 5.6, -47.6, 0, 7, 0);
+	Level1->createLevelParts(Cattail, 77, 5.6, -47.6, 0, 7, 0);
+	Level1->createLevelParts(Cattail, 68.25, 5.6, -47.6, 0, 7, 0);
+	Level1->createLevelParts(Cattail, 59.5, 5.6, -47.6, 0, 7, 0);
+	Level1->createLevelParts(Cattail,  50.75, 5.6, -47.6, 0, 7, 0);
 	/// the House
-	Level1->createLevelParts(HouseSide, 43.4, 14, -70.0, 0, 7);
-	Level1->createLevelParts(HouseSide, 7, 14, -70.0, 0, 7);
-	Level1->createLevelParts(HouseBack, 24.5, 14, -82.6, 0, 7);
-	Level1->createLevelParts(HouseRoof, 24.5, 34.0, -70.5, 0, 6);
+	Level1->createLevelParts(HouseSide, 43.4, 14, -70.0, 0, 7, 0);
+	Level1->createLevelParts(HouseSide, 7, 14, -70.0, 0, 7, 0);
+	Level1->createLevelParts(HouseBack, 24.5, 14, -82.6, 0, 7, 0);
+	Level1->createLevelParts(HouseRoof, 24.5, 34.0, -70.5, 0, 6, 0);
 
 	/// build the sandbox
-	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7);
-	*/
+	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7, 0);
 
 
 	////2nd section of level
 	////offset everything by -250 and -15
-	
-	Level1->createLevelParts(lvl2Ground, 0, -5, 0.0, ctLevel, 14, 0);
-	
+		
 	//the barn
-	int x2o = -80;
-	int y2o = 15;
-	int z2o = 90;
-	Level1->createLevelParts(barnback, 1.56 + x2o, 7.8 + y2o, 46.8 + z2o, ctLevel, 23, 0);
-	Level1->createLevelParts(barnside, 44.34 + x2o, 8.58 + y2o, 10.92 + z2o, ctLevel, 25, 0);
-	Level1->createLevelParts(barnside, -44.34 + x2o, 8.58 + y2o, 10.92 + z2o, ctLevel, 25, 0);
-	Level1->createLevelParts(barnfrontside, -36.74 + x2o,8.74 + y2o, -24.96 + z2o, ctLevel, 25, 0);
-	Level1->createLevelParts(barnfrontside2, 37.21 + x2o, 7.8 + y2o, -24.96 + z2o, ctLevel, 25, 0);
-	Level1->createLevelParts(barnfronttop, 0.47 + x2o, 27.38 + y2o, -24.96 + z2o, ctLevel, 25, 0);
-	Level1->createLevelParts(barnroof, 1.56 + x2o, 60.84 + y2o, 12.79 + z2o, ctLevel, 25, 0);
-	/// 1.57 = 90 degrees
-	Level1->createLevelParts(Fence1,-139, 7, 0,ctLevel, 11, 0);
+	int x2o = -230;
+	int y2o = 0;
+	int z2o = 0;
 
-	Level1->createLevelParts(Fence1, 0, 7, 139, ctLevel, 11, 1.57);
-	Level1->createLevelParts(Fence1, 0, 7, -139, ctLevel, 11, 1.57);
+	Level1->createLevelParts(lvl2Ground, 0 + x2o, -5 + y2o, 0.0 + z2o, ctLevel, 14, 0);
+	Level1->createLevelParts(barnback, -81.56 + x2o, 22.8 + y2o, 136.8 + z2o, ctLevel, 23, 0);
+	Level1->createLevelParts(barnside, -124.34 + x2o, 23.58 + y2o, 100.92 + z2o, ctLevel, 25, 0);
+	Level1->createLevelParts(barnside, -36.34 + x2o, 23.58 + y2o, 100.92 + z2o, ctLevel, 25, 0);
+	Level1->createLevelParts(barnfrontside, -44.74 + x2o,23.74 + y2o, 64.96 + z2o, ctLevel, 25, 0);
+	Level1->createLevelParts(barnfrontside2, -117.21 + x2o, 22.8 + y2o, 64.96 + z2o, ctLevel, 25, 0);
+	Level1->createLevelParts(barnfronttop, -80.47 + x2o, 64.38 + y2o, 64.96 + z2o, ctLevel, 25, 0);
+	Level1->createLevelParts(barnroof, -81.56 + x2o, 75.84 + y2o, 102.79 + z2o, ctLevel, 25, 0);
+	/// 1.57 = 90 degrees
+	Level1->createLevelParts(Fence1, -139 + x2o, 7 + y2o, 0 + z2o, ctLevel, 11, 0);
+
+	Level1->createLevelParts(Fence1, 0 + x2o, 7 + y2o, 139 + z2o, ctLevel, 11, 1.57);
+	Level1->createLevelParts(Fence1, 0 + x2o, 7 + y2o, -139 + z2o, ctLevel, 11, 1.57);
 	
 	
 	
@@ -334,129 +333,129 @@ bool Game::Init(HINSTANCE hInstance)
 
 	//bottom Row
 	
-	Level1->createLevelParts(squarebail, -114, 0, 129, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -114, 11.6, 129, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -114 + x2o, 0 + y2o, 129 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -114 + x2o, 11.6 + y2o, 129 + z2o, ctLevel, 7, 0);
 
-	Level1->createLevelParts(squarebail, -114, 0, 120.2, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -114, 0, 111.48, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -114, 0, 102.9, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -100, 0, 128.98, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -86.68, 0, 128.98, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -86.68, 5.5, 128.98, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -86.68, 11.6, 128.98, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -114 + x2o, 0 + y2o, 120.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -114 + x2o, 0 + y2o, 111.48 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -114 + x2o, 0 + y2o, 102.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -100 + x2o, 0 + y2o, 128.98 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -86.68 + x2o, 0 + y2o, 128.98 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -86.68 + x2o, 5.5 + y2o, 128.98 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -86.68 + x2o, 11.6 + y2o, 128.98 + z2o, ctLevel, 7, 0);
 
-	Level1->createLevelParts(squarebail, -103, 0, 118, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -93.9, 0, 118, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -84.98, 0, 118, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -103, 0, 104.9, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -93.9, 0, 104.9, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -85, 0, 104.9, ctLevel, 7, 1.57);
-	Level1->createLevelParts(squarebail, -114, 5.5, 120.2, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -114, 11.6, 120.2, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -103 + x2o, 0 + y2o, 118 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -93.9 + x2o, 0 + y2o, 118 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -84.98 + x2o, 0 + y2o, 118 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -103 + x2o, 0 + y2o, 104.9 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -93.9 + x2o, 0 + y2o, 104.9 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -85 + x2o, 0 + y2o, 104.9 + z2o, ctLevel, 7, 1.57);
+	Level1->createLevelParts(squarebail, -114 + x2o, 5.5 + y2o, 120.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -114 + x2o, 11.6 + y2o, 120.2 + z2o, ctLevel, 7, 0);
 
-	Level1->createLevelParts(squarebail, -114, 5.5, 111.48, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -100.6, 5.5, 128.9, ctLevel, 7,0);
-	Level1->createLevelParts(squarebail, -100.6,11.6, 128.9, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -114 + x2o, 5.5 + y2o, 111.48 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -100.6 + x2o, 5.5 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -100.6 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
 	
 	//
-	Level1->createLevelParts(squarebail, -72.7, 0, 128.9, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7, 5.5, 128.9, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7, 11.6, 128.9, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
 
-	Level1->createLevelParts(squarebail, -72.7, 0,119.9, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7, 5.5, 119.9, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7, 11.6, 119.9, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 119.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 119.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 119.9 + z2o, ctLevel, 7, 0);
 
-	Level1->createLevelParts(squarebail, -72.7, 0,111.2, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7, 5.5, 111.2, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7, 11.6, 111.2, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 111.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 111.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 111.2 + z2o, ctLevel, 7, 0);
 
-	Level1->createLevelParts(squarebail, -72.7, 0, 102.4, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7, 5.5, 102.4, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7, 11.6, 102.4, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 102.4 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 102.4 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 102.4 + z2o, ctLevel, 7, 0);
 	
-	Level1->createLevelParts(squarebail, -72.7, 0, 94, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7, 5.5, 94, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7, 11.6, 94, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 94 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 94 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
 	//
 
-	Level1->createLevelParts(squarebail, -59, 11.6, 128.9, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -59, 11.6, 119.9, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -59, 11.6, 111.2, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -59, 11.6, 102.4, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 119.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 111.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 102.4 + z2o, ctLevel, 7, 0);
 
-	Level1->createLevelParts(squarebail, -59, 0, 94, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -59, 5.5, 94, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -59, 11.6, 94, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 0 + y2o, 94 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 5.5 + y2o, 94 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
 
 	//
-	Level1->createLevelParts(squarebail, -45.3, 11.6, 128.9, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -45.3, 11.6, 119.9, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -45.3, 11.6, 111.2, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -45.3, 11.6, 102.4, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 119.9 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 111.2 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 102.4 + z2o, ctLevel, 7, 0);
 	
 	//
-	Level1->createLevelParts(squarebail, 40, 0, -43, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 40, 5.5, -43, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 40, 11.6, -43, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 40 + x2o, 0 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 40 + x2o, 5.5 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 40 + x2o, 11.6 + y2o, -43 + z2o, ctLevel, 7, 0);
 	//
-	Level1->createLevelParts(squarebail, 54, 0, -43, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 54, 5.5, -43, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 54, 11.6, -43, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 54 + x2o, 0 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 54 + x2o, 5.5 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 54 + x2o, 11.6 + y2o, -43 + z2o, ctLevel, 7, 0);
 	//
-	Level1->createLevelParts(squarebail, 68.5, 0, -43, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 68.5, 5.5, -43, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 68.5, 11.6, -43, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 0 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 5.5 + y2o, -43 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 11.6 + y2o, -43 + z2o, ctLevel, 7, 0);
 	//
-	Level1->createLevelParts(squarebail, 68.5, 0, -52, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 68.5, 5.5, -52, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 68.5, 11.6, -52, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 0 + y2o, -52 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 5.5 + y2o, -52 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 68.5 + x2o, 11.6 + y2o, -52 + z2o, ctLevel, 7, 0);
 	//
-	Level1->createLevelParts(squarebail, 54, 0, -52, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 54, 5.5, -52, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 54 + x2o, 0 + y2o, -52 + z2o, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 54 + x2o, 5.5 + y2o, -52 + z2o, ctLevel, 7, 0);
 	//
-	Level1->createLevelParts(squarebail, 40, 0, -52, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, 40 + x2o, 0 + y2o, -52 + z2o, ctLevel, 7, 0);
 
 
-	Level1->createLevelParts(squarebail, -45.3, 0, 94, ctNothing, 7, 0);
-	Level1->createLevelParts(squarebail, -45.3, 5.5, 94, ctNothing, 7, 0);
-	Level1->createLevelParts(squarebail, -45.3, 11.6, 94, ctLevel, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 0 + y2o, 94 + z2o, ctNothing, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 5.5 + y2o, 94 + z2o, ctNothing, 7, 0);
+	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
 	
-	Level1->createLevelParts(roundbail, 41, 9, 52, ctLevel, 14, 0);
-	Level1->createLevelParts(roundbail, 67, 9, 52, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, 52 + z2o, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, 52 + z2o, ctLevel, 14, 0);
 
-	Level1->createLevelParts(roundbail, 41, 9, 13, ctLevel, 14, 0);
-	Level1->createLevelParts(roundbail, 67, 9, 13, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, 13 + z2o, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, 13 + z2o, ctLevel, 14, 0);
 
-	Level1->createLevelParts(roundbail, 41, 9, -27, ctLevel, 14, 0);
-	Level1->createLevelParts(roundbail, 67, 9, -27, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, -27 + z2o, ctLevel, 14, 0);
+	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, -27 + z2o, ctLevel, 14, 0);
 	
 
 
 
-	Objects->createObject(branch, 20, -3, -70, ctStumble, 1);
+	Objects->createObject(branch, 20 + x2o, -3 + y2o, -70 + z2o, ctStumble, 1);
 
-	Objects->createObject(orange, 54, 4, 32, ctCollect, 1);
-	Objects->createObject(orange, 54, 4, -7, ctCollect, 1);
+	Objects->createObject(orange, 54 + x2o, 4 + y2o, 32 + z2o, ctCollect, 1);
+	Objects->createObject(orange, 54 + x2o, 4 + y2o, -7 + z2o, ctCollect, 1);
 
-	Objects->createObject(orange, -59, 4, 111, ctCollect, 1);
-	Objects->createObject(orange, -45, 4,  111, ctCollect, 1);
+	Objects->createObject(orange, -59 + x2o, 4 + y2o, 111 + z2o, ctCollect, 1);
+	Objects->createObject(orange, -45 + x2o, 4 + y2o, 111 + z2o, ctCollect, 1);
 	//
-	Objects->createObject(orange, 54, 35, 53, ctCollect, 1);
-	Objects->createObject(orange, 54, 35, 13, ctCollect, 1);
-	Objects->createObject(orange, 54, 35, -27, ctCollect, 1);
+	Objects->createObject(orange, 54 + x2o, 35 + y2o, 53 + z2o, ctCollect, 1);
+	Objects->createObject(orange, 54 + x2o, 35 + y2o, 13 + z2o, ctCollect, 1);
+	Objects->createObject(orange, 54 + x2o, 35 + y2o, -27 + z2o, ctCollect, 1);
 
 
 
 
-	theEnemies->createEnemy(simpleEnemy, 31, 2, -6, 76, 2, -6, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
-	theEnemies->createEnemy(simpleEnemy, 76, 2, 32, 31, 2, 32, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 31 + x2o, 2 + y2o, -6 + z2o, 76 + x2o, 2 + y2o, -6 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 76 + x2o, 2 + y2o, 32 + z2o, 31 + x2o, 2 + y2o, 32 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
 
-	theEnemies->createEnemy(simpleEnemy, 27, 2, -62, 27, 2, -42, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
-	theEnemies->createEnemy(simpleEnemy, 47, 2, -62, 27, 2, -62, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 27 + x2o, 2 + y2o, -62 + z2o, 27 + x2o, 2 + y2o, -42 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
+	theEnemies->createEnemy(simpleEnemy, 47 + x2o, 2 + y2o, -62 + z2o, 27 + x2o, 2 + y2o, -62 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
 	///unkillable enemies must be placed at the end
-	theEnemies->createEnemy(tractor, 4.0f, 13, 88.0f, 4, 13, -96, 103, 13, -96, 103, 13, 88, 1, 30, ctUnkillable);
-	theEnemies->createEnemy(tractor, 103, 13, -96, 103, 13, 88, 4.0f, 13, 88.0f, 4, 13, -96, 1, 30, ctUnkillable);
+	theEnemies->createEnemy(tractor, 4.0f + x2o, 13 + y2o, 88.0f + z2o, 4 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, 88 + z2o, 1, 30, ctUnkillable);
+	theEnemies->createEnemy(tractor, 103 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, 88 + z2o, 4.0f + x2o, 13 + y2o, 88.0f + z2o, 4 + x2o, 13 + y2o, -96 + z2o, 1, 30, ctUnkillable);
 	
 	
 
