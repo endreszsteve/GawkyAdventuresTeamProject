@@ -263,6 +263,10 @@ void LevelBuilder::createLevelParts(int model, FLOAT x, FLOAT y, FLOAT z, int co
 		anLevelParts = mBarnFrontSide2;
 
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 	else if (model == roundbail)
 	{
 		anLevelParts = mRoundBail;

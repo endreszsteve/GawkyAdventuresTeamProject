@@ -204,6 +204,7 @@ bool Game::Init(HINSTANCE hInstance)
 	Objects = new TheObjects(md3dDevice, mTexMgr);
 	Level1 = new LevelBuilder(md3dDevice, mTexMgr);
 
+<<<<<<< HEAD
 
 
 
@@ -270,6 +271,11 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(HouseRoof, 24.5, 34.0, -70.5, 0, 6, 0);
 
 	/// build the sandbox
+=======
+	
+	
+	
+>>>>>>> master
 	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7, 0);
 
 
@@ -330,6 +336,7 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 128.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 128.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
+<<<<<<< HEAD
 
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 119.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 119.9 + z2o, ctLevel, 7, 0);
@@ -346,6 +353,8 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 94 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 94 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
+=======
+>>>>>>> master
 	//
 
 	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
@@ -356,6 +365,7 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -59 + x2o, 0 + y2o, 94 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -59 + x2o, 5.5 + y2o, 94 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
+<<<<<<< HEAD
 
 	//
 	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
@@ -363,6 +373,9 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 111.2 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 102.4 + z2o, ctLevel, 7, 0);
 
+=======
+	
+>>>>>>> master
 	//
 	Level1->createLevelParts(squarebail, 40 + x2o, 0 + y2o, -43 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, 40 + x2o, 5.5 + y2o, -43 + z2o, ctLevel, 7, 0);
@@ -376,10 +389,6 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, 68.5 + x2o, 5.5 + y2o, -43 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, 68.5 + x2o, 11.6 + y2o, -43 + z2o, ctLevel, 7, 0);
 	//
-	Level1->createLevelParts(squarebail, 68.5 + x2o, 0 + y2o, -52 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 68.5 + x2o, 5.5 + y2o, -52 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 68.5 + x2o, 11.6 + y2o, -52 + z2o, ctLevel, 7, 0);
-	//
 	Level1->createLevelParts(squarebail, 54 + x2o, 0 + y2o, -52 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, 54 + x2o, 5.5 + y2o, -52 + z2o, ctLevel, 7, 0);
 	//
@@ -392,13 +401,6 @@ bool Game::Init(HINSTANCE hInstance)
 
 	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, 52 + z2o, ctLevel, 14, 0);
 	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, 52 + z2o, ctLevel, 14, 0);
-
-	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, 13 + z2o, ctLevel, 14, 0);
-	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, 13 + z2o, ctLevel, 14, 0);
-
-	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, -27 + z2o, ctLevel, 14, 0);
-	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, -27 + z2o, ctLevel, 14, 0);
-
 
 	Level1->createLevelParts(woodpile, -130 + x2o, 4 + y2o, -127 + z2o, ctLevel, 1, 1.57);
 
@@ -419,6 +421,22 @@ bool Game::Init(HINSTANCE hInstance)
 
 
 
+<<<<<<< HEAD
+=======
+	////2nd section of level
+	////offset everything by -250 and -15
+	Level1->createLevelParts(lvl2Ground, 0, -5, 0.0, ctLevel, 14, 0);
+	//the barn
+	Level1->createLevelParts(barnback, 0, 5, 30, ctLevel, 14, 0);
+	Level1->createLevelParts(barnside, 26.5, 5.5, 7, ctLevel, 14, 0);
+	Level1->createLevelParts(barnside, -26.5, 5.5, 7, ctLevel, 14, 0);
+	Level1->createLevelParts(barnfrontside, -18.8, 5.7, -16, ctLevel, 14, 0);
+	Level1->createLevelParts(barnfronttop, 0.0, 17.7, -12.6, ctLevel, 14, 0);
+	Level1->createLevelParts(barnroof, 1, 39, 9, ctLevel, 14, 0);
+
+	
+
+>>>>>>> master
 
 	theEnemies->createEnemy(simpleEnemy, 31 + x2o, 2 + y2o, -6 + z2o, 76 + x2o, 2 + y2o, -6 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
 	theEnemies->createEnemy(simpleEnemy, 76 + x2o, 2 + y2o, 32 + z2o, 31 + x2o, 2 + y2o, 32 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
@@ -572,7 +590,6 @@ void Game::DrawScene()
 	// restore default states, as the SkyFX changes them in the effect file.
 	md3dImmediateContext->RSSetState(0);
 	md3dImmediateContext->OMSetDepthStencilState(0, 0);
-
 	HR(mSwapChain->Present(0, 0));
 }
 
