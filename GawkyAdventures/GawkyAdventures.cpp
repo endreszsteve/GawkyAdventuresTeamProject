@@ -221,90 +221,6 @@ bool Game::Init(HINSTANCE hInstance)
 	
 	
 	
-<<<<<<< HEAD
-	/*
-	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble, 1);
-	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble, 1);
-	
-=======
-	
-	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble, 1);
-	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble, 1);
-	
->>>>>>> 1dcfd2ff1100f257b77e44fb822fd0287636f9e8
-	Objects->createObject(orange, 80.0f, 30.0f, 20.0f, ctCollect, 1);
-	Objects->createObject(orange, 20.0f, 4.0f, 20.0f, ctCollect, 1);
-	Objects->createObject(orange, -80.0f, 10.0f, -60.0f, ctCollect, 1);
-
-<<<<<<< HEAD
-	Objects->createObject(gatetwo, -95.0f, 8.5f, 0.0f, ctStumble, 7);
-=======
-	//Objects->createObject(gatetwo, -95.0f, 8.5f, 0.0f, ctStumble, 7);
->>>>>>> 1dcfd2ff1100f257b77e44fb822fd0287636f9e8
-	
-
-
-	theEnemies->createEnemy(simpleEnemy, -85.0f, 9.0f, 78.0f, -65.f, 9.0f, 78.0f, NULL,0,0,0,0,0, 3, 15, ctEnemy);
-	theEnemies->createEnemy(simpleEnemy, 55.0f, 3.0f, 80.0f, 55.0f, 3.0f, 60.0f,NULL, 0, 0, 0, 0, 0, 3, 15, ctEnemy);
-	theEnemies->createEnemy(simpleEnemy, 0.0f, 3.0f, 45.0f, 0.0f, 3.0f, 25.0f, NULL, 0, 0, 0, 0, 0, 3, 15, ctEnemy);
-
-	
-
-	Level1->createLevelParts(Ground,  0, -1.8, 0, 0, 7, 0);
-
-	///left side 3 platforms
-	Level1->createLevelParts(Platform, -76, 2.1, 26.6, 0, 7, 0);
-	Level1->createLevelParts(Platform, -76, 9.1, 50.82, 0, 7, 0);
-	Level1->createLevelParts(Platform, -76, 2.1, 74.2, 0, 7, 0);
-	
-
-
-	///rightside 3 platforms
-	Level1->createLevelParts(Platform, 73, 2.1, 75.6, 0, 7, 0);
-	Level1->createLevelParts(Platform, 73, 9.1, 50.82, 0, 7, 0);
-	Level1->createLevelParts(Platform, 73, 14.0, 15.82, 0, 7, 0 );
-	
-	
-	///the tree's
-	Level1->createLevelParts(SmallTree, -56, 15.4, 86.8, 0, 7, 0);
-	Level1->createLevelParts(SmallTree, -56, 15.4, 72.8, 0, 7, 0);
-	Level1->createLevelParts(SmallTree, -56, 15.4, 58.8, 0, 7, 0);
-
-	/// large tree
-	Level1->createLevelParts(TreeTrunk, 0, 14, 57.6, 0, 7, 0);
-	Level1->createLevelParts(TreeTop, 0, 61.6, 57.6, 0, 7, 0);
-
-	// the Fence
-	Level1->createLevelParts(Fence1, 87, 5, 0, 0, 7);
-	Level1->createLevelParts(FencePart2, -95, 6, 48, 0, 7);
-	Level1->createLevelParts(FencePart2, -95, 6, -48, 0, 7);
-
-
-	Level1->createLevelParts(Fence2, -5, 6, 91, 0, 7);
-	Level1->createLevelParts(Fence2, -5, 6, -91, 0, 7);
-	Level1->createLevelParts(Fence1, 87, 5, 0, 0, 7, 0);
-	Level1->createLevelParts(FencePart2, -95, 6, 48, 0, 7, 0);
-	Level1->createLevelParts(FencePart2, -95, 6, -48, 0, 7, 0);
-
-
-	Level1->createLevelParts(Fence2, -5, 6, 91, 0, 7, 0);
-	Level1->createLevelParts(Fence2, -5, 6, -91, 0, 7, 0);
-	//cattails
-	Level1->createLevelParts(Cattail, 84, 5.6, -47.6, 0, 7, 0);
-	Level1->createLevelParts(Cattail, 77, 5.6, -47.6, 0, 7, 0);
-	Level1->createLevelParts(Cattail, 68.25, 5.6, -47.6, 0, 7, 0);
-	Level1->createLevelParts(Cattail, 59.5, 5.6, -47.6, 0, 7, 0);
-	Level1->createLevelParts(Cattail,  50.75, 5.6, -47.6, 0, 7, 0);
-	/// the House
-	Level1->createLevelParts(HouseSide, 43.4, 14, -70.0, 0, 7, 0);
-	Level1->createLevelParts(HouseSide, 7, 14, -70.0, 0, 7, 0);
-	Level1->createLevelParts(HouseBack, 24.5, 14, -82.6, 0, 7, 0);
-	Level1->createLevelParts(HouseRoof, 24.5, 34.0, -70.5, 0, 6, 0);
-
-	/// build the sandbox
-
-	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7);
-	*/
 	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7, 0);
 
 
@@ -365,22 +281,6 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 128.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 128.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
-
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 119.9 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 119.9 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 119.9 + z2o, ctLevel, 7, 0);
-
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 111.2 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 111.2 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 111.2 + z2o, ctLevel, 7, 0);
-
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 102.4 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 102.4 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 102.4 + z2o, ctLevel, 7, 0);
-	
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 94 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 94 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
 	//
 
 	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
@@ -391,12 +291,6 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -59 + x2o, 0 + y2o, 94 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -59 + x2o, 5.5 + y2o, 94 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
-
-	//
-	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 119.9 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 111.2 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 102.4 + z2o, ctLevel, 7, 0);
 	
 	//
 	Level1->createLevelParts(squarebail, 40 + x2o, 0 + y2o, -43 + z2o, ctLevel, 7, 0);
@@ -411,10 +305,6 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, 68.5 + x2o, 5.5 + y2o, -43 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, 68.5 + x2o, 11.6 + y2o, -43 + z2o, ctLevel, 7, 0);
 	//
-	Level1->createLevelParts(squarebail, 68.5 + x2o, 0 + y2o, -52 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 68.5 + x2o, 5.5 + y2o, -52 + z2o, ctLevel, 7, 0);
-	Level1->createLevelParts(squarebail, 68.5 + x2o, 11.6 + y2o, -52 + z2o, ctLevel, 7, 0);
-	//
 	Level1->createLevelParts(squarebail, 54 + x2o, 0 + y2o, -52 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, 54 + x2o, 5.5 + y2o, -52 + z2o, ctLevel, 7, 0);
 	//
@@ -427,13 +317,6 @@ bool Game::Init(HINSTANCE hInstance)
 	
 	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, 52 + z2o, ctLevel, 14, 0);
 	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, 52 + z2o, ctLevel, 14, 0);
-
-	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, 13 + z2o, ctLevel, 14, 0);
-	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, 13 + z2o, ctLevel, 14, 0);
-
-	Level1->createLevelParts(roundbail, 41 + x2o, 9 + y2o, -27 + z2o, ctLevel, 14, 0);
-	Level1->createLevelParts(roundbail, 67 + x2o, 9 + y2o, -27 + z2o, ctLevel, 14, 0);
-
 
 	Level1->createLevelParts(woodpile, -130 + x2o, 4 + y2o, -127 + z2o, ctLevel, 1, 1.57);
 	
@@ -456,14 +339,14 @@ bool Game::Init(HINSTANCE hInstance)
 
 	////2nd section of level
 	////offset everything by -250 and -15
-	Level1->createLevelParts(lvl2Ground, 0, -5, 0.0, ctLevel, 14);
+	Level1->createLevelParts(lvl2Ground, 0, -5, 0.0, ctLevel, 14, 0);
 	//the barn
-	Level1->createLevelParts(barnback, 0, 5, 30, ctLevel, 14);
-	Level1->createLevelParts(barnside, 26.5, 5.5, 7, ctLevel, 14);
-	Level1->createLevelParts(barnside, -26.5, 5.5, 7, ctLevel, 14);
-	Level1->createLevelParts(barnfrontside, -18.8, 5.7, -16, ctLevel, 14);
-	Level1->createLevelParts(barnfronttop, 0.0, 17.7, -12.6, ctLevel, 14);
-	Level1->createLevelParts(barnroof, 1, 39, 9, ctLevel, 14);
+	Level1->createLevelParts(barnback, 0, 5, 30, ctLevel, 14, 0);
+	Level1->createLevelParts(barnside, 26.5, 5.5, 7, ctLevel, 14, 0);
+	Level1->createLevelParts(barnside, -26.5, 5.5, 7, ctLevel, 14, 0);
+	Level1->createLevelParts(barnfrontside, -18.8, 5.7, -16, ctLevel, 14, 0);
+	Level1->createLevelParts(barnfronttop, 0.0, 17.7, -12.6, ctLevel, 14, 0);
+	Level1->createLevelParts(barnroof, 1, 39, 9, ctLevel, 14, 0);
 
 	
 
@@ -620,7 +503,6 @@ void Game::DrawScene()
 	// restore default states, as the SkyFX changes them in the effect file.
 	md3dImmediateContext->RSSetState(0);
 	md3dImmediateContext->OMSetDepthStencilState(0, 0);
-
 	HR(mSwapChain->Present(0, 0));
 }
 

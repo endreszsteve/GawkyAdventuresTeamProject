@@ -258,17 +258,12 @@ void LevelBuilder::createLevelParts(int model, FLOAT x, FLOAT y, FLOAT z, int co
 		anLevelParts = mBarnSide;
 
 	}
-<<<<<<< HEAD
-	else if (model == barnside2)
-=======
 	else if (model == barnfrontside2)
->>>>>>> 1dcfd2ff1100f257b77e44fb822fd0287636f9e8
 	{
 		anLevelParts = mBarnFrontSide2;
 
 	}
-<<<<<<< HEAD
-=======
+
 	else if (model == roundbail)
 	{
 		anLevelParts = mRoundBail;
@@ -285,7 +280,6 @@ void LevelBuilder::createLevelParts(int model, FLOAT x, FLOAT y, FLOAT z, int co
 
 	}
 
->>>>>>> 1dcfd2ff1100f257b77e44fb822fd0287636f9e8
 
 
 
