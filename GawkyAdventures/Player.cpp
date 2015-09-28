@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "TheObjects.h"
 #include "Enemies.h"
+#include "ModelEnum.cpp"
 
 
 
@@ -192,8 +193,7 @@ void Player::update()
 
 		mPlayerBox.Center = mOPlayerPosition;
 
-		//XMStoreFloat3(&mPlayerBox.Center, P);
-		//XMStoreFloat3(&mOPlayerPosition, P);
+	
 
 		mPlayerRotation = mOPlayerRotation;
 		mPlayerPosition = mOPlayerPosition;
@@ -344,7 +344,7 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		FLOAT startPos = XMVectorGetY(startJumpPos);
 		FLOAT currPos = XMVectorGetY(r);
 
-		tempY = 0.1f;
+		tempY = dt * 30.0f;
 
 		if (currPos > startPos + 10.0f)
 		{
@@ -552,7 +552,7 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		insideZ -+ LevelCollisions[i].Extents.z;
 
 		//// if the player hits an object that trips him
-		if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && LevelCollisions[i].collisionType == 2)
+		if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && LevelCollisions[i].collisionType == ctStumble)
 		{
 
 
@@ -571,11 +571,9 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 			break;
 
 		}
-		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && LevelCollisions[i].collisionType == 1 && isImmune == true)
+		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && LevelCollisions[i].collisionType == ctEnemy && isImmune == true)
 		{
-
 			
-
 			guys->RemovemObjectInstance(collEnemy);
 
 
@@ -595,13 +593,9 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 
 			hitHead = true;
-
-
-			
-
-			//XMStoreFloat3(&mPlayerScale, S);
+		
 			XMStoreFloat3(&mPlayerPosition, PP);
-			//XMStoreFloat4(&mPlayerRotationQuad, Q);
+	
 
 			break;
 
@@ -612,7 +606,7 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 		///if player lands on an object for the first time
 		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f && Above == true && hitFeet == false && LevelCollisions[i].collisionType == 0
 			&& (mPlayerBox.Center.y - mPlayerBox.Extents.y) < (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y) && prevY > currY &&
-			prevY > (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y) )
+			prevY > (LevelCollisions[i].Center.y + LevelCollisions[i].Extents.y) && onGround == false )
 		{
 			int t = 3;
 
@@ -623,12 +617,9 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 			currentObject = i;		
 
-			FLOAT tempDirection = XMVectorGetY(direction);
-			XMVECTOR tempDir = XMVectorSet(0.0f, tempDirection - 0.01f, 0.0f, 0.0f);
 
-			P -= tempDir;
 			currGround = XMVectorGetY(PP);
-			currGround += 0.01f;
+			currGround += 0.1f;
 			onGround = true;
 			XMStoreFloat3(&mPlayerPosition, PP);
 			
@@ -703,6 +694,15 @@ void Player::move(float dt, XMVECTOR direction, Enemies* guys, TheObjects* thing
 
 		}
 		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f  && LevelCollisions[i].collisionType == 1 && isImmune == false)
+		{
+
+
+			isAlive = false;
+			break;
+
+
+		}
+		else if (tRight <= 0.0f && tUp <= 0.0f && tForward <= 0.0f  && LevelCollisions[i].collisionType == ctUnkillable)
 		{
 
 

@@ -37,6 +37,12 @@ public:
 	void setWorld(XMFLOAT4X4 tempEnemyWorld);
 	void SetPositionOne(FLOAT x, FLOAT y, FLOAT z);
 	void SetPositionTwo(FLOAT x, FLOAT y, FLOAT z);
+	void SetPositionThree(FLOAT x, FLOAT y, FLOAT z);
+	void SetPositionFour(FLOAT x, FLOAT y, FLOAT z);
+	void setSpeed(FLOAT theSpeed);
+
+	void setScale(FLOAT scale);
+	void setcollisiontype(int collisiontype);
 
 	///getters
 	XMMATRIX getModelScale();
@@ -47,8 +53,10 @@ public:
 	XNA::AxisAlignedBox* getEnemyAABB();
 	XMFLOAT4X4 GetWorld();
 	XMFLOAT3 getEnemyPosition();
+	FLOAT getScale();
+	int getcollisiontype();
 
-
+	
 private:
 
 
@@ -69,6 +77,8 @@ private:
 
 	XMFLOAT3 mEnemyPositionOne;
 	XMFLOAT3 mEnemyPositionTwo;
+	XMFLOAT3 mEnemyPositionThree;
+	XMFLOAT3 mEnemyPositionFour;
 
 	BasicModel* anEnemy;
 
@@ -85,10 +95,18 @@ private:
 	XMVECTOR EnemyForward;
 	XMVECTOR EnemyRight;
 	XMVECTOR EnemyUp;
+	//// last travel point the enemy hit
+	XMFLOAT3 lastPoint;
+
+	FLOAT speed;
 
 	XMVECTOR direction;
 
 	int travelToPoint;
+
+	int timesThrough;
+	int mcollisiontype;
+	FLOAT theScale;
 
 
 

@@ -12,7 +12,7 @@ LevelParts::LevelParts() : mLevelPartsPosition(0.0f, 0.0f, 0.0f), mLevelPartsSca
 
 
 
-	///initialize player
+	///initialize
 	XMVECTOR S = XMLoadFloat3(&mLevelPartsScale);
 	XMVECTOR P = XMLoadFloat3(&mLevelPartsPosition);
 	XMVECTOR Q = XMLoadFloat4(&mLevelPartsRotationQuad);
@@ -127,9 +127,21 @@ void LevelParts::setScale(int theScale)
 
 }
 
+void LevelParts::setRotationY(float Rotation)
+{
+
+	rotationY = Rotation;
+}
+
 
 
 //getters
+
+FLOAT LevelParts::getRotationY()
+{
+
+	return rotationY;
+}
 XMMATRIX LevelParts::getModelScale()
 {
 
