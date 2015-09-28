@@ -143,13 +143,11 @@ Game::Game(HINSTANCE hInstance)
 	PlayerRight = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
 	PlayerUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	
-	////send player information to the camera
+	////send  information to the camera
 	mCam.getPlayerPos(mPlayerPosition);
 	mCam.playerInfo(PlayerForward, PlayerRight, PlayerUp);
 
 	mCam.SetPosition(0.0f, 2.0f, -20.0f);
-
-
 
 	mDirLights[0].Ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	mDirLights[0].Diffuse = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
@@ -207,7 +205,7 @@ bool Game::Init(HINSTANCE hInstance)
 	
 	
 	
-	
+	/////// this is where the level is build
 	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble, 1);
 	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble, 1);
 	
@@ -298,8 +296,6 @@ bool Game::Init(HINSTANCE hInstance)
 	
 	
 	//bails
-	
-
 	//bottom Row
 	
 	Level1->createLevelParts(squarebail, -114 + x2o, 0 + y2o, 129 + z2o, ctLevel, 7, 0);
@@ -440,8 +436,8 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->CreateBoundingBox();	
 	
 
-	////////
-
+	
+	//pushs level collisions
 	/////////////////////////////////////////////////////////
 	std::vector <XNA::AxisAlignedBox> temp;	
 	temp = Level1->getLevelPartsCollisions();
@@ -476,14 +472,6 @@ bool Game::Init(HINSTANCE hInstance)
 
 	//////////////////////////////////////////////////////////
 
-
-
-
-
-	
-
-
-
 	return true;
 }
 
@@ -512,12 +500,7 @@ void Game::DrawScene()
 
 	Effects::BasicFX->SetEyePosW(mCam.GetPosition());
 	Effects::BasicFX->SetCubeMap(mSky->CubeMapSRV());
-
-
-
-	// Figure out which technique to use.  Skull does not have texture coordinates,
-	// so we need a separate technique for it, and not every surface is reflective,
-	// so don't pay for cubemap look up.
+		
 
 	ID3DX11EffectTechnique* activeTexTech = Effects::BasicFX->Light1TexTech;
 	ID3DX11EffectTechnique* activeReflectTech = Effects::BasicFX->Light1TexReflectTech;
@@ -553,20 +536,11 @@ void Game::DrawScene()
 		//draw Level
 		Level1->draw(md3dImmediateContext, mCam, activeTexTech);
 
-		
-
-
-
 		//draw player
 		PlayerOne->drawPlayer(md3dImmediateContext, mCam, activeTexTech);
 
-	
-	
-
-
-
-	////////////////////////////////////////
-	mSky->Draw(md3dImmediateContext, mCam);
+		//draw sky
+		mSky->Draw(md3dImmediateContext, mCam);
 
 
 	// restore default states, as the SkyFX changes them in the effect file.
@@ -597,7 +571,7 @@ void Game::OnMouseMove(WPARAM btnState, int x, int y)
 {
 
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
@@ -614,22 +588,18 @@ void Game::UpdateScene(float dt)
 	int levelColsize = LevelCollisions.size();
 	int tempOtherObject;
 
-	//////updates the enemy collisions as they move
-	std::vector <XNA::AxisAlignedBox> temp;
-	//original value = 3
+	//////updates collisions and subtract anything that has been removed
+	std::vector <XNA::AxisAlignedBox> temp;	
 	temp = theEnemies->getEnemyCollisions();
 
-	std::vector <XNA::AxisAlignedBox> tempObject;
-	//original value = 5
+	std::vector <XNA::AxisAlignedBox> tempObject;	
 	tempObject = Objects->getObjectCollisions();
 
-	std::vector <XNA::AxisAlignedBox> tempLevel;
-	//original value = 26
+	std::vector <XNA::AxisAlignedBox> tempLevel;	
 	tempLevel = Level1->getLevelPartsCollisions();
 
 	tempOtherObject = tempObject.size() + temp.size() + tempLevel.size();
-
-
+	
 	int tempSize = temp.size();
 
 
@@ -643,7 +613,6 @@ void Game::UpdateScene(float dt)
 
 		int something = 0;
 		LevelCollisions.pop_back();
-
 
 
 		int j = 0;
@@ -675,44 +644,24 @@ void Game::UpdateScene(float dt)
 		{
 			LevelCollisions[i] = temp[j];
 
-		}
-	
+		}	
 	
 	}
 
 
 	/////////////////////////////
-
-	
-
-
-
 	PlayerOne->setLevelCollisions(LevelCollisions);
-	
-
-	
-
 	/////////////////////////////
 
-
 	XMVECTOR desiredCharDir = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-
 	XMVECTOR playerPos = XMLoadFloat3(&mPlayerPosition);
-
-
 	XMVECTOR camRight = XMLoadFloat3(&mCam.GetRight());
 	XMVECTOR camForward = XMLoadFloat3(&mCam.GetLook());
 	XMVECTOR camUp = XMLoadFloat3(&mCam.GetUp());
-
 	XMVECTOR multiply = XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f);
-
 	camUp = XMVectorAdd(camUp, multiply);
 	
-	
-	
 	bool jumpChar = false;
-
-
 	bool moveChar = false;
 
 
@@ -736,15 +685,12 @@ void Game::UpdateScene(float dt)
 		moveChar = true;
 	}
 
-
-
 	if (GetAsyncKeyState('D') & 0x8000)
 	{
 		desiredCharDir += -(camRight);
 
 		moveChar = true;
 	}
-
 
 	if (GetAsyncKeyState('Q') & 0x8000)
 	{
@@ -760,7 +706,6 @@ void Game::UpdateScene(float dt)
 		float dy = 1.5 * dt;
 		mCam.RotateY(dy);
 
-
 	}
 
 
@@ -768,17 +713,12 @@ void Game::UpdateScene(float dt)
 	{
 		float dy = 0.25 * dt;
 		mCam.Pitch(dy);
-
-
 	}
 
 	if (GetAsyncKeyState('F') & 0x8000)
 	{
-
 		float dy = 0.25 * dt;
 		mCam.Pitch(-dy);
-
-
 	}
 
 
@@ -786,10 +726,6 @@ void Game::UpdateScene(float dt)
 	
 	if (PlayerOne->getOnGround() == true)
 	{
-
-
-	
-
 
 		if (GetAsyncKeyState('J') & 0x8000)
 		{
@@ -800,9 +736,7 @@ void Game::UpdateScene(float dt)
 
 	}
 
-
 	XMVECTOR addGravity = XMVectorSet(0.0f, -30 * DeltaTimeF, 0.0f, 0.0f);
-
 	XMFLOAT3 tGrav;
 	XMStoreFloat3(&tGrav, addGravity);
 
@@ -817,12 +751,6 @@ void Game::UpdateScene(float dt)
 
 		desiredCharDir += addGravity;
 	}
-
-
-
-
-
-
 
 	//		
 	// Switch the number of lights based on key presses.
@@ -848,8 +776,9 @@ void Game::UpdateScene(float dt)
 	////send player information to the camera
 
 	mCam.getPlayerPos(PlayerOne->getPlayerPosition());
+	
 	mCam.getDeltaTime(dt);
-
+	
 	mCam.moveCam();
 
 	PlayerOne->move(dt, desiredCharDir, theEnemies, Objects );
