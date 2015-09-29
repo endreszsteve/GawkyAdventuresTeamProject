@@ -19,12 +19,12 @@ void MainMenuState::Exiting()
 	cout << "MainMenu state is exiting" << endl;
 }
 
-void MainMenuState::Update(float elapsedTime)
+void MainMenuState::Update(float elapsdtedTime)
 {
 	cout << "MainMenu state has been updated" << endl;
 }
 
-void MainMenuState::Draw(float elapsedFrameTime)
+void MainMenuState::Draw()
 {
 	cout << "MainMenu state has been drawn" << endl;
 }

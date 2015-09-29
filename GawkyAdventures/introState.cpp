@@ -19,8 +19,13 @@ void IntroState::Exiting()
 	cout << "Intro state is exiting" << endl;
 }
 
-void IntroState::Update(float elapsedTime)
+void IntroState::Update(float dt)
 {
 	cout << "Intro state has been updated, switching to MainMenuState" << endl;
 	//this->gameStateManager->Switch(std::shared_ptr<GameState>(new MainMenuState()));
+}
+
+void IntroState::Draw()
+{
+	// Draw the intro state
 }

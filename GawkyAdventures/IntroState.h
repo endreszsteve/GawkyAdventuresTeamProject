@@ -15,7 +15,8 @@ class IntroState : public GameState
 public:
 	void Entered();
 	void Exiting();
-	void Update(float elapsedTime);
+	void Update(float dt);
+	void Draw();
 
 private:
 	std::shared_ptr<GameStateManager> gameStateManager;
