@@ -66,12 +66,6 @@ void RenderStates::InitAll(ID3D11Device* device)
 	transparentDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	HR(device->CreateBlendState(&transparentDesc, &TransparentBS));
-
-
-
-
-
-	
 }
 
 void RenderStates::DestroyAll()

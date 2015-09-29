@@ -113,9 +113,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Modality.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameStateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,15 +120,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DefaultGameStateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Updateable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Drawable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneGraphGameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ModelEnum.cpp">
@@ -226,9 +214,6 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Modality.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameStateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -236,15 +221,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DefaultGameStateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Updateable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Drawable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneGraphGameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayState.h">

@@ -1,5 +1,3 @@
-
-
 #include "d3dApp.h"
 #include "d3dx11Effect.h"
 #include "GeometryGenerator.h"
@@ -19,10 +17,6 @@
 #include "LevelBuilder.h"
 #include "Player.h"
 #include "ModelEnum.cpp"
-
-
-
-
 
 class Game : public D3DApp
 {
@@ -47,13 +41,9 @@ public:
 private:
 
 	Sky* mSky;
+
 	////////////////////////////////////////Player
-
-
-
 	XMFLOAT3 mPlayerPosition;
-
-
 	XMVECTOR PlayerForward;
 	XMVECTOR PlayerRight;
 	XMVECTOR PlayerUp;
@@ -61,32 +51,22 @@ private:
 
 	///////lighting
 	DirectionalLight mDirLights[3];
-
 	UINT mLightCount;
 
+	////// Camera
 	Camera mCam;
-
-
 
 	//mouse
 	POINT mLastMousePos;
 
-
-
 	/// DeltaTime
-
-	// The DeltaTime's velocity vector
-
+	// TODO what is a delta time vector and do we need it?
 	void addDeltaTime(float dt);
-
-
 	XMFLOAT3 DeltaTime;
-
 	float DeltaTimeF;
 
 	/////// OBJ Model files
 	TextureMgr mTexMgr;
-
 
 	std::vector<BasicModelInstance> mModelInstances;
 	std::vector <XNA::AxisAlignedBox> LevelCollisions;
@@ -165,8 +145,6 @@ Game::Game(HINSTANCE hInstance)
 	mDirLights[2].Diffuse = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	mDirLights[2].Specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 	mDirLights[2].Direction = XMFLOAT3(-0.5f, -1.9f, -1.57735f);
-
-
 }
 
 Game::~Game()
@@ -195,7 +173,6 @@ bool Game::Init(HINSTANCE hInstance)
 
 	mSky = new Sky(md3dDevice, L"Textures//sunsetcube1024.dds", 5000.0f);
 
-
 	/// create the player
 	PlayerOne = new Player(md3dDevice, mTexMgr, "Models\\gawky.obj", L"Textures\\", 0.0f, 10.0f, 0.0f);
 
@@ -203,11 +180,6 @@ bool Game::Init(HINSTANCE hInstance)
 	theEnemies = new Enemies(md3dDevice, mTexMgr);
 	Objects = new TheObjects(md3dDevice, mTexMgr);
 	Level1 = new LevelBuilder(md3dDevice, mTexMgr);
-
-
-
-
-
 
 	Objects->createObject(branch, 60.0f, 0.25f, 55.0f, ctStumble, 1);
 	Objects->createObject(branch, 0.0f, 0.25f, 20.0f, ctStumble, 1);
@@ -218,13 +190,9 @@ bool Game::Init(HINSTANCE hInstance)
 
 	//Objects->createObject(gatetwo, -95.0f, 8.5f, 0.0f, ctStumble, 7);
 
-
-
 	theEnemies->createEnemy(simpleEnemy, -85.0f, 9.0f, 78.0f, -65.f, 9.0f, 78.0f, NULL, 0, 0, 0, 0, 0, 3, 15, ctEnemy);
 	theEnemies->createEnemy(simpleEnemy, 55.0f, 3.0f, 80.0f, 55.0f, 3.0f, 60.0f, NULL, 0, 0, 0, 0, 0, 3, 15, ctEnemy);
 	theEnemies->createEnemy(simpleEnemy, 0.0f, 3.0f, 45.0f, 0.0f, 3.0f, 25.0f, NULL, 0, 0, 0, 0, 0, 3, 15, ctEnemy);
-
-
 
 	Level1->createLevelParts(Ground, 0, -1.8, 0, 0, 7, 0);
 
@@ -233,13 +201,10 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(Platform, -76, 9.1, 50.82, 0, 7, 0);
 	Level1->createLevelParts(Platform, -76, 2.1, 74.2, 0, 7, 0);
 
-
-
 	///rightside 3 platforms
 	Level1->createLevelParts(Platform, 73, 2.1, 75.6, 0, 7, 0);
 	Level1->createLevelParts(Platform, 73, 9.1, 50.82, 0, 7, 0);
 	Level1->createLevelParts(Platform, 73, 14.0, 15.82, 0, 7, 0);
-
 
 	///the tree's
 	Level1->createLevelParts(SmallTree, -56, 15.4, 86.8, 0, 7, 0);
@@ -271,10 +236,7 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(HouseRoof, 24.5, 34.0, -70.5, 0, 6, 0);
 
 	/// build the sandbox
-
-	
-	
-	
+		
 
 	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7, 0);
 
@@ -300,8 +262,6 @@ bool Game::Init(HINSTANCE hInstance)
 
 	Level1->createLevelParts(Fence1, 0 + x2o, 7 + y2o, 139 + z2o, ctLevel, 11, 1.57);
 	Level1->createLevelParts(Fence1, 0 + x2o, 7 + y2o, -139 + z2o, ctLevel, 11, 1.57);
-
-
 
 	//bails
 
@@ -374,8 +334,6 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 102.4 + z2o, ctLevel, 7, 0);
 
 
-	
-
 	//
 	Level1->createLevelParts(squarebail, 40 + x2o, 0 + y2o, -43 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, 40 + x2o, 5.5 + y2o, -43 + z2o, ctLevel, 7, 0);
@@ -420,24 +378,6 @@ bool Game::Init(HINSTANCE hInstance)
 	Objects->createObject(orange, 54 + x2o, 35 + y2o, -27 + z2o, ctCollect, 1);
 
 
-
-
-
-	
-	
-	
-
-	
-
-
-
-
-
-
-	
-
-
-
 	theEnemies->createEnemy(simpleEnemy, 31 + x2o, 2 + y2o, -6 + z2o, 76 + x2o, 2 + y2o, -6 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
 	theEnemies->createEnemy(simpleEnemy, 76 + x2o, 2 + y2o, 32 + z2o, 31 + x2o, 2 + y2o, 32 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
 
@@ -448,9 +388,6 @@ bool Game::Init(HINSTANCE hInstance)
 	///unkillable enemies must be placed at the end
 	theEnemies->createEnemy(tractor, 4.0f + x2o, 13 + y2o, 88.0f + z2o, 4 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, 88 + z2o, 1, 30, ctUnkillable);
 	theEnemies->createEnemy(tractor, 103 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, 88 + z2o, 4.0f + x2o, 13 + y2o, 88.0f + z2o, 4 + x2o, 13 + y2o, -96 + z2o, 1, 30, ctUnkillable);
-
-
-
 
 
 	theEnemies->CreateBoundingBox();
@@ -465,42 +402,26 @@ bool Game::Init(HINSTANCE hInstance)
 	temp = Level1->getLevelPartsCollisions();
 	for (UINT i = 0; i < temp.size(); i++)
 	{
-
 		LevelCollisions.push_back(temp[i]);
-
-
 	}
 
 	temp = Objects->getObjectCollisions();
 	for (UINT i = 0; i < temp.size(); i++)
 	{
-
 		LevelCollisions.push_back(temp[i]);
 		totCollect++;
-
 	}
 
 
 	temp = theEnemies->getEnemyCollisions();
 	for (UINT i = 0; i < temp.size(); i++)
 	{
-
 		LevelCollisions.push_back(temp[i]);
 		totEnemy++;
-
-
 	}
 
 
 	//////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
 
 	return true;
 }
@@ -508,7 +429,6 @@ bool Game::Init(HINSTANCE hInstance)
 void Game::OnResize()
 {
 	D3DApp::OnResize();
-
 	mCam.SetLens(0.25f*MathHelper::Pi, AspectRatio(), 1.0f, 1000.0f);
 }
 
@@ -520,18 +440,13 @@ void Game::DrawScene()
 	md3dImmediateContext->IASetInputLayout(InputLayouts::Basic32);
 	md3dImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-
 	mCam.UpdateViewMatrix();
-
 
 	// Set per frame constants.
 	Effects::BasicFX->SetDirLights(mDirLights);
-
-
 	Effects::BasicFX->SetEyePosW(mCam.GetPosition());
 	Effects::BasicFX->SetCubeMap(mSky->CubeMapSRV());
-
-
+	
 
 	// Figure out which technique to use.  Skull does not have texture coordinates,
 	// so we need a separate technique for it, and not every surface is reflective,
@@ -559,10 +474,6 @@ void Game::DrawScene()
 		break;
 	}
 
-
-
-
-
 	//draw the enemies
 	theEnemies->draw(md3dImmediateContext, mCam, activeTexTech);
 
@@ -571,17 +482,8 @@ void Game::DrawScene()
 	//draw Level
 	Level1->draw(md3dImmediateContext, mCam, activeTexTech);
 
-
-
-
-
 	//draw player
 	PlayerOne->drawPlayer(md3dImmediateContext, mCam, activeTexTech);
-
-
-
-
-
 
 	////////////////////////////////////////
 	mSky->Draw(md3dImmediateContext, mCam);
@@ -599,9 +501,6 @@ void Game::DrawScene()
 ///the mouse functions are not being used
 void Game::OnMouseDown(WPARAM btnState, int x, int y)
 {
-
-
-
 	SetCapture(mhMainWnd);
 }
 
@@ -615,8 +514,6 @@ void Game::OnMouseMove(WPARAM btnState, int x, int y)
 
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 
 //////////////////////////////////////////////////////updates
@@ -661,8 +558,6 @@ void Game::UpdateScene(float dt)
 		int something = 0;
 		LevelCollisions.pop_back();
 
-
-
 		int j = 0;
 		for (UINT i = tempLevel.size(); i < (tempLevel.size() + tempObject.size()); i++, j++)
 		{
@@ -680,8 +575,6 @@ void Game::UpdateScene(float dt)
 
 				LevelCollisions[i] = temp[j];
 				LevelCollisions[i].Center = temp[j].Center;
-
-
 			}
 		}
 
@@ -692,26 +585,14 @@ void Game::UpdateScene(float dt)
 		for (UINT i = tempObject.size() + tempLevel.size(); i < tempOtherObject; i++, j++)
 		{
 			LevelCollisions[i] = temp[j];
-
 		}
-
-
 	}
 
-
 	/////////////////////////////
-
-
-
-
 
 	PlayerOne->setLevelCollisions(LevelCollisions);
 
-
-
-
 	/////////////////////////////
-
 
 	XMVECTOR desiredCharDir = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -725,8 +606,6 @@ void Game::UpdateScene(float dt)
 	XMVECTOR multiply = XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f);
 
 	camUp = XMVectorAdd(camUp, multiply);
-
-
 
 	bool jumpChar = false;
 
@@ -768,8 +647,6 @@ void Game::UpdateScene(float dt)
 	{
 		float dy = 1.5 * dt;
 		mCam.RotateY(-dy);
-
-
 	}
 
 	if (GetAsyncKeyState('E') & 0x8000)
@@ -777,8 +654,6 @@ void Game::UpdateScene(float dt)
 
 		float dy = 1.5 * dt;
 		mCam.RotateY(dy);
-
-
 	}
 
 
@@ -786,17 +661,12 @@ void Game::UpdateScene(float dt)
 	{
 		float dy = 0.25 * dt;
 		mCam.Pitch(dy);
-
-
 	}
 
 	if (GetAsyncKeyState('F') & 0x8000)
 	{
-
 		float dy = 0.25 * dt;
 		mCam.Pitch(-dy);
-
-
 	}
 
 
@@ -804,15 +674,9 @@ void Game::UpdateScene(float dt)
 
 	if (PlayerOne->getOnGround() == true)
 	{
-
-
-
-
-
 		if (GetAsyncKeyState('J') & 0x8000)
 		{
 			desiredCharDir += camUp;
-
 			moveChar = true;
 		}
 
@@ -836,12 +700,6 @@ void Game::UpdateScene(float dt)
 		desiredCharDir += addGravity;
 	}
 
-
-
-
-
-
-
 	//		
 	// Switch the number of lights based on key presses.
 	//
@@ -849,8 +707,6 @@ void Game::UpdateScene(float dt)
 
 	{
 		mLightCount = 0;
-
-
 	}
 	if (GetAsyncKeyState('1') & 0x8000)
 		mLightCount = 1;
@@ -873,30 +729,14 @@ void Game::UpdateScene(float dt)
 	PlayerOne->move(dt, desiredCharDir, theEnemies, Objects);
 
 	PlayerOne->update();
-
-
-
 }
-
-
-
-
-
 
 void Game::addDeltaTime(float dt)
 {
-
-
 	DeltaTimeF = dt;
-
-
 }
 
 float Game::getDeltaTime()
 {
-
-
 	return DeltaTimeF;
 }
-
-

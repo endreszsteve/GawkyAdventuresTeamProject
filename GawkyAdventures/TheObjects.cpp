@@ -297,14 +297,10 @@ std::vector <XNA::AxisAlignedBox> TheObjects::getObjectCollisions()
 
 void TheObjects::update(float dt)
 {
-
-
-
 	DeltaTime = dt;
 
 	for (int i = 0; i < mObjectInstances.size(); i++)
 	{
-
 		Objectclass[i]->update(DeltaTime);
 
 		mObjectInstances[i].World = Objectclass[i]->GetWorld();
@@ -319,26 +315,13 @@ void TheObjects::update(float dt)
 		XMMatrixDecompose(&Scale, &Rotation, &Position, temp);
 		XMStoreFloat3(&tempPosition, Position);
 
-
-
 		LevelCollisions[i].Center = tempPosition;
-
-
 	}
-
-
-
-
-
-
-
-
 }
 
 
 void TheObjects::RemovemObjectInstance(int number)
 {
-
 	mObjectInstances.erase(mObjectInstances.begin() + number);
 
 	LevelCollisions.erase(LevelCollisions.begin() + number);

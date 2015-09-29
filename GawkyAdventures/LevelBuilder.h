@@ -22,8 +22,6 @@ public:
 
 	~LevelBuilder();
 
-
-
 	void addLevelParts(BasicModelInstance theLevelParts);
 
 	void draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTechnique* activeTexTech);

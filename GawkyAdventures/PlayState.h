@@ -10,7 +10,7 @@
 using namespace Gawky::Game;
 using namespace Gawky::Game::States;
 
-class PlayState : public GameState, public virtual Updateable, public virtual Drawable
+class PlayState : public GameState
 {
 public:
 	PlayState(const std::shared_ptr<GameStateManager> &gameStateManager);

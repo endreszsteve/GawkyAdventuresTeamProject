@@ -52,10 +52,7 @@ public:
 	int getScale();
 	FLOAT getRotationY();
 
-
 private:
-
-
 	float rotationY;
 	
 	XMMATRIX modelScale;
@@ -64,9 +61,7 @@ private:
 
 	XMFLOAT4X4 mLevelPartsWorld;
 
-
 	XMFLOAT4X4 mLevelPartsStartingWorld;
-
 
 	XMFLOAT3 mLevelPartsPosition;
 	XMFLOAT3 mLevelPartsScale;
@@ -78,7 +73,6 @@ private:
 	BasicModelInstance theLevelParts;
 
 	XNA::AxisAlignedBox* LevelPartsBox;
-
 
 	XMVECTOR currCharDirection;
 	XMVECTOR oldCharDirection;
@@ -92,16 +86,6 @@ private:
 	XMVECTOR direction;
 	int collisionType;
 	int scale;
-
-
-
-
-
-
-
-
-
-
 };
 
 

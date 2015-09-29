@@ -6,9 +6,6 @@
 #include "xnacollision.h"
 #include "GameTimer.h"
 
-
-
-
 class BasicModel;
 class Camera;
 class Object;
@@ -21,14 +18,11 @@ public:
 
 	~TheObjects();
 
-
-
 	void addObject(BasicModelInstance theObject);
 
 	void draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTechnique* activeTexTech);
 
 	void createObject(int model, FLOAT x, FLOAT y, FLOAT z, int collisionstype, int scale);
-
 
 	void CreateBoundingBox();
 
@@ -40,19 +34,7 @@ public:
 
 	std::vector <XNA::AxisAlignedBox> getObjectCollisions();
 
-
-
-
-
-
-
-
-
-
-
-
 private:
-
 	std::vector<BasicModelInstance> mObjectInstances;
 	std::vector<Object*> Objectclass;
 
@@ -62,7 +44,6 @@ private:
 
 	BasicModelInstance theObject;
 	XNA::AxisAlignedBox ObjectBox;
-
 
 	GameTimer timer;
 
@@ -75,11 +56,6 @@ private:
 	BasicModel* mBranch;
 	BasicModel* mGateOne;
 	BasicModel* mGateTwo;
-	
-
-	
-
-
 };
 
 #endif

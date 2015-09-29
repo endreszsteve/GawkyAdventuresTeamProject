@@ -19,8 +19,6 @@ public:
 	Camera();
 	~Camera();
 
-
-
 	void getPlayerPos(XMFLOAT3 playerPos);
 
 	void playerInfo(XMVECTOR PForward, XMVECTOR PRight, XMVECTOR PUp);
@@ -73,18 +71,13 @@ public:
 	void Pitch(float angle);
 	void RotateY(float angle);
 
-
 	// After modifying camera position/orientation, call to rebuild the view matrix.
 	void UpdateViewMatrix();
 
 	void ResetLook();
 	void moveCam();
 
-
 	void getDeltaTime(float dt);
-
-
-
 
 private:
 
@@ -92,13 +85,7 @@ private:
 	XMVECTOR PlayerForward;
 	XMVECTOR PlayerRight;
 	XMVECTOR PlayerUp;
-
-
-
-
 	float deltaTime;
-
-
 
 	// Camera coordinate system with coordinates relative to world space.
 	XMFLOAT3 mPosition;
@@ -109,10 +96,8 @@ private:
 
 	XMMATRIX camRotationMatrix;
 
-
 	float camYaw;
 	float camPitch;
-
 
 	// Cache frustum properties.
 	float mNearZ;

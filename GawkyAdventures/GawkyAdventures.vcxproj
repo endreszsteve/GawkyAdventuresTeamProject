@@ -59,6 +59,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;d3dx11d.lib;D3DCompiler.lib;Effects11d.lib;DxErr.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderType>Effect</ShaderType>
@@ -96,7 +97,6 @@
     <ClCompile Include="d3dApp.cpp" />
     <ClCompile Include="d3dUtil.cpp" />
     <ClCompile Include="DefaultGameStateManager.cpp" />
-    <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Effects.cpp" />
     <ClCompile Include="Enemies.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -114,17 +114,14 @@
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="MeshGeometry.cpp" />
-    <ClCompile Include="Modality.cpp" />
     <ClCompile Include="ModelEnum.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="RenderStates.cpp" />
-    <ClCompile Include="SceneGraphGameState.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="TextureMgr.cpp" />
     <ClCompile Include="TheObjects.cpp" />
-    <ClCompile Include="Updateable.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Waves.cpp" />
     <ClCompile Include="xnacollision.cpp" />
@@ -136,7 +133,6 @@
     <ClInclude Include="d3dUtil.h" />
     <ClInclude Include="d3dx11effect.h" />
     <ClInclude Include="DefaultGameStateManager.h" />
-    <ClInclude Include="Drawable.h" />
     <ClInclude Include="Effects.h" />
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Enemy.h" />
@@ -153,16 +149,13 @@
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="MeshGeometry.h" />
-    <ClInclude Include="Modality.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayState.h" />
     <ClInclude Include="RenderStates.h" />
-    <ClInclude Include="SceneGraphGameState.h" />
     <ClInclude Include="Sky.h" />
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="TheObjects.h" />
-    <ClInclude Include="Updateable.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Waves.h" />
     <ClInclude Include="xnacollision.h" />

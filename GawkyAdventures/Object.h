@@ -11,11 +11,8 @@
 #include "BasicModel.h"
 #include "xnacollision.h"
 
-
 class BasicModel;
 class Camera;
-
-
 
 class Object
 {
@@ -24,7 +21,6 @@ public:
 	~Object();
 
 	void move(FLOAT dt);
-
 	void update(FLOAT dt);
 
 	///setters
@@ -51,19 +47,13 @@ public:
 
 	int getScale();
 
-
 private:
-
-
 	XMMATRIX modelScale;
 	XMMATRIX modelRot;
 	XMMATRIX modelOffset;
 
 	XMFLOAT4X4 mObjectWorld;
-
-
 	XMFLOAT4X4 mObjectStartingWorld;
-
 
 	XMFLOAT3 mObjectPosition;
 	XMFLOAT3 mObjectScale;
@@ -75,7 +65,6 @@ private:
 	BasicModelInstance theObject;
 
 	XNA::AxisAlignedBox* ObjectBox;
-
 
 	XMVECTOR currCharDirection;
 	XMVECTOR oldCharDirection;
@@ -89,16 +78,6 @@ private:
 	XMVECTOR direction;
 	int collisionType;
 	int mScale;
-
-
-
-
-
-
-
-
-
-
 };
 
 

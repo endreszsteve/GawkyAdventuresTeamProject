@@ -2,10 +2,14 @@
 #define GAMESTATEMANAGER_H
 
 #include <memory>
-#include "Modality.h"
 
 namespace Gawky { namespace Game { namespace States{
 	
+	enum MODE {
+		EXCLUSIVE,
+		POPUP
+	};
+
 	//forward declaration so we don't need a header
 	class GameState;
 //--------------------------
@@ -18,11 +22,11 @@ namespace Gawky { namespace Game { namespace States{
 		// Return the current active game state
 		virtual std::shared_ptr<GameState> Peek() const = 0;
 		// appends a new game state to the stack
-		virtual void Push(const std::shared_ptr<GameState> &state, Modality::Enum modality = Modality::Exclusive) = 0;
+		virtual void Push( const std::shared_ptr<GameState> &state, MODE mode = EXCLUSIVE ) = 0;
 		// Removes the lastmost game state form the stack
 		virtual std::shared_ptr<GameState> Pop() = 0;
 		// Replaces the lastmost game state on the stack
-		virtual std::shared_ptr<GameState> Switch(const std::shared_ptr<GameState> &state, Modality::Enum modality = Modality::Exclusive)
+		virtual std::shared_ptr<GameState> Switch(const std::shared_ptr<GameState> &state, MODE mode = EXCLUSIVE)
 		{
 			std::shared_ptr<GameState> currentState = Peek();
 			if (currentState)
@@ -30,7 +34,7 @@ namespace Gawky { namespace Game { namespace States{
 				Pop();
 			}
 
-			Push(state, modality);
+			Push(state, mode);
 
 			return currentState;
 		}

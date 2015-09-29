@@ -10,7 +10,7 @@
 using namespace Gawky::Game;
 using namespace Gawky::Game::States;
 
-class IntroState : public GameState, public virtual Updateable
+class IntroState : public GameState
 {
 public:
 	void Entered();
