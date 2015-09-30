@@ -150,7 +150,7 @@ void Player::update()
 
 	if (hitFeet == true)
 	{
-		isJump = false;
+		//isJump = false;
 		isFalling = false;
 		
 
