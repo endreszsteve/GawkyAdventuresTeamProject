@@ -1,13 +1,9 @@
 #ifndef Enemies_H
 #define Enemies_H
 
-
 #include "BasicModel.h"
 #include "xnacollision.h"
 #include "GameTimer.h"
-
-
-
 
 class BasicModel;
 class Camera;
@@ -20,8 +16,6 @@ public:
 	Enemies(ID3D11Device* device, TextureMgr& texMgr);
 
 	~Enemies();
-
-
 
 	void addEnemy(BasicModelInstance theEnemy);
 
@@ -40,17 +34,6 @@ public:
 
 	void RemovemObjectInstance(int number);
 
-
-
-
-
-
-
-
-
-
-
-
 private:
 
 	std::vector<BasicModelInstance> mEnemyInstances;
@@ -58,23 +41,14 @@ private:
 
 	std::vector <XNA::AxisAlignedBox> LevelCollisions;
 
-
 	BasicModel* anEnemy;
-
 	BasicModelInstance theEnemy;
 	XNA::AxisAlignedBox EnemyBox;
-
-
 	GameTimer timer;
-
 	FLOAT DeltaTime;
-
 	Enemy* newEnemy;
-
 	BasicModel* mSimpleEnemy;
 	BasicModel* mTractor;
-
-
 };
 
 #endif

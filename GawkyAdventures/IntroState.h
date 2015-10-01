@@ -7,8 +7,6 @@
 #include "DefaultGameStateManager.h"
 #include "GameState.h"
 
-using namespace Gawky::Game;
-using namespace Gawky::Game::States;
 
 class IntroState : public GameState
 {

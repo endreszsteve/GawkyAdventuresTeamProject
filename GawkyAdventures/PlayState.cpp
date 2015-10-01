@@ -2,20 +2,20 @@
 #include <iostream>
 
 #include "PlayState.h"
-#include "d3dApp.h"
 #include "LevelBuilder.h"
 #include "Game.h"
 
 using namespace std;
-using namespace Gawky::Game;
-using namespace Gawky::Game::States;
 
-PlayState::PlayState(const std::shared_ptr<GameStateManager> &gameStateManager) : gameStateManager(gameStateManager)
+PlayState::PlayState(const std::shared_ptr<GameStateManager> &gameStateManager) :
+					gameStateManager(gameStateManager), sky(0), lightCount(3), 
+					playerPosition(0.0f, 2.0f, 0.0f), 
+					totalEnemies(0), 
+					totalCollectibles(0)
 {};
 
 void PlayState::Entered()
 {
-	/*
 	playerForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	playerRight = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
 	playerUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
@@ -38,10 +38,7 @@ void PlayState::Entered()
 	dirLights[2].Diffuse = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	dirLights[2].Specular = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 	dirLights[2].Direction = XMFLOAT3(-0.5f, -1.9f, -1.57735f);
-
-	//Must init Effects first since InputLayouts depend on shader signatures.
-	Effects::InitAll();
-	*/
+		
 }
 
 void PlayState::Exiting()
@@ -49,14 +46,26 @@ void PlayState::Exiting()
 	cout << "Playing state is exiting" << endl;
 }
 
-void PlayState::Update(float elapsedTime)
+void PlayState::Update(float dt)
 {
 	cout << "Playing state has been updated" << endl;
 	
 }
 
-void PlayState::Draw(float elapsedFrameTime)
+void PlayState::Draw()
 {
-	cout << "Playing state has been drawn" << endl;
-	
+	enemies->draw(deviceContext, cam, activeTexTech);
+	objects->draw(deviceContext, cam, activeTexTech);
+	level->draw(deviceContext, cam, activeTexTech);
+	playerOne->drawPlayer(deviceContext, cam, activeTexTech);
+	sky->Draw(deviceContext, cam);
+}
+void PlayState::Obscuring()
+{
+
+}
+
+void PlayState::Revealed()
+{
+
 }

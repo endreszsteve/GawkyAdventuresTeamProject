@@ -27,8 +27,6 @@
 #include "ModelEnum.cpp"
 #include "Game.h"
 
-using namespace Gawky::Game;
-using namespace Gawky::Game::States;
 
 class PlayState : public GameState
 {
@@ -36,20 +34,21 @@ public:
 	PlayState(const std::shared_ptr<GameStateManager> &gameStateManager);
 	void Entered();
 	void Exiting();
-	void Update(float elapsedTime);
-	void Draw(float elapsedFrameTime);
+	void Update(float dt);
+	void Draw();
+	void Obscuring();
+	void Revealed();
 
 private:
 	std::shared_ptr<GameStateManager> gameStateManager;
 
-	/*
 	Sky* sky;
 	DirectionalLight dirLights[3];
 	UINT lightCount;
-
 	Camera cam;
-
 	TextureMgr texMgr;
+	ID3D11DeviceContext* deviceContext;
+	ID3DX11EffectTechnique* activeTexTech;
 
 	std::vector<BasicModelInstance> modelInstances;
 	std::vector<XNA::AxisAlignedBox> levelCollisions;
@@ -71,7 +70,7 @@ private:
 	int totalCollectibles;
 
 	void addDeltaTime(float dt);
-	*/
+	
 };
 
 #endif //PLAYSTATE_H

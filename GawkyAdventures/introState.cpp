@@ -4,9 +4,6 @@
 #include "IntroState.h"
 
 using namespace std;
-using namespace Gawky::Game;
-using namespace Gawky::Game::States;
-
 
 
 void IntroState::Entered()

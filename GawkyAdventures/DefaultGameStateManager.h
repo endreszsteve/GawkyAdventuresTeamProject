@@ -6,8 +6,6 @@
 
 #include "GameStateManager.h"
 
-namespace Gawky{ namespace Game{ namespace States{
-
 	//Stacked game state manager that forwards Draw() and Update() calls
 	class DefaultGameStateManager : public GameStateManager
 	{
@@ -32,9 +30,9 @@ namespace Gawky{ namespace Game{ namespace States{
 		// Removes the last most game state form the stack, returns the state removed from the stack
 		virtual std::shared_ptr<GameState> Pop();
 		// advances the time of the active game states
-		void Update(float elapsedTime);
+		void Update(float dt);
 		// Instructs the active game states to render themselves or to update the scene graph
-		void Draw(float elapsedTime);
+		void Draw();
 	};
-		}}}
+
 #endif //DEFAULTGAMESTATEMANAGER_H

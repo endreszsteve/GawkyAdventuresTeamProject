@@ -3,8 +3,6 @@
 
 #include <stdexcept>
 
-namespace Gawky { namespace Game { namespace States {
-
 	DefaultGameStateManager::DefaultGameStateManager(){}
 	DefaultGameStateManager::~DefaultGameStateManager()
 	{
@@ -51,13 +49,13 @@ namespace Gawky { namespace Game { namespace States {
 		return popped.first;
 	}
 
-	void DefaultGameStateManager::Update(float elapsedTime)
+	void DefaultGameStateManager::Update(float dt)
 	{
 		//TODO make this work
 		// activeState->Update(dt);
 	}
 
-	void DefaultGameStateManager::Draw(float elapsedFrameTime)
+	void DefaultGameStateManager::Draw()
 	{
 		// TODO make this work
 		// activeState->Draw();
@@ -114,4 +112,3 @@ namespace Gawky { namespace Game { namespace States {
 			++i;
 		}
 	}
-}}}

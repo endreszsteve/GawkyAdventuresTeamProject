@@ -19,7 +19,10 @@
 #include "TheObjects.h"
 #include "LevelBuilder.h"
 #include "Player.h"
-#include "ModelEnum.cpp"
+//#include "ModelEnum.cpp"
+#include "DefaultGameStateManager.h"
+
+class GameState;
 
 class Game : public D3DApp
 {
@@ -37,6 +40,7 @@ public:
 
 private:
 
+	DefaultGameStateManager* gameStateManager;
 	Sky* mSky;
 
 	//Player

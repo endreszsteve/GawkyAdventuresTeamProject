@@ -7,58 +7,33 @@
 #include "ModelEnum.cpp"
 
 
-
-
-
-
-
-
 Enemies::Enemies(ID3D11Device* device, TextureMgr& texMgr)
 {
 
 	mSimpleEnemy = new BasicModel(device, texMgr, "Models\\simpleenemy.obj", L"Textures\\");
 	mTractor = new BasicModel(device, texMgr, "Models\\tractor.obj", L"Textures\\");
-
-	
-
-
 }
 
 
 Enemies::~Enemies()
 {
-
-
 	for (UINT i = 0; i < enemyclass.size(); ++i)
 	{
 
 		delete enemyclass[i];
-
-
 	}
-
 }
-
-
-
-
-
 
 void Enemies::draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTechnique* activeTexTech)
 {
-
-
 
 	XMMATRIX world;
 	XMMATRIX worldInvTranspose;
 	XMMATRIX worldViewProj;
 
-
 	XMMATRIX view = camera.View();
 	XMMATRIX proj = camera.Proj();
 	XMMATRIX viewProj = camera.ViewProj();
-
-
 
 	for (UINT modelIndex = 0; modelIndex < mEnemyInstances.size(); ++modelIndex)
 	{
@@ -69,9 +44,6 @@ void Enemies::draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTechniq
 		Effects::BasicFX->SetWorld(world);
 		Effects::BasicFX->SetWorldInvTranspose(worldInvTranspose);
 		Effects::BasicFX->SetWorldViewProj(worldViewProj);
-
-
-
 
 		//I do not have shadows
 		//Effects::BasicFX->SetShadowTransform(world*shadowTransform);
@@ -85,45 +57,23 @@ void Enemies::draw(ID3D11DeviceContext* dc, Camera& camera, ID3DX11EffectTechniq
 
 			activeTexTech->GetPassByIndex(0)->Apply(0, dc);
 			mEnemyInstances[modelIndex].Model->ModelMesh.Draw(dc, subset);
-
-
-
-
 		}
-
 	}
-
-
-
-
 }
-
-
-
-
 
 void Enemies::addEnemy(BasicModelInstance theEnemy)
 {
-
-
-
 	mEnemyInstances.push_back(theEnemy);
-
-
 }
-
-
 
 void Enemies::createEnemy(int model, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLOAT y2, FLOAT z2, FLOAT x3, FLOAT y3, FLOAT z3, FLOAT x4, FLOAT y4, FLOAT z4, FLOAT scale, int speed, int collisionstype)
 {
 	Enemy* newEnemy;
-
 	newEnemy = new Enemy();
 
 	XMMATRIX modelScale = XMMatrixScaling(scale, scale, -scale);
 	XMMATRIX modelRot = XMMatrixRotationY(0);
 	XMMATRIX modelOffset = XMMatrixTranslation(x1, y1, z1);
-
 
 	newEnemy->setModelScale(modelScale);
 	newEnemy->setModelRot(modelRot);
@@ -144,9 +94,6 @@ void Enemies::createEnemy(int model, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLO
 	{
 		anEnemy = mTractor;
 	}
-
-
-	
 
 	newEnemy->setModel(anEnemy);
 	newEnemy->setScale(scale);
@@ -178,13 +125,7 @@ void Enemies::createEnemy(int model, FLOAT x1, FLOAT y1, FLOAT z1, FLOAT x2, FLO
 
 	newEnemy->setWorld(theEnemy.World);
 
-
-
-
-
 }
-
-
 
 void Enemies::CreateBoundingBox()
 {
