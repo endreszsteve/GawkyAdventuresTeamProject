@@ -1,88 +1,7 @@
+#include "Game.h"
 #include "d3dApp.h"
-#include "d3dx11Effect.h"
-#include "GeometryGenerator.h"
-#include "MathHelper.h"
-#include "LightHelper.h"
-#include "Effects.h"
-#include "Vertex.h"
-#include "Camera.h"
-#include "Sky.h"
-#include "xnacollision.h"
-#include "d3dUtil.h"
-#include "TextureMgr.h"
-#include "BasicModel.h"
-#include "RenderStates.h"
-#include "Enemies.h"
-#include "TheObjects.h"
-#include "LevelBuilder.h"
-#include "Player.h"
-#include "ModelEnum.cpp"
-
-class Game : public D3DApp
-{
-public:
-	Game(HINSTANCE hInstance);
-	~Game();
-
-	bool Init(HINSTANCE hInstance);
-	void OnResize();
-	void UpdateScene(float dt);
-	void DrawScene();
-
-	void OnMouseDown(WPARAM btnState, int x, int y);
-	void OnMouseUp(WPARAM btnState, int x, int y);
-	void OnMouseMove(WPARAM btnState, int x, int y);
 
 
-	//DeltaTime getter
-	float Game::getDeltaTime();
-	////////////////////
-
-private:
-
-	Sky* mSky;
-
-	////////////////////////////////////////Player
-	XMFLOAT3 mPlayerPosition;
-	XMVECTOR PlayerForward;
-	XMVECTOR PlayerRight;
-	XMVECTOR PlayerUp;
-
-
-	///////lighting
-	DirectionalLight mDirLights[3];
-	UINT mLightCount;
-
-	////// Camera
-	Camera mCam;
-
-	//mouse
-	POINT mLastMousePos;
-
-	/// DeltaTime
-	// TODO what is a delta time vector and do we need it?
-	void addDeltaTime(float dt);
-	XMFLOAT3 DeltaTime;
-	float DeltaTimeF;
-
-	/////// OBJ Model files
-	TextureMgr mTexMgr;
-
-	std::vector<BasicModelInstance> mModelInstances;
-	std::vector <XNA::AxisAlignedBox> LevelCollisions;
-
-	Enemies* theEnemies;
-	TheObjects* Objects;
-
-	LevelBuilder* Level1;
-
-	Player* PlayerOne;
-
-
-	int totEnemy;
-	int totCollect;
-
-};
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	PSTR cmdLine, int showCmd)
@@ -104,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 }
 
 
-Game::Game(HINSTANCE hInstance)
+/* Game::Game(HINSTANCE hInstance)
 	: D3DApp(hInstance), mSky(0), mLightCount(3),
 	mPlayerPosition(0.0f, 2.0f, 0.0f), DeltaTimeF(0.0f), totEnemy(0), totCollect(0)
 
@@ -213,7 +132,6 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(FencePart2, -95, 6, 48, 0, 7, 0);
 	Level1->createLevelParts(FencePart2, -95, 6, -48, 0, 7, 0);
 
-
 	Level1->createLevelParts(Fence2, -5, 6, 91, 0, 7, 0);
 	Level1->createLevelParts(Fence2, -5, 6, -91, 0, 7, 0);
 	//cattails
@@ -229,10 +147,7 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(HouseRoof, 24.5, 34.0, -70.5, 0, 6, 0);
 
 	/// build the sandbox
-		
-
 	Level1->createLevelParts(SandBox, -60.9, 1.4, -68.0, 0, 7, 0);
-
 
 	////2nd section of level
 	////offset everything by -250 and -15
@@ -252,12 +167,10 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(barnroof, -81.56 + x2o, 75.84 + y2o, 102.79 + z2o, ctLevel, 25, 0);
 	/// 1.57 = 90 degrees
 	Level1->createLevelParts(Fence1, -139 + x2o, 7 + y2o, 0 + z2o, ctLevel, 11, 0);
-
 	Level1->createLevelParts(Fence1, 0 + x2o, 7 + y2o, 139 + z2o, ctLevel, 11, 1.57);
 	Level1->createLevelParts(Fence1, 0 + x2o, 7 + y2o, -139 + z2o, ctLevel, 11, 1.57);
 
 	//bails
-
 
 	//bottom Row
 
@@ -284,12 +197,10 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -114 + x2o, 5.5 + y2o, 111.48 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -100.6 + x2o, 5.5 + y2o, 128.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -100.6 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
-
 	//
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 128.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 128.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
-
 
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 119.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 119.9 + z2o, ctLevel, 7, 0);
@@ -306,10 +217,7 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 0 + y2o, 94 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 5.5 + y2o, 94 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -72.7 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
-
-
 	//
-
 	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 119.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 111.2 + z2o, ctLevel, 7, 0);
@@ -318,15 +226,11 @@ bool Game::Init(HINSTANCE hInstance)
 	Level1->createLevelParts(squarebail, -59 + x2o, 0 + y2o, 94 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -59 + x2o, 5.5 + y2o, 94 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -59 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
-
-
 	//
 	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 128.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 119.9 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 111.2 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 102.4 + z2o, ctLevel, 7, 0);
-
-
 	//
 	Level1->createLevelParts(squarebail, 40 + x2o, 0 + y2o, -43 + z2o, ctLevel, 7, 0);
 	Level1->createLevelParts(squarebail, 40 + x2o, 5.5 + y2o, -43 + z2o, ctLevel, 7, 0);
@@ -345,7 +249,6 @@ bool Game::Init(HINSTANCE hInstance)
 	//
 	Level1->createLevelParts(squarebail, 40 + x2o, 0 + y2o, -52 + z2o, ctLevel, 7, 0);
 
-
 	Level1->createLevelParts(squarebail, -45.3 + x2o, 0 + y2o, 94 + z2o, ctNothing, 7, 0);
 	Level1->createLevelParts(squarebail, -45.3 + x2o, 5.5 + y2o, 94 + z2o, ctNothing, 7, 0);
 	Level1->createLevelParts(squarebail, -45.3 + x2o, 11.6 + y2o, 94 + z2o, ctLevel, 7, 0);
@@ -355,21 +258,16 @@ bool Game::Init(HINSTANCE hInstance)
 
 	Level1->createLevelParts(woodpile, -130 + x2o, 4 + y2o, -127 + z2o, ctLevel, 1, 1.57);
 
-
-
-
 	Objects->createObject(branch, 20 + x2o, -3 + y2o, -70 + z2o, ctStumble, 1);
 
 	Objects->createObject(orange, 54 + x2o, 4 + y2o, 32 + z2o, ctCollect, 1);
 	Objects->createObject(orange, 54 + x2o, 4 + y2o, -7 + z2o, ctCollect, 1);
-
 	Objects->createObject(orange, -59 + x2o, 4 + y2o, 111 + z2o, ctCollect, 1);
 	Objects->createObject(orange, -45 + x2o, 4 + y2o, 111 + z2o, ctCollect, 1);
 	//
 	Objects->createObject(orange, 54 + x2o, 35 + y2o, 53 + z2o, ctCollect, 1);
 	Objects->createObject(orange, 54 + x2o, 35 + y2o, 13 + z2o, ctCollect, 1);
 	Objects->createObject(orange, 54 + x2o, 35 + y2o, -27 + z2o, ctCollect, 1);
-
 
 	theEnemies->createEnemy(simpleEnemy, 31 + x2o, 2 + y2o, -6 + z2o, 76 + x2o, 2 + y2o, -6 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
 	theEnemies->createEnemy(simpleEnemy, 76 + x2o, 2 + y2o, 32 + z2o, 31 + x2o, 2 + y2o, 32 + z2o, NULL, 0, 0, NULL, 0, 0, 3, 15, ctEnemy);
@@ -381,14 +279,9 @@ bool Game::Init(HINSTANCE hInstance)
 	///unkillable enemies must be placed at the end
 	theEnemies->createEnemy(tractor, 4.0f + x2o, 13 + y2o, 88.0f + z2o, 4 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, 88 + z2o, 1, 30, ctUnkillable);
 	theEnemies->createEnemy(tractor, 103 + x2o, 13 + y2o, -96 + z2o, 103 + x2o, 13 + y2o, 88 + z2o, 4.0f + x2o, 13 + y2o, 88.0f + z2o, 4 + x2o, 13 + y2o, -96 + z2o, 1, 30, ctUnkillable);
-
-
 	theEnemies->CreateBoundingBox();
 	Objects->CreateBoundingBox();
 	Level1->CreateBoundingBox();
-
-
-	////////
 
 	/////////////////////////////////////////////////////////
 	std::vector <XNA::AxisAlignedBox> temp;
@@ -404,18 +297,12 @@ bool Game::Init(HINSTANCE hInstance)
 		LevelCollisions.push_back(temp[i]);
 		totCollect++;
 	}
-
-
 	temp = theEnemies->getEnemyCollisions();
 	for (UINT i = 0; i < temp.size(); i++)
 	{
 		LevelCollisions.push_back(temp[i]);
 		totEnemy++;
 	}
-
-
-	//////////////////////////////////////////////////////////
-
 	return true;
 }
 
@@ -439,7 +326,6 @@ void Game::DrawScene()
 	Effects::BasicFX->SetDirLights(mDirLights);
 	Effects::BasicFX->SetEyePosW(mCam.GetPosition());
 	Effects::BasicFX->SetCubeMap(mSky->CubeMapSRV());
-	
 
 	// Figure out which technique to use.  Skull does not have texture coordinates,
 	// so we need a separate technique for it, and not every surface is reflective,
@@ -466,7 +352,6 @@ void Game::DrawScene()
 		activeSkullTech = Effects::BasicFX->Light3ReflectTech;
 		break;
 	}
-
 	//draw the enemies
 	theEnemies->draw(md3dImmediateContext, mCam, activeTexTech);
 
@@ -480,16 +365,11 @@ void Game::DrawScene()
 
 	////////////////////////////////////////
 	mSky->Draw(md3dImmediateContext, mCam);
-
-
 	// restore default states, as the SkyFX changes them in the effect file.
 	md3dImmediateContext->RSSetState(0);
 	md3dImmediateContext->OMSetDepthStencilState(0, 0);
 	HR(mSwapChain->Present(0, 0));
 }
-
-
-
 
 ///the mouse functions are not being used
 void Game::OnMouseDown(WPARAM btnState, int x, int y)
@@ -506,8 +386,6 @@ void Game::OnMouseMove(WPARAM btnState, int x, int y)
 {
 
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 //////////////////////////////////////////////////////updates
 
@@ -533,13 +411,9 @@ void Game::UpdateScene(float dt)
 	std::vector <XNA::AxisAlignedBox> tempLevel;
 	//original value = 26
 	tempLevel = Level1->getLevelPartsCollisions();
-
 	tempOtherObject = tempObject.size() + temp.size() + tempLevel.size();
 
-
 	int tempSize = temp.size();
-
-
 	int sizeDifference = 0;
 
 	sizeDifference = LevelCollisions.size() - tempOtherObject;
@@ -547,30 +421,24 @@ void Game::UpdateScene(float dt)
 
 	if (sizeDifference > 0)
 	{
-
 		int something = 0;
 		LevelCollisions.pop_back();
 
 		int j = 0;
 		for (UINT i = tempLevel.size(); i < (tempLevel.size() + tempObject.size()); i++, j++)
 		{
-
 			LevelCollisions[i] = tempObject[j];
-
 		}
 
 		if (temp.size() >= 0)
 		{
-
 			j = 0;
 			for (UINT i = (tempLevel.size() + tempObject.size()); i < (tempLevel.size() + tempObject.size() + temp.size()); i++, j++)
 			{
-
 				LevelCollisions[i] = temp[j];
 				LevelCollisions[i].Center = temp[j].Center;
 			}
 		}
-
 	}
 	else
 	{
@@ -581,60 +449,43 @@ void Game::UpdateScene(float dt)
 		}
 	}
 
-	/////////////////////////////
-
 	PlayerOne->setLevelCollisions(LevelCollisions);
 
-	/////////////////////////////
-
 	XMVECTOR desiredCharDir = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-
 	XMVECTOR playerPos = XMLoadFloat3(&mPlayerPosition);
-
-
 	XMVECTOR camRight = XMLoadFloat3(&mCam.GetRight());
 	XMVECTOR camForward = XMLoadFloat3(&mCam.GetLook());
 	XMVECTOR camUp = XMLoadFloat3(&mCam.GetUp());
-
 	XMVECTOR multiply = XMVectorSet(0.0f, 2.0f, 0.0f, 0.0f);
 
 	camUp = XMVectorAdd(camUp, multiply);
 
 	bool jumpChar = false;
-
-
 	bool moveChar = false;
 
 
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		desiredCharDir += (camForward);
-
 		moveChar = true;
 	}
 
 	if (GetAsyncKeyState('S') & 0x8000)
 	{
 		desiredCharDir += -(camForward);
-
 		moveChar = true;
 	}
 	if (GetAsyncKeyState('A') & 0x8000)
 	{
 		desiredCharDir += (camRight);
-
 		moveChar = true;
 	}
-
-
 
 	if (GetAsyncKeyState('D') & 0x8000)
 	{
 		desiredCharDir += -(camRight);
-
 		moveChar = true;
 	}
-
 
 	if (GetAsyncKeyState('Q') & 0x8000)
 	{
@@ -644,7 +495,6 @@ void Game::UpdateScene(float dt)
 
 	if (GetAsyncKeyState('E') & 0x8000)
 	{
-
 		float dy = 1.5 * dt;
 		mCam.RotateY(dy);
 	}
@@ -669,7 +519,6 @@ void Game::UpdateScene(float dt)
 			desiredCharDir += camUp;
 			moveChar = true;
 		}
-
 	}
 
 	XMVECTOR addGravity = XMVectorSet(0.0f, -30 * DeltaTimeF, 0.0f, 0.0f);
@@ -679,35 +528,10 @@ void Game::UpdateScene(float dt)
 
 	XMVECTOR tGravity = XMLoadFloat3(&tGrav);
 
-	if (PlayerOne->getOnGround() == true)
+	if (!PlayerOne->getOnGround())
 	{
-
-	}
-	else if (PlayerOne->getOnGround() == false)
-	{
-
 		desiredCharDir += addGravity;
 	}
-
-	//		
-	// Switch the number of lights based on key presses.
-	//
-	if (GetAsyncKeyState('0') & 0x8000)
-
-	{
-		mLightCount = 0;
-	}
-	if (GetAsyncKeyState('1') & 0x8000)
-		mLightCount = 1;
-
-	if (GetAsyncKeyState('2') & 0x8000)
-		mLightCount = 2;
-
-	if (GetAsyncKeyState('3') & 0x8000)
-		mLightCount = 3;
-
-
-
 	////send player information to the camera
 
 	mCam.getPlayerPos(PlayerOne->getPlayerPosition());
@@ -729,3 +553,5 @@ float Game::getDeltaTime()
 {
 	return DeltaTimeF;
 }
+
+*/
