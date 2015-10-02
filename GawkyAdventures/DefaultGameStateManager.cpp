@@ -24,7 +24,7 @@
 		}
 	}
 
-	void DefaultGameStateManager::Push(const std::shared_ptr<GameState> &state, MODE mode /* = Modality::Exclusive */)
+	void DefaultGameStateManager::Push(const std::shared_ptr<GameState> &state, MODE mode)
 	{
 		this->activeStates.push_back(std::make_pair(state, mode));
 

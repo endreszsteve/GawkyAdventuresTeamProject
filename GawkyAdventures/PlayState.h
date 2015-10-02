@@ -47,8 +47,12 @@ private:
 	UINT lightCount;
 	Camera cam;
 	TextureMgr texMgr;
+	ID3D11Device* md3dDevice;
 	ID3D11DeviceContext* deviceContext;
 	ID3DX11EffectTechnique* activeTexTech;
+	ID3D11RenderTargetView* mRenderTargetView;
+	ID3D11DepthStencilView* mDepthStencilView;
+	IDXGISwapChain* mSwapChain;
 
 	std::vector<BasicModelInstance> modelInstances;
 	std::vector<XNA::AxisAlignedBox> levelCollisions;

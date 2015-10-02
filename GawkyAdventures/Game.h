@@ -39,8 +39,7 @@ public:
 	float Game::getDeltaTime();
 
 private:
-
-	DefaultGameStateManager* gameStateManager;
+	std::shared_ptr<DefaultGameStateManager> gameStateManager;
 	Sky* mSky;
 
 	//Player
@@ -63,15 +62,11 @@ private:
 
 	// OBJ Model files
 	TextureMgr mTexMgr;
-
 	std::vector<BasicModelInstance> mModelInstances;
 	std::vector <XNA::AxisAlignedBox> LevelCollisions;
-
 	Enemies* theEnemies;
 	TheObjects* Objects;
-
 	LevelBuilder* Level1;
-
 	Player* PlayerOne;
 
 	int totEnemy;
