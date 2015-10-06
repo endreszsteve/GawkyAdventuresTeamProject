@@ -32,6 +32,7 @@ class PlayState : public GameState
 {
 public:
 	PlayState(const std::shared_ptr<GameStateManager> &gameStateManager);
+
 	void Entered();
 	void Exiting();
 	void Update(float dt);
@@ -41,7 +42,6 @@ public:
 
 private:
 	std::shared_ptr<GameStateManager> gameStateManager;
-
 	Sky* sky;
 	DirectionalLight dirLights[3];
 	UINT lightCount;

@@ -9,24 +9,16 @@ using namespace std;
 
 PlayState::PlayState(const std::shared_ptr<GameStateManager> &gameStateManager) :
 					gameStateManager(gameStateManager),
-					sky(0), 
+					sky(0),
 					lightCount(3),
 					playerPosition(0.0f, 2.0f, 0.0f),
 					totalEnemies(0),
-					totalCollectibles(0)
-{
-	
-};
+					totalCollectibles(0) 
+					
+{};
 
 void PlayState::Entered()
 {
-	// Must init Effects first since InputLayouts depend on shader signatures.
-	Effects::InitAll(md3dDevice);
-	InputLayouts::InitAll(md3dDevice);
-	texMgr.Init(md3dDevice);
-
-	sky = new Sky(md3dDevice, L"Textures//sunsetcube1024.dds", 5000.0f);
-
 	playerForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	playerRight = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
 	playerUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
@@ -60,32 +52,34 @@ void PlayState::Exiting()
 
 void PlayState::Update(float dt)
 {
-	cout << "Playing state has been updated" << endl;
+	std::printf("Playing state has been updated");
 	
 }
 
 void PlayState::Draw()
 {
-	deviceContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&Colors::Silver));
+	/*deviceContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&Colors::Silver));
 	deviceContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	deviceContext->IASetInputLayout(InputLayouts::Basic32);
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);*/
 
 	cam.UpdateViewMatrix();
 	// Set per frame constants.
-	Effects::BasicFX->SetDirLights(dirLights);
-	Effects::BasicFX->SetEyePosW(cam.GetPosition());
-	Effects::BasicFX->SetCubeMap(sky->CubeMapSRV());
-	enemies->draw(deviceContext, cam, activeTexTech);
-	objects->draw(deviceContext, cam, activeTexTech);
-	level->draw(deviceContext, cam, activeTexTech);
-	playerOne->drawPlayer(deviceContext, cam, activeTexTech);
-	sky->Draw(deviceContext, cam);
+	//Effects::BasicFX->SetDirLights(dirLights);
+	//Effects::BasicFX->SetEyePosW(cam.GetPosition());
+	//Effects::BasicFX->SetCubeMap(sky->CubeMapSRV());
+	//enemies->draw(deviceContext, cam, activeTexTech);
+	//objects->draw(deviceContext, cam, activeTexTech);
+	//level->draw(deviceContext, cam, activeTexTech);
+	//playerOne->drawPlayer(deviceContext, cam, activeTexTech);
+	//sky->Draw(deviceContext, cam);
+	
+	sky = new Sky(md3dDevice, L"Textures//sunsetcube1024.dds", 5000.0f);
 
 	// restore default states, as the SkyFX changes them in the effect file.
-	deviceContext->RSSetState(0);
-	deviceContext->OMSetDepthStencilState(0, 0);
-	HR(mSwapChain->Present(0, 0));
+	//deviceContext->RSSetState(0);
+	//deviceContext->OMSetDepthStencilState(0, 0);
+	//HR(mSwapChain->Present(0, 0));
 }
 void PlayState::Obscuring()
 {

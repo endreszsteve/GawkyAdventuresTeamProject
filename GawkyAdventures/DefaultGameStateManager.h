@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <utility>
+#include "d3dApp.h"
+#include "TextureMgr.h"
 
 #include "GameStateManager.h"
 

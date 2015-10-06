@@ -3,8 +3,8 @@
 
 #include <stdexcept>
 
-	DefaultGameStateManager::DefaultGameStateManager(){}
-	DefaultGameStateManager::~DefaultGameStateManager()
+DefaultGameStateManager::DefaultGameStateManager(){}
+DefaultGameStateManager::~DefaultGameStateManager()
 	{
 		while (!this->activeStates.empty())
 		{
@@ -51,14 +51,12 @@
 
 	void DefaultGameStateManager::Update(float dt)
 	{
-		//TODO make this work
-		// activeState->Update(dt);
+		this->activeStates.at(this->activeStates.size() - 1).first->Update(dt);
 	}
 
 	void DefaultGameStateManager::Draw()
 	{
-		// TODO make this work
-		// activeState->Draw();
+		this->activeStates.at(this->activeStates.size() - 1).first->Draw();
 	}
 
 	void DefaultGameStateManager::notifyObscuredStates()
