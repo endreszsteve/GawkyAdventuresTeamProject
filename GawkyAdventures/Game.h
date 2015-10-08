@@ -19,7 +19,7 @@
 #include "TheObjects.h"
 #include "LevelBuilder.h"
 #include "Player.h"
-//#include "ModelEnum.cpp"
+#include "ModelEnum.cpp"
 #include "DefaultGameStateManager.h"
 
 class GameState;
@@ -53,7 +53,7 @@ private:
 	UINT mLightCount;
 
 	// Camera
-	Camera mCam;
+	Camera* mCam;
 
 	/// DeltaTime
 	void addDeltaTime(float dt);
@@ -72,5 +72,6 @@ private:
 	int totEnemy;
 	int totCollect;
 
+	ID3DX11EffectTechnique* activeTexTech;
 };
 #endif // GAME_H

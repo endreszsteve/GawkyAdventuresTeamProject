@@ -8,7 +8,7 @@
 
 #include "GameStateManager.h"
 
-	//Stacked game state manager that forwards Draw() and Update() calls
+	//Stacked game state manager
 	class DefaultGameStateManager : public GameStateManager
 	{
 	private:
@@ -23,6 +23,8 @@
 	public:
 		//Initializes a new game state manager
 		DefaultGameStateManager();
+		//Initialize the gameState
+		void Init();
 		//Destroy the game state manager, leaving and dropping any active game state
 		virtual ~DefaultGameStateManager();
 		// returns the lastmost game state on the stack

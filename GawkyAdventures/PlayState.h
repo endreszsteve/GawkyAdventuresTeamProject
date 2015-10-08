@@ -26,12 +26,20 @@
 #include "Player.h"
 #include "ModelEnum.cpp"
 #include "Game.h"
+#include "GameTimer.h"
 
 
 class PlayState : public GameState
 {
 public:
-	PlayState(const std::shared_ptr<GameStateManager> &gameStateManager);
+	PlayState(const std::shared_ptr<GameStateManager> &gameStateManager, 
+			ID3D11Device* device, 
+			ID3D11DeviceContext* deviceContext, 
+			ID3D11RenderTargetView* mRenderTargetView,
+			ID3D11DepthStencilView* mDepthStencilView, 
+			IDXGISwapChain* mSwapChain,
+			ID3DX11EffectTechnique* activeTexTech,
+			Camera* cam);
 
 	void Entered();
 	void Exiting();
@@ -40,20 +48,17 @@ public:
 	void Obscuring();
 	void Revealed();
 
+	float PlayState::getDeltaTime();
+
 private:
 	std::shared_ptr<GameStateManager> gameStateManager;
 	Sky* sky;
 	DirectionalLight dirLights[3];
 	UINT lightCount;
-	Camera cam;
+	Camera* cam;
 	TextureMgr texMgr;
-	ID3D11Device* md3dDevice;
-	ID3D11DeviceContext* deviceContext;
-	ID3DX11EffectTechnique* activeTexTech;
-	ID3D11RenderTargetView* mRenderTargetView;
-	ID3D11DepthStencilView* mDepthStencilView;
-	IDXGISwapChain* mSwapChain;
-
+	GameTimer time;
+	
 	std::vector<BasicModelInstance> modelInstances;
 	std::vector<XNA::AxisAlignedBox> levelCollisions;
 	
@@ -74,6 +79,14 @@ private:
 	int totalCollectibles;
 
 	void addDeltaTime(float dt);
+
+protected:
+	ID3D11Device* device;
+	ID3D11DeviceContext* deviceContext;
+	ID3DX11EffectTechnique* activeTexTech;
+	ID3D11RenderTargetView* mRenderTargetView;
+	ID3D11DepthStencilView* mDepthStencilView;
+	IDXGISwapChain* mSwapChain;
 	
 };
 

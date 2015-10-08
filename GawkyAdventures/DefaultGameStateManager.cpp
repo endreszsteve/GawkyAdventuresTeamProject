@@ -4,6 +4,9 @@
 #include <stdexcept>
 
 DefaultGameStateManager::DefaultGameStateManager(){}
+
+void DefaultGameStateManager::Init(){}
+
 DefaultGameStateManager::~DefaultGameStateManager()
 	{
 		while (!this->activeStates.empty())
