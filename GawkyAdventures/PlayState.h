@@ -47,6 +47,7 @@ public:
 	void Draw();
 	void Obscuring();
 	void Revealed();
+	void OnResize();
 
 	float PlayState::getDeltaTime();
 
@@ -86,8 +87,7 @@ protected:
 	ID3DX11EffectTechnique* activeTexTech;
 	ID3D11RenderTargetView* mRenderTargetView;
 	ID3D11DepthStencilView* mDepthStencilView;
-	IDXGISwapChain* mSwapChain;
-	
+	IDXGISwapChain* mSwapChain;	
 };
 
 #endif //PLAYSTATE_H
